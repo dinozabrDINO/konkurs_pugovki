@@ -7442,6 +7442,15 @@
           saveData.wins.backgammon + saveData.wins.sudoku;
       }
 
+      /* The lock depends only on the number of wins in all games.
+         Stars are checked separately, only for enabling the buy button. */
+      function isShopItemUnlocked(item) {
+        if (!item) {
+          return false;
+        }
+        return totalWins() >= Math.max(0, Math.floor(Number(item.unlock) || 0));
+      }
+
       function walletStars() {
         return Math.max(0, saveData.stars.pugoryad + saveData.stars.pugozhor +
           saveData.stars.backgammon + saveData.stars.sudoku - saveData.spent);
@@ -7867,9 +7876,8 @@
         shopWinsEl.textContent = String(totalWins());
         shopGridEl.textContent = '';
         var wallet = walletStars();
-        var wins = totalWins();
         SHOP_ITEMS.forEach(function (item) {
-          var unlocked = wins >= item.unlock;
+          var unlocked = isShopItemUnlocked(item);
           var owned = catItemCount(item.id);
           var card = document.createElement('div');
           card.className = 'shop-item' + (unlocked ? '' : ' shop-item--locked');
@@ -7959,7 +7967,7 @@
         if (!item) {
           return;
         }
-        if (totalWins() < item.unlock) {
+        if (!isShopItemUnlocked(item)) {
           setShopMessage('Этот товар ещё закрыт. Побеждайте в играх!');
           return;
         }
