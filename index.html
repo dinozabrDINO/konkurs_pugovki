@@ -234,9 +234,12 @@
       background:
         linear-gradient(155deg, rgba(255, 255, 255, 0.95) 24%, var(--card-tint, var(--tint-2)) 165%);
       box-shadow:
-        0 22px 44px -30px var(--shadow-strong),
-        0 4px 12px -8px var(--shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 36px 60px -34px rgba(82, 52, 88, 0.55),
+        0 18px 30px -20px rgba(82, 52, 88, 0.28),
+        0 5px 12px -8px var(--shadow),
+        inset 0 2px 0 rgba(255, 255, 255, 0.98),
+        inset 0 0 0 1.5px rgba(255, 255, 255, 0.68),
+        inset 0 -7px 16px rgba(142, 116, 154, 0.12);
       color: var(--ink);
       font: inherit;
       text-align: left;
@@ -291,23 +294,26 @@
       outline-offset: 3px;
     }
 
-    .game-card--soon {
-      cursor: default;
-    }
-
     @media (hover: hover) {
       .game-card--live:hover {
-        transform: translateY(-5px);
+        transform: translateY(-7px) scale(1.012);
         box-shadow:
-          0 34px 54px -30px var(--shadow-strong),
+          0 44px 72px -36px rgba(82, 52, 88, 0.6),
+          0 24px 38px -24px rgba(82, 52, 88, 0.32),
           0 8px 18px -10px var(--shadow),
-          inset 0 1px 0 rgba(255, 255, 255, 0.95);
+          inset 0 2px 0 rgba(255, 255, 255, 1),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.9);
         border-color: rgba(255, 255, 255, 1);
       }
     }
 
     .game-card--live:active {
-      transform: translateY(-1px) scale(0.99);
+      transform: translateY(-1px) scale(0.985);
+      box-shadow:
+        0 22px 36px -30px rgba(82, 52, 88, 0.5),
+        0 10px 18px -16px rgba(82, 52, 88, 0.26),
+        inset 0 2px 0 rgba(255, 255, 255, 0.95),
+        inset 0 0 0 1.5px rgba(255, 255, 255, 0.6);
     }
 
     .game-card__top {
@@ -384,15 +390,6 @@
       }
     }
 
-    .game-card__hint {
-      display: block;
-      margin-top: auto;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--ink-soft);
-      opacity: 0.85;
-    }
-
     .game-card__level {
       display: inline-flex;
       align-items: center;
@@ -455,21 +452,6 @@
       outline-offset: 2px;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
-      color: var(--ink-soft);
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    }
-
     .hub-note {
       margin: 20px 0 0;
       font-size: 12px;
@@ -522,19 +504,93 @@
       fill: var(--accent-strong);
     }
 
-    .art-snake {
-      fill: none;
-      stroke: var(--board-edge);
-      stroke-width: 8;
-      stroke-linecap: round;
-    }
-
     .art-tri-light {
       fill: rgba(255, 255, 255, 0.62);
     }
 
     .art-tri-warm {
       fill: var(--accent);
+    }
+
+    .game-card--backgammon .game-card__art {
+      width: 66px;
+      height: 66px;
+    }
+
+    .game-card--backgammon .game-card__art svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .bg-cover-shadow {
+      fill: rgba(70, 40, 25, 0.18);
+    }
+
+    .bg-cover-board {
+      fill: #f1dfc9;
+      stroke: #b98f70;
+      stroke-width: 1;
+    }
+
+    .bg-cover-inner {
+      fill: #fbf0e2;
+    }
+
+    .bg-cover-bar {
+      fill: #d8b38f;
+    }
+
+    .bg-cover-tri--rose {
+      fill: #efb9ca;
+    }
+
+    .bg-cover-tri--cream {
+      fill: #fff7e9;
+    }
+
+    .bg-cover-tri--mint {
+      fill: #bde5d1;
+    }
+
+    .bg-cover-tri--lav {
+      fill: #e4d3f2;
+    }
+
+    .bg-cover-btn {
+      stroke-width: 0.8;
+    }
+
+    .bg-cover-btn--rose {
+      fill: #e888a7;
+      stroke: #a95470;
+    }
+
+    .bg-cover-btn--mint {
+      fill: #93d3b4;
+      stroke: #4f8e72;
+    }
+
+    .bg-cover-btn-shine {
+      fill: #ffffff;
+      opacity: 0.55;
+    }
+
+    .bg-cover-thread {
+      fill: none;
+      stroke: #fff6e6;
+      stroke-width: 0.7;
+      stroke-linecap: round;
+      opacity: 0.8;
+    }
+
+    .bg-cover-die {
+      fill: #fffdf8;
+      stroke: #b49c88;
+      stroke-width: 0.7;
+    }
+
+    .bg-cover-pip {
+      fill: #4c3c50;
     }
 
     /* ============ GAME ============ */
@@ -816,16 +872,19 @@
 
     @keyframes discDrop {
       0% {
-        transform: translateY(var(--from, 0px));
+        transform: translateY(var(--from, 0px)) scale(0.94, 1.06);
       }
-      62% {
-        transform: translateY(4.2%);
+      55% {
+        transform: translateY(5%) scale(1.06, 0.94);
       }
-      82% {
-        transform: translateY(-1.6%);
+      72% {
+        transform: translateY(-2.4%) scale(0.98, 1.02);
+      }
+      86% {
+        transform: translateY(1%) scale(1.02, 0.98);
       }
       100% {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -1559,10 +1618,16 @@
       opacity: 0.8;
     }
 
+    .cat-eye-white {
+      fill: #fffdf8;
+      stroke: rgba(120, 95, 75, 0.2);
+      stroke-width: 0.5;
+    }
+
     .cat-eye {
-      fill: #7fa88f;
-      stroke: #4f6f5c;
-      stroke-width: 0.7;
+      fill: #d89a55;
+      stroke: #8e5b33;
+      stroke-width: 0.8;
     }
 
     .cat-eye-shine {
@@ -1578,7 +1643,35 @@
     }
 
     .cat-nose {
-      fill: #d493a5;
+      fill: #e796a8;
+    }
+
+    .cat-stripe {
+      fill: none;
+      stroke: #8d90a2;
+      stroke-width: 2;
+      stroke-linecap: round;
+      opacity: 0.55;
+    }
+
+    .cat-stool-seat {
+      fill: #b98f6f;
+      stroke: #8c654b;
+      stroke-width: 1;
+    }
+
+    .cat-stool-leg {
+      fill: #a97c5e;
+      stroke: #825b43;
+      stroke-width: 0.8;
+    }
+
+    .cat-stool-leg--back {
+      fill: #966b50;
+    }
+
+    .cat-stool-brace {
+      fill: #8e654e;
     }
 
     .cat-mouth,
@@ -1595,16 +1688,7 @@
       stroke-width: 1.8;
     }
 
-    .cat-mouth--smile,
     .cat-mouth--sad {
-      opacity: 0;
-    }
-
-    .cat-svg.is-happy .cat-mouth--smile {
-      opacity: 1;
-    }
-
-    .cat-svg.is-happy .cat-mouth--neutral {
       opacity: 0;
     }
 
@@ -1639,10 +1723,6 @@
     .cat-blush {
       fill: #e8a2b4;
       opacity: 0.55;
-    }
-
-    .cat-svg.is-sad .cat-mouth--smile {
-      opacity: 0;
     }
 
     .cat-svg.is-sad .cat-brow--sad {
@@ -1717,18 +1797,60 @@
     }
 
     .cat-button {
-      fill: #f4c95d;
-      stroke: #b98a2f;
+      fill: #c9efdb;
+      stroke: #7ca88f;
       stroke-width: 1.2;
     }
 
+    .cat-button--mint {
+      fill: #c9efdb;
+      stroke: #7ca88f;
+    }
+
+    .cat-button--lavender {
+      fill: #ead8f8;
+      stroke: #a482c4;
+    }
+
     .cat-button-shine {
-      fill: #fff2bd;
+      fill: #fff9e3;
       opacity: 0.95;
     }
 
     .cat-button-hole {
-      fill: #7a5a25;
+      fill: #665273;
+    }
+
+    .cat-head-fluff {
+      fill: #cbccd8;
+      opacity: 0.95;
+    }
+
+    .cat-head-shade {
+      fill: #a7a9ba;
+      opacity: 0.3;
+    }
+
+    .cat-head-highlight {
+      fill: rgba(255, 255, 255, 0.22);
+    }
+
+    .cat-cheek-shade {
+      fill: #a6a8b8;
+      opacity: 0.2;
+    }
+
+    .cat-body-shade {
+      fill: #a6a8b8;
+      opacity: 0.16;
+    }
+
+    .cat-eye-lid {
+      fill: none;
+      stroke: #6f6a7e;
+      stroke-width: 0.9;
+      stroke-linecap: round;
+      opacity: 0.35;
     }
 
     .cat-paw {
@@ -1878,22 +2000,270 @@
       white-space: nowrap;
     }
 
+    .cat-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      overflow: visible;
+      pointer-events: none;
+    }
+
+    .cat-particle {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      font-size: 18px;
+      line-height: 1;
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: catParticleRise 1.15s ease-out forwards;
+    }
+
+    @keyframes catParticleRise {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.55);
+      }
+      15% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(
+          calc(-50% + var(--dx, 0px)),
+          var(--dy, -60px)
+        ) scale(1.15) rotate(var(--rot, 0deg));
+      }
+    }
+
     .shop-card__icon {
-      width: 72px;
-      height: 72px;
+      width: 96px;
+      height: 106px;
       display: grid;
       place-items: center;
       flex: none;
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.65);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.95),
-        0 10px 20px -16px var(--shadow-strong);
+      border-radius: 24px;
+      background: transparent;
+      box-shadow: none;
     }
 
     .shop-card__icon svg {
       width: 54px;
       height: 54px;
+    }
+
+    .izba {
+      position: relative;
+      width: 86%;
+      height: 90%;
+      display: block;
+      filter: drop-shadow(0 7px 7px rgba(85, 55, 38, 0.22));
+    }
+
+    .izba__chimney {
+      position: absolute;
+      left: 15%;
+      top: 10%;
+      width: 13%;
+      height: 34%;
+      z-index: 1;
+      border-radius: 2px 2px 0 0;
+      border-top: 3px solid #6f4b39;
+      background: repeating-linear-gradient(180deg, #a47152 0 4px, #85553a 4px 6px);
+      border-left: 1px solid rgba(90, 55, 35, 0.45);
+      border-right: 1px solid rgba(90, 55, 35, 0.45);
+    }
+
+    .izba__chimney::after {
+      content: "";
+      position: absolute;
+      left: 45%;
+      top: -34%;
+      width: 80%;
+      height: 34%;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.55);
+      filter: blur(1.5px);
+      box-shadow: 10px -5px 0 -2px rgba(255, 255, 255, 0.4);
+    }
+
+    .izba__roof {
+      position: absolute;
+      left: 0;
+      top: 7%;
+      width: 100%;
+      height: 43%;
+      z-index: 2;
+      border-radius: 3px;
+      background:
+        repeating-linear-gradient(90deg, rgba(90, 55, 35, 0.25) 0 1px, transparent 1px 8px),
+        linear-gradient(150deg, #cf956b 0%, #a8694c 55%, #8c513b 100%);
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .izba__gable {
+      position: absolute;
+      left: 18%;
+      top: 33%;
+      width: 64%;
+      height: 19%;
+      z-index: 1;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+      background: repeating-linear-gradient(180deg, #c8946c 0 5px, #a97550 5px 7px);
+    }
+
+    .izba__wall {
+      position: absolute;
+      left: 12%;
+      bottom: 7%;
+      width: 76%;
+      height: 48%;
+      z-index: 1;
+      border-radius: 3px 3px 6px 6px;
+      border: 1px solid rgba(90, 55, 35, 0.55);
+      box-shadow:
+        inset 0 4px 8px rgba(60, 35, 25, 0.25),
+        inset 0 -8px 10px rgba(255, 235, 210, 0.2);
+      background:
+        repeating-linear-gradient(180deg, #b9855d 0 6px, #8f5b3f 6px 8px, #c9946a 8px 12px);
+    }
+
+    .izba__wall::before,
+    .izba__wall::after {
+      content: "";
+      position: absolute;
+      top: 9%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #d2a077;
+      border: 1px solid #7a4e36;
+    }
+
+    .izba__wall::before {
+      left: -3px;
+      box-shadow: 0 9px 0 #d2a077, 0 18px 0 #d2a077;
+    }
+
+    .izba__wall::after {
+      right: -3px;
+      box-shadow: 0 9px 0 #d2a077, 0 18px 0 #d2a077;
+    }
+
+    .izba__window {
+      position: absolute;
+      left: 38%;
+      top: 48%;
+      width: 24%;
+      height: 22%;
+      z-index: 3;
+      border-radius: 3px;
+      border: 2px solid #7e533b;
+      background:
+        radial-gradient(circle at 50% 45%, #fff5c9 0%, #ffd88a 55%, #eaa85c 100%);
+      box-shadow:
+        0 0 10px rgba(255, 214, 130, 0.9),
+        inset 0 0 6px rgba(255, 255, 255, 0.8);
+    }
+
+    .izba__window-glow {
+      position: absolute;
+      inset: -4px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(255, 210, 120, 0.8);
+      pointer-events: none;
+    }
+
+    .izba__window-cross {
+      position: absolute;
+      inset: 0;
+    }
+
+    .izba__window-cross::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      transform: translateX(-50%);
+      background: #8b5b3e;
+    }
+
+    .izba__window-cross::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform: translateY(-50%);
+      background: #8b5b3e;
+    }
+
+    .izba__trim {
+      position: absolute;
+      top: 46%;
+      width: 6%;
+      height: 28%;
+      z-index: 3;
+      border-radius: 3px;
+      border: 1px solid #b78e67;
+      background: repeating-linear-gradient(180deg, #f4e0c6 0 5px, #d9b68e 5px 7px);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .izba__trim--left {
+      left: 29%;
+    }
+
+    .izba__trim--right {
+      right: 29%;
+    }
+
+    .izba__trim::before,
+    .izba__trim::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      transform: translateX(-50%) rotate(45deg);
+      border: 1px solid #b78e67;
+      background: #f8e7ce;
+    }
+
+    .izba__trim::before {
+      top: -8%;
+    }
+
+    .izba__trim::after {
+      bottom: -8%;
+    }
+
+    .izba__trim-top {
+      position: absolute;
+      left: 29%;
+      top: 45%;
+      width: 42%;
+      height: 4.5%;
+      z-index: 3;
+      border-radius: 3px;
+      border: 1px solid #b78e67;
+      background: repeating-linear-gradient(90deg, #f4e0c6 0 7px, #d9b68e 7px 9px);
+    }
+
+    .izba__base {
+      position: absolute;
+      left: 8%;
+      bottom: 2%;
+      width: 84%;
+      height: 7%;
+      z-index: 0;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #8b5c3f, #6e4734);
+      box-shadow: 0 3px 4px rgba(55, 30, 20, 0.25);
     }
 
     .shop-roof {
@@ -2419,8 +2789,8 @@
       }
 
       .shop-card__icon {
-        width: 60px;
-        height: 60px;
+        width: 78px;
+        height: 88px;
       }
 
       .shop-card__icon svg {
@@ -2449,6 +2819,1160 @@
       .cat-stats {
         padding: 18px 22px;
       }
+    }
+
+    /* ============ BACKGAMMON ============ */
+
+    .star-strip {
+      flex-wrap: wrap;
+    }
+
+    .star-counter {
+      flex: 1 1 120px;
+    }
+
+    .btn[hidden] {
+      display: none;
+    }
+
+    #rules-modal .modal__card {
+      height: 80vh;
+      max-height: 80vh;
+      height: min(80vh, calc(100svh - 40px));
+      max-height: min(80vh, calc(100svh - 40px));
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #rules-modal .modal__art,
+    #rules-modal .modal__kicker,
+    #rules-modal .modal__title {
+      flex: none;
+    }
+
+    #rules-modal .rules-text {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 0 12px;
+      padding-right: 7px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(170, 130, 200, 0.65) rgba(255, 255, 255, 0.35);
+    }
+
+    #rules-modal .rules-text::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    #rules-modal .rules-text::-webkit-scrollbar-track {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    #rules-modal .rules-text::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(196, 160, 225, 0.85), rgba(150, 210, 180, 0.85));
+    }
+
+    #rules-modal .rules-text ol,
+    #rules-modal .rules-text ul {
+      margin: 4px 0 10px;
+      padding-left: 20px;
+    }
+
+    #rules-modal .rules-text li {
+      margin-bottom: 7px;
+    }
+
+    #rules-modal .rules-text strong {
+      color: var(--ink);
+    }
+
+    #rules-modal #rules-ok {
+      flex: none;
+    }
+
+    .screen--backgammon {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: calc(12px + env(safe-area-inset-top, 0px)) 12px calc(16px + env(safe-area-inset-bottom, 0px));
+      gap: 8px;
+      background:
+        radial-gradient(95% 55% at 50% 0%, var(--bg-glow, rgba(255, 200, 220, 0.3)), transparent 70%),
+        var(--bg-page, transparent);
+      transition: background 0.6s ease;
+      touch-action: manipulation;
+    }
+
+    .bg-status {
+      margin: 0;
+      min-height: 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.35;
+      text-align: center;
+      box-shadow:
+        0 10px 24px -20px var(--shadow-strong),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    .bg-board {
+      width: 100%;
+      padding: 8px;
+      border-radius: 22px;
+      border: 2px solid rgba(255, 235, 215, 0.7);
+      background:
+        linear-gradient(145deg, #9c6a4e 0%, #cf9d75 46%, #8a5b3f 100%);
+      box-shadow:
+        0 24px 40px -28px rgba(55, 30, 20, 0.8),
+        inset 0 1px 0 rgba(255, 245, 230, 0.55);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .bg-half {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr)) 40px;
+      gap: 2px;
+      width: 100%;
+    }
+
+    .bg-point {
+      position: relative;
+      height: 112px;
+      min-width: 0;
+      border-radius: 7px;
+      background:
+        linear-gradient(180deg, rgba(255, 240, 225, 0.12), rgba(70, 40, 25, 0.08));
+      border: 1px solid rgba(255, 240, 225, 0.18);
+      overflow: hidden;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-point.is-home-user {
+      background:
+        linear-gradient(180deg, rgba(248, 174, 199, 0.36), rgba(248, 174, 199, 0.13));
+      border-color: rgba(240, 165, 190, 0.4);
+    }
+
+    .bg-point.is-home-ai {
+      background:
+        linear-gradient(180deg, rgba(151, 220, 186, 0.36), rgba(151, 220, 186, 0.13));
+      border-color: rgba(145, 208, 176, 0.4);
+    }
+
+    .bg-point__tri {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-tri, #f1ddc7);
+      opacity: 0.58;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      pointer-events: none;
+    }
+
+    .bg-half--bottom .bg-point__tri {
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+
+    .bg-point:nth-child(odd) .bg-point__tri {
+      background: var(--bg-tri-alt, #d9b8b1);
+      opacity: 0.48;
+    }
+
+    .bg-stack {
+      position: absolute;
+      inset: 5px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .bg-half--bottom .bg-stack {
+      justify-content: flex-end;
+    }
+
+    .bg-checker {
+      --ck-light: #fff9f9;
+      --ck-mid: #f6c4d4;
+      --ck-dark: #b65b7c;
+      position: relative;
+      width: 18px;
+      height: 18px;
+      flex: none;
+      margin-top: -10px;
+      border-radius: 50%;
+      border: 1px solid rgba(85, 50, 60, 0.42);
+      box-shadow:
+        0 2px 3px rgba(55, 30, 20, 0.38),
+        0 0 0 1px rgba(255, 245, 235, 0.18),
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -3px 4px rgba(90, 50, 65, 0.34);
+      background:
+        linear-gradient(45deg, transparent 43%, rgba(255, 248, 235, 0.85) 43% 50%, transparent 50% 100%),
+        linear-gradient(-45deg, transparent 43%, rgba(255, 248, 235, 0.85) 43% 50%, transparent 50% 100%),
+        radial-gradient(circle at 34% 28%, var(--ck-light) 0 12%, var(--ck-mid) 14% 34%, var(--ck-dark) 66% 100%);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .bg-checker:first-child {
+      margin-top: 0;
+    }
+
+    .bg-checker::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2.6px;
+      height: 2.6px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: #5b3c4b;
+      box-shadow:
+        -3.4px -3.4px 0 #5b3c4b,
+        3.4px -3.4px 0 #5b3c4b,
+        -3.4px 3.4px 0 #5b3c4b,
+        3.4px 3.4px 0 #5b3c4b;
+      z-index: 2;
+    }
+
+    .bg-checker--user {
+      --ck-light: #fff9f9;
+      --ck-mid: #f6c4d4;
+      --ck-dark: #b65b7c;
+      border-color: rgba(125, 65, 85, 0.45);
+    }
+
+    .bg-checker--ai {
+      --ck-light: #f8fffc;
+      --ck-mid: #cfefdf;
+      --ck-dark: #5d9f80;
+      border-color: rgba(55, 95, 75, 0.42);
+    }
+
+    .bg-fly-checker {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1200;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition:
+        transform 0.4s cubic-bezier(0.2, 0.85, 0.25, 1),
+        opacity 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    .bg-checker.bg-fly-checker {
+      margin: 0;
+    }
+
+    .bg-point.is-just-moved .bg-checker.is-top-checker,
+    .bg-off.is-just-moved .bg-checker.is-top-checker {
+      animation: bgCheckerLand 0.36s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+
+    @keyframes bgCheckerLand {
+      0% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .bg-point.is-ai-option,
+    .bg-off.is-ai-option {
+      animation: bgAiOption 0.75s ease-in-out;
+    }
+
+    @keyframes bgAiOption {
+      0%, 100% { box-shadow: inset 0 0 0 0 rgba(150, 220, 185, 0); }
+      50% { box-shadow: inset 0 0 0 2px rgba(150, 220, 185, 0.6), inset 0 0 16px rgba(150, 220, 185, 0.3); }
+    }
+
+    .bg-point.is-ai-destination,
+    .bg-off.is-ai-destination {
+      animation: bgAiDestination 0.55s ease-out;
+    }
+
+    @keyframes bgAiDestination {
+      0% { box-shadow: inset 0 0 0 2px rgba(150, 220, 185, 0.9), 0 0 14px rgba(150, 220, 185, 0.7); }
+      100% { box-shadow: inset 0 0 0 0 rgba(150, 220, 185, 0), 0 0 0 rgba(150, 220, 185, 0); }
+    }
+
+    .bg-stack__count {
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      z-index: 3;
+      min-width: 15px;
+      height: 15px;
+      padding: 0 3px;
+      border-radius: 999px;
+      background: rgba(45, 25, 20, 0.75);
+      color: #fff8ef;
+      font-size: 9px;
+      font-weight: 900;
+      line-height: 15px;
+      text-align: center;
+    }
+
+    .bg-off {
+      position: relative;
+      height: 112px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 240, 225, 0.55);
+      background: rgba(48, 27, 20, 0.22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px 0;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+
+    .bg-off--user {
+      cursor: pointer;
+    }
+
+    .bg-off__label {
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: rgba(255, 245, 230, 0.85);
+    }
+
+    .bg-off__count {
+      font-size: 11px;
+      font-weight: 900;
+      color: #fff8ef;
+      line-height: 1.2;
+    }
+
+    .bg-off__stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2px;
+      pointer-events: none;
+    }
+
+    .bg-off .bg-checker {
+      width: 14px;
+      height: 14px;
+      margin-top: -8px;
+    }
+
+    .bg-off .bg-checker:first-child {
+      margin-top: 0;
+    }
+
+    .bg-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 44px;
+      padding: 4px 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 240, 225, 0.28);
+      background: rgba(48, 27, 20, 0.34);
+    }
+
+    .bg-bar__pocket {
+      flex: 1;
+      min-width: 0;
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 1px 5px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      color: rgba(255, 245, 230, 0.9);
+      font-size: 10px;
+      font-weight: 800;
+      touch-action: manipulation;
+    }
+
+    .bg-bar__pocket--user {
+      cursor: pointer;
+    }
+
+    .bg-bar__label {
+      flex: none;
+      font-size: 7px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: rgba(255, 245, 230, 0.65);
+    }
+
+    .bg-bar__count {
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .bg-bar__empty {
+      font-size: 9px;
+      opacity: 0.55;
+    }
+
+    .bg-bar .bg-checker {
+      width: 14px;
+      height: 14px;
+      margin-top: 0;
+      margin-left: -7px;
+    }
+
+    .bg-bar .bg-checker:first-child {
+      margin-left: 0;
+    }
+
+    .bg-point.is-target::after,
+    .bg-point.is-hint-target::after,
+    .bg-off.is-target::after,
+    .bg-off.is-hint-target::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 62%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(64, 168, 112, 0.75);
+      background: rgba(105, 205, 145, 0.32);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .bg-point.is-hint-target::after,
+    .bg-off.is-hint-target::after {
+      background: rgba(105, 205, 145, 0.48);
+      animation: bgTargetPulse 1.1s ease-in-out infinite;
+    }
+
+    .bg-point.is-selected,
+    .bg-bar__pocket.is-selected,
+    .bg-point.is-hint-source,
+    .bg-bar__pocket.is-hint-source {
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, 0.9),
+        0 0 14px rgba(255, 238, 180, 0.75);
+    }
+
+    .bg-point.is-hint-source .bg-checker {
+      animation: bgCheckerPulse 1s ease-in-out infinite;
+    }
+
+    .bg-bar__pocket.is-active {
+      border-color: rgba(255, 245, 230, 0.6);
+      background: rgba(255, 245, 230, 0.12);
+    }
+
+    @keyframes bgCheckerPulse {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255, 250, 220, 0.8), 0 2px 4px rgba(55, 30, 20, 0.35); }
+      50% { box-shadow: 0 0 0 3px rgba(255, 250, 220, 0.95), 0 0 16px rgba(255, 230, 130, 0.9); }
+    }
+
+    @keyframes bgTargetPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.75; }
+      50% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+    }
+
+    .bg-play {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+    }
+
+    .bg-dice-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      caret-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .screen--backgammon,
+    .screen--backgammon * {
+      caret-color: transparent;
+    }
+
+    .bg-die {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 2px;
+      padding: 7px;
+      border-radius: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      background: linear-gradient(145deg, #fffdf8, #f4e8db);
+      box-shadow:
+        0 8px 18px -12px rgba(55, 30, 20, 0.55),
+        inset 0 1px 0 #ffffff;
+      caret-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-die.is-rolling {
+      animation: bgDiceShake 0.14s linear infinite;
+    }
+
+    @keyframes bgDiceShake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-6deg); }
+      75% { transform: rotate(6deg); }
+    }
+
+    .bg-pip {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4c3c50;
+      opacity: 0;
+      align-self: center;
+      justify-self: center;
+    }
+
+    .bg-pip.is-on {
+      opacity: 1;
+    }
+
+    .bg-doubles {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--ink);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      box-shadow: inset 0 1px 0 #fff;
+    }
+
+    .bg-doubles[hidden] {
+      display: none;
+    }
+
+    .bg-dice-caption {
+      margin: 0;
+      min-height: 1.3em;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--ink-soft);
+    }
+
+    .bg-info-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 4px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+
+    .bg-roll {
+      width: 100%;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
+
+    .bg-roll:disabled {
+      opacity: 0.5;
+      cursor: default;
+      transform: none;
+    }
+
+    .bg-legend {
+      margin: 0;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.4;
+      color: var(--ink-soft);
+    }
+
+    @media (max-width: 359px) {
+      .screen--backgammon {
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .bg-half {
+        grid-template-columns: repeat(12, minmax(0, 1fr)) 34px;
+        gap: 1px;
+      }
+
+      .bg-point,
+      .bg-off {
+        height: 96px;
+      }
+
+      .bg-checker {
+        width: 16px;
+        height: 16px;
+        margin-top: -9px;
+      }
+
+      .bg-off .bg-checker {
+        width: 12px;
+        height: 12px;
+        margin-top: -7px;
+      }
+
+      .bg-die {
+        width: 42px;
+        height: 42px;
+        padding: 6px;
+      }
+
+      .bg-pip {
+        width: 6px;
+        height: 6px;
+      }
+
+      .bg-status {
+        font-size: 12px;
+      }
+    }
+
+    @media (min-width: 720px) {
+      .bg-point,
+      .bg-off {
+        height: 128px;
+      }
+
+      .bg-checker {
+        width: 20px;
+        height: 20px;
+        margin-top: -11px;
+      }
+    }
+
+    /* ============ SUDOKU ============ */
+
+    .star-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .star-counter {
+      flex: none;
+      min-width: 0;
+    }
+
+    .game-card--sudoku .game-card__art {
+      width: 66px;
+      height: 66px;
+    }
+
+    .game-card--sudoku .game-card__art svg {
+      width: 60px;
+      height: 60px;
+    }
+
+    .sd-cover-board {
+      fill: #fbf0e1;
+      stroke: #c5a98d;
+      stroke-width: 1.2;
+    }
+
+    .sd-cover-block--a {
+      fill: rgba(247, 187, 207, 0.5);
+    }
+
+    .sd-cover-block--b {
+      fill: rgba(180, 226, 204, 0.5);
+    }
+
+    .sd-cover-block--c {
+      fill: rgba(216, 193, 239, 0.5);
+    }
+
+    .sd-cover-block--d {
+      fill: rgba(245, 226, 168, 0.58);
+    }
+
+    .sd-cover-btn {
+      stroke-width: 0.8;
+    }
+
+    .sd-cover-btn--v1 {
+      fill: #f0b2c6;
+      stroke: #bd6785;
+    }
+
+    .sd-cover-btn--v2 {
+      fill: #b5e5d0;
+      stroke: #619b81;
+    }
+
+    .sd-cover-btn--v3 {
+      fill: #d9c0ee;
+      stroke: #9670b9;
+    }
+
+    .sd-cover-btn--v4 {
+      fill: #f1dea2;
+      stroke: #b49a50;
+    }
+
+    .sd-cover-text {
+      fill: #55424f;
+      font-size: 6.4px;
+      font-weight: 900;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    .sd-cover-grid {
+      fill: none;
+      stroke: rgba(126, 99, 110, 0.28);
+      stroke-width: 0.7;
+    }
+
+    .screen--sudoku {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: calc(12px + env(safe-area-inset-top, 0px)) 12px calc(16px + env(safe-area-inset-bottom, 0px));
+      gap: 9px;
+      background:
+        radial-gradient(95% 55% at 50% 0%, var(--sd-glow, rgba(240, 185, 210, 0.3)), transparent 70%),
+        var(--sd-page, transparent);
+      transition: background 0.6s ease;
+      touch-action: manipulation;
+    }
+
+    .sudoku-status {
+      margin: 0;
+      min-height: 2.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: var(--surface);
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.35;
+      text-align: center;
+      box-shadow:
+        0 10px 24px -20px var(--shadow-strong),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    .sudoku-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .sudoku-board {
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 5px;
+      padding: 9px;
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow:
+        0 24px 38px -28px var(--shadow-strong),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .sudoku-cell {
+      position: relative;
+      aspect-ratio: 1;
+      min-width: 0;
+      padding: 6%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      background: transparent;
+      font: inherit;
+      color: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .sudoku-cell--block-a {
+      background: linear-gradient(145deg, rgba(247, 185, 206, 0.62), rgba(247, 185, 206, 0.24));
+    }
+
+    .sudoku-cell--block-b {
+      background: linear-gradient(145deg, rgba(177, 225, 201, 0.62), rgba(177, 225, 201, 0.24));
+    }
+
+    .sudoku-cell--block-c {
+      background: linear-gradient(145deg, rgba(215, 190, 239, 0.62), rgba(215, 190, 239, 0.24));
+    }
+
+    .sudoku-cell--block-d {
+      background: linear-gradient(145deg, rgba(245, 226, 164, 0.68), rgba(245, 226, 164, 0.27));
+    }
+
+    .sudoku-cell[data-row="1"] {
+      border-bottom: 3px solid rgba(126, 99, 110, 0.3);
+    }
+
+    .sudoku-cell[data-col="1"] {
+      border-right: 3px solid rgba(126, 99, 110, 0.3);
+    }
+
+    .sudoku-cell.is-selected {
+      box-shadow:
+        0 0 0 3px rgba(145, 108, 181, 0.92),
+        0 0 20px rgba(190, 155, 220, 0.55);
+      z-index: 2;
+    }
+
+    .sudoku-cell:active {
+      transform: scale(0.97);
+    }
+
+    .sudoku-button {
+      width: 84%;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      font-size: clamp(27px, 8vw, 39px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+      box-shadow:
+        0 5px 8px -5px rgba(65, 40, 55, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -4px 7px rgba(85, 50, 70, 0.24);
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .sudoku-button--empty {
+      background:
+        radial-gradient(circle at 34% 28%, #f4f2f5 0 12%, #dedbe2 14% 48%, #bdb7c4 70% 100%);
+      border-color: rgba(255, 255, 255, 0.7);
+      color: rgba(105, 96, 112, 0.7);
+      box-shadow:
+        0 4px 7px -5px rgba(65, 50, 70, 0.45),
+        inset 0 2px 2px rgba(255, 255, 255, 0.75),
+        inset 0 -3px 6px rgba(90, 75, 100, 0.2);
+    }
+
+    .sudoku-button--empty::after {
+      content: "+";
+      font-size: 0.8em;
+      font-weight: 600;
+      opacity: 0.65;
+    }
+
+    .sudoku-button--v1 {
+      background: radial-gradient(circle at 34% 26%, #fff8fa 0 12%, #f5bccd 16% 44%, #d97697 72% 100%);
+      border-color: #c46283;
+      color: #5c293c;
+    }
+
+    .sudoku-button--v2 {
+      background: radial-gradient(circle at 34% 26%, #f8fffc 0 12%, #bce7d2 16% 44%, #77c3a0 72% 100%);
+      border-color: #5e9d80;
+      color: #24533f;
+    }
+
+    .sudoku-button--v3 {
+      background: radial-gradient(circle at 34% 26%, #fcf9ff 0 12%, #dec8f1 16% 44%, #aa87cf 72% 100%);
+      border-color: #8b69ad;
+      color: #3e2a55;
+    }
+
+    .sudoku-button--v4 {
+      background: radial-gradient(circle at 34% 26%, #fffdf5 0 12%, #f4e3ae 16% 44%, #d6b960 72% 100%);
+      border-color: #b49a4d;
+      color: #564816;
+    }
+
+    .sudoku-button--given {
+      filter: saturate(0.72) brightness(1.03);
+      box-shadow:
+        0 4px 7px -5px rgba(65, 40, 55, 0.4),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.55),
+        inset 0 -3px 5px rgba(85, 50, 70, 0.2);
+    }
+
+    .sudoku-button--wrong {
+      background: radial-gradient(circle at 34% 26%, #ffe0e6 0 12%, #ef7b94 18% 46%, #b53451 72% 100%);
+      border-color: #8f263d;
+      color: #fff8fa;
+      animation: sudokuWrongPulse 0.36s ease;
+    }
+
+    @keyframes sudokuWrongPulse {
+      0% { transform: scale(1); }
+      35% { transform: scale(0.9); }
+      70% { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+
+    .sudoku-panel {
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      padding: 9px 10px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: var(--surface);
+      box-shadow:
+        0 12px 26px -22px var(--shadow-strong),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    .sudoku-panel[hidden] {
+      display: none;
+    }
+
+    .sudoku-panel__title {
+      margin: 0 0 7px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .sudoku-choices {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sudoku-choice {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1;
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        0 5px 8px -5px rgba(65, 40, 55, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -4px 7px rgba(85, 50, 70, 0.24);
+      transition: transform 0.15s ease;
+    }
+
+    .sudoku-choice:active {
+      transform: scale(0.94);
+    }
+
+    .sudoku-choice--v1 {
+      background: radial-gradient(circle at 34% 26%, #fff8fa 0 12%, #f5bccd 16% 44%, #d97697 72% 100%);
+      border-color: #c46283;
+      color: #5c293c;
+    }
+
+    .sudoku-choice--v2 {
+      background: radial-gradient(circle at 34% 26%, #f8fffc 0 12%, #bce7d2 16% 44%, #77c3a0 72% 100%);
+      border-color: #5e9d80;
+      color: #24533f;
+    }
+
+    .sudoku-choice--v3 {
+      background: radial-gradient(circle at 34% 26%, #fcf9ff 0 12%, #dec8f1 16% 44%, #aa87cf 72% 100%);
+      border-color: #8b69ad;
+      color: #3e2a55;
+    }
+
+    .sudoku-choice--v4 {
+      background: radial-gradient(circle at 34% 26%, #fffdf5 0 12%, #f4e3ae 16% 44%, #d6b960 72% 100%);
+      border-color: #b49a4d;
+      color: #564816;
+    }
+
+    .sudoku-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+      padding: 0 4px;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--ink-soft);
+    }
+
+    .sudoku-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
+    }
+
+    .sudoku-actions .btn {
+      flex: 1 1 0;
+    }
+
+    .sudoku-legend {
+      margin: 0;
+      text-align: center;
+      font-size: 10px;
+      line-height: 1.45;
+      color: var(--ink-soft);
+    }
+
+    @media (max-width: 359px) {
+      .screen--sudoku {
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .sudoku-board {
+        gap: 4px;
+        padding: 7px;
+        border-radius: 20px;
+      }
+
+      .sudoku-cell {
+        border-radius: 12px;
+      }
+
+      .sudoku-button {
+        font-size: clamp(24px, 8.2vw, 32px);
+      }
+
+      .sudoku-choice {
+        width: 46px;
+        height: 46px;
+        font-size: 21px;
+      }
+
+      .sudoku-actions .btn {
+        font-size: 12px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+    }
+
+    #shop-wallet {
+      display: inline-block;
+    }
+
+    .shop-fly-star {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 1600;
+      font-size: 23px;
+      line-height: 1;
+      color: #f2c75c;
+      text-shadow:
+        0 0 8px rgba(255, 224, 130, 0.9),
+        0 1px 0 #fff4c9;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition:
+        transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1),
+        opacity 0.55s ease;
+      will-change: transform, opacity;
+    }
+
+    #shop-wallet.is-bump {
+      animation: shopWalletBump 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+    }
+
+    @keyframes shopWalletBump {
+      0%, 100% { transform: scale(1); }
+      45% { transform: scale(1.22); }
+    }
+
+    /* ============ STAR SHINE ============ */
+
+    .star-counter .star-icon {
+      display: inline-block;
+      transform-style: preserve-3d;
+      animation:
+        starShine 2s ease-in-out infinite,
+        starFlip 2s ease-in-out infinite;
+      will-change: transform, text-shadow;
+    }
+
+    @keyframes starShine {
+      0%, 100% {
+        text-shadow: 0 0 3px rgba(255, 218, 112, 0.45);
+      }
+      50% {
+        text-shadow:
+          0 0 7px rgba(255, 230, 130, 0.95),
+          0 0 16px rgba(255, 210, 90, 0.75);
+      }
+    }
+
+    @keyframes starFlip {
+      0%, 42% { transform: rotateY(0deg); }
+      50% { transform: rotateY(180deg); }
+      58%, 100% { transform: rotateY(360deg); }
     }
 
   </style>
@@ -2480,6 +4004,16 @@
           <span class="star-icon" aria-hidden="true">★</span>
           <span class="star-counter__label">Пугожор</span>
           <strong class="star-counter__value" id="stars-pugozhor">0</strong>
+        </div>
+        <div class="star-counter">
+          <span class="star-icon" aria-hidden="true">★</span>
+          <span class="star-counter__label">Судоку</span>
+          <strong class="star-counter__value" id="stars-sudoku">0</strong>
+        </div>
+        <div class="star-counter">
+          <span class="star-icon" aria-hidden="true">★</span>
+          <span class="star-counter__label">Нарды</span>
+          <strong class="star-counter__value" id="stars-backgammon">0</strong>
         </div>
       </div>
 
@@ -2528,55 +4062,150 @@
           <span class="card-help" role="button" tabindex="0" aria-label="Правила «Пугожор»" title="Правила игры">?</span>
         </button>
 
-        <div class="game-card game-card--soon" aria-disabled="true">
+        <button class="game-card game-card--live game-card--sudoku" id="card-sudoku" type="button">
           <span class="game-card__top">
             <span class="game-card__art" aria-hidden="true">
               <svg viewBox="0 0 72 72">
-                <path class="art-snake" d="M17 55 C17 41 31 45 31 33 C31 21 47 21 47 33"/>
-                <circle class="art-mint" cx="47" cy="33" r="5.4"/>
-                <circle class="art-lavender" cx="17" cy="55" r="4.2"/>
-                <circle class="art-dot" cx="55" cy="49" r="2.2"/>
-              </svg>
-            </span>
-            <span class="badge">Скоро</span>
-          </span>
-          <span class="game-card__title">Змейка</span>
-          <span class="game-card__desc">Собирайте пуговки, растите и не кусайте себя.</span>
-          <span class="game-card__hint">Уже в разработке</span>
-        </div>
+                <ellipse cx="36" cy="67" rx="26" ry="3.5" fill="rgba(70, 45, 55, 0.16)"/>
+                <rect class="sd-cover-board" x="4" y="5" width="64" height="62" rx="13"/>
+                <rect class="sd-cover-block--a" x="8" y="9" width="27" height="27" rx="7"/>
+                <rect class="sd-cover-block--b" x="36" y="9" width="27" height="27" rx="7"/>
+                <rect class="sd-cover-block--c" x="8" y="37" width="27" height="27" rx="7"/>
+                <rect class="sd-cover-block--d" x="36" y="37" width="27" height="27" rx="7"/>
 
-        <div class="game-card game-card--soon" aria-disabled="true">
+                <g>
+                  <circle class="sd-cover-btn sd-cover-btn--v1" cx="15" cy="16" r="5.6"/><text class="sd-cover-text" x="15" y="16.2">1</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v2" cx="29" cy="16" r="5.6"/><text class="sd-cover-text" x="29" y="16.2">2</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v3" cx="43" cy="16" r="5.6"/><text class="sd-cover-text" x="43" y="16.2">3</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v4" cx="57" cy="16" r="5.6"/><text class="sd-cover-text" x="57" y="16.2">4</text>
+
+                  <circle class="sd-cover-btn sd-cover-btn--v3" cx="15" cy="30" r="5.6"/><text class="sd-cover-text" x="15" y="30.2">3</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v4" cx="29" cy="30" r="5.6"/><text class="sd-cover-text" x="29" y="30.2">4</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v1" cx="43" cy="30" r="5.6"/><text class="sd-cover-text" x="43" y="30.2">1</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v2" cx="57" cy="30" r="5.6"/><text class="sd-cover-text" x="57" y="30.2">2</text>
+
+                  <circle class="sd-cover-btn sd-cover-btn--v2" cx="15" cy="44" r="5.6"/><text class="sd-cover-text" x="15" y="44.2">2</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v1" cx="29" cy="44" r="5.6"/><text class="sd-cover-text" x="29" y="44.2">1</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v4" cx="43" cy="44" r="5.6"/><text class="sd-cover-text" x="43" y="44.2">4</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v3" cx="57" cy="44" r="5.6"/><text class="sd-cover-text" x="57" y="44.2">3</text>
+
+                  <circle class="sd-cover-btn sd-cover-btn--v4" cx="15" cy="58" r="5.6"/><text class="sd-cover-text" x="15" y="58.2">4</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v3" cx="29" cy="58" r="5.6"/><text class="sd-cover-text" x="29" y="58.2">3</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v2" cx="43" cy="58" r="5.6"/><text class="sd-cover-text" x="43" y="58.2">2</text>
+                  <circle class="sd-cover-btn sd-cover-btn--v1" cx="57" cy="58" r="5.6"/><text class="sd-cover-text" x="57" y="58.2">1</text>
+                </g>
+
+                <path class="sd-cover-grid" d="M8 36 H64 M36 9 V64"/>
+              </svg>
+            </span>
+            <span class="game-card__level" id="sudoku-card-level" hidden>Уровень 1</span>
+          </span>
+          <span class="game-card__title">Пуговичный судоку</span>
+          <span class="game-card__desc">Мини-судоку 4×4 с цветными пуговицами.</span>
+          <span class="game-card__cta"><span>Играть</span><span class="game-card__arrow" aria-hidden="true">→</span></span>
+          <span class="card-help" role="button" tabindex="0" aria-label="Правила «Пуговичный судоку»" title="Правила игры">?</span>
+        </button>
+
+        <button class="game-card game-card--live game-card--backgammon" id="card-backgammon" type="button">
           <span class="game-card__top">
             <span class="game-card__art" aria-hidden="true">
               <svg viewBox="0 0 72 72">
-                <rect class="art-board" x="8" y="12" width="56" height="48" rx="15"/>
-                <path class="art-tri-light" d="M14 18 L26 36 L14 54 Z"/>
-                <path class="art-tri-warm" d="M58 18 L46 36 L58 54 Z"/>
-                <circle class="art-mint" cx="20" cy="26" r="4.6"/>
-                <circle class="art-mint" cx="20" cy="38" r="4.6"/>
-                <circle class="art-lavender" cx="52" cy="26" r="4.6"/>
+                <ellipse class="bg-cover-shadow" cx="36" cy="65" rx="28" ry="4.5"/>
+                <rect class="bg-cover-board" x="4" y="6" width="64" height="57" rx="11"/>
+                <rect class="bg-cover-inner" x="7" y="9" width="58" height="51" rx="8"/>
+
+                <path class="bg-cover-tri--rose" d="M8 11 L12.2 33 L16.4 11 Z"/>
+                <path class="bg-cover-tri--cream" d="M16.4 11 L20.6 33 L24.8 11 Z"/>
+                <path class="bg-cover-tri--rose" d="M24.8 11 L29 33 L33.2 11 Z"/>
+                <path class="bg-cover-tri--mint" d="M39 11 L43.2 33 L47.4 11 Z"/>
+                <path class="bg-cover-tri--cream" d="M47.4 11 L51.6 33 L55.8 11 Z"/>
+                <path class="bg-cover-tri--mint" d="M55.8 11 L60 33 L64.2 11 Z"/>
+
+                <path class="bg-cover-tri--cream" d="M8 59 L12.2 38 L16.4 59 Z"/>
+                <path class="bg-cover-tri--rose" d="M16.4 59 L20.6 38 L24.8 59 Z"/>
+                <path class="bg-cover-tri--cream" d="M24.8 59 L29 38 L33.2 59 Z"/>
+                <path class="bg-cover-tri--cream" d="M39 59 L43.2 38 L47.4 59 Z"/>
+                <path class="bg-cover-tri--mint" d="M47.4 59 L51.6 38 L55.8 59 Z"/>
+                <path class="bg-cover-tri--cream" d="M55.8 59 L60 38 L64.2 59 Z"/>
+
+                <rect class="bg-cover-bar" x="34" y="9" width="4" height="51" rx="2"/>
+
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--rose" cx="11.4" cy="18" r="3.2"/>
+                  <path class="bg-cover-thread" d="M9.9 16.5 L12.9 19.5 M12.9 16.5 L9.9 19.5"/>
+                  <circle class="bg-cover-btn-shine" cx="10.5" cy="17" r="0.75"/>
+                </g>
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--rose" cx="11.4" cy="25" r="3.2"/>
+                  <path class="bg-cover-thread" d="M9.9 23.5 L12.9 26.5 M12.9 23.5 L9.9 26.5"/>
+                  <circle class="bg-cover-btn-shine" cx="10.5" cy="24" r="0.75"/>
+                </g>
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--mint" cx="60.6" cy="18" r="3.2"/>
+                  <path class="bg-cover-thread" d="M59.1 16.5 L62.1 19.5 M62.1 16.5 L59.1 19.5"/>
+                  <circle class="bg-cover-btn-shine" cx="59.7" cy="17" r="0.75"/>
+                </g>
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--mint" cx="60.6" cy="25" r="3.2"/>
+                  <path class="bg-cover-thread" d="M59.1 23.5 L62.1 26.5 M62.1 23.5 L59.1 26.5"/>
+                  <circle class="bg-cover-btn-shine" cx="59.7" cy="24" r="0.75"/>
+                </g>
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--rose" cx="11.4" cy="49" r="3.2"/>
+                  <path class="bg-cover-thread" d="M9.9 47.5 L12.9 50.5 M12.9 47.5 L9.9 50.5"/>
+                  <circle class="bg-cover-btn-shine" cx="10.5" cy="48" r="0.75"/>
+                </g>
+                <g>
+                  <circle class="bg-cover-btn bg-cover-btn--mint" cx="60.6" cy="49" r="3.2"/>
+                  <path class="bg-cover-thread" d="M59.1 47.5 L62.1 50.5 M62.1 47.5 L59.1 50.5"/>
+                  <circle class="bg-cover-btn-shine" cx="59.7" cy="48" r="0.75"/>
+                </g>
+
+                <rect class="bg-cover-die" x="23" y="42" width="10" height="10" rx="2.4"/>
+                <rect class="bg-cover-die" x="38" y="46" width="10" height="10" rx="2.4"/>
+                <circle class="bg-cover-pip" cx="25.5" cy="44.5" r="0.85"/>
+                <circle class="bg-cover-pip" cx="30.5" cy="44.5" r="0.85"/>
+                <circle class="bg-cover-pip" cx="28" cy="47" r="0.85"/>
+                <circle class="bg-cover-pip" cx="25.5" cy="49.5" r="0.85"/>
+                <circle class="bg-cover-pip" cx="30.5" cy="49.5" r="0.85"/>
+                <circle class="bg-cover-pip" cx="40.5" cy="48.5" r="0.85"/>
+                <circle class="bg-cover-pip" cx="43" cy="51" r="0.85"/>
+                <circle class="bg-cover-pip" cx="45.5" cy="53.5" r="0.85"/>
               </svg>
             </span>
-            <span class="badge">Скоро</span>
+            <span class="game-card__level" id="backgammon-card-level" hidden>Уровень 1</span>
           </span>
-          <span class="game-card__title">Нарды</span>
-          <span class="game-card__desc">Классические нарды с пуговицами вместо шашек.</span>
-          <span class="game-card__hint">Уже в разработке</span>
-        </div>
+          <span class="game-card__title">Нарды-пуговки</span>
+          <span class="game-card__desc">Короткие нарды: розовые против мятных.</span>
+          <span class="game-card__cta"><span>Играть</span><span class="game-card__arrow" aria-hidden="true">→</span></span>
+          <span class="card-help" role="button" tabindex="0" aria-label="Правила «Нарды-пуговки»" title="Правила игры">?</span>
+        </button>
       </div>
 
-      <p class="hub-note">Пугоряд и Пугожор уже играются. «Змейка» и «Нарды» откроются в следующих обновлениях.</p>
+      <p class="hub-note">Пугоряд, Пугожор, «Нарды-пуговки» и «Пуговичный судоку» уже играются.</p>
 
       <div class="pet-row" aria-label="Питомец и магазин">
         <button class="pet-card" id="card-cat" type="button">
           <span class="pet-card__art" aria-hidden="true">
             <svg class="cat-svg" viewBox="0 0 160 170">
-              <ellipse class="cat-shadow" cx="80" cy="156" rx="47" ry="9"/>
+              <ellipse class="cat-shadow" cx="80" cy="164" rx="44" ry="8"/>
+
+              <g class="cat-stool">
+                <path class="cat-stool-leg cat-stool-leg--back" d="M58 150 L55 166 L63 166 L66 150 Z"/>
+                <path class="cat-stool-leg cat-stool-leg--back" d="M102 150 L105 166 L97 166 L94 150 Z"/>
+                <path class="cat-stool-leg" d="M45 150 L38 166 L47 166 L53 150 Z"/>
+                <path class="cat-stool-leg" d="M115 150 L122 166 L113 166 L107 150 Z"/>
+                <rect class="cat-stool-brace" x="45" y="158" width="70" height="4" rx="2"/>
+                <rect class="cat-stool-seat" x="32" y="143" width="96" height="12" rx="6"/>
+              </g>
 
               <path class="cat-tail" d="M117 128 C146 129 155 101 139 86 C129 77 116 86 120 97 C123 106 135 101 134 112 C133 123 121 119 114 127 Z"/>
               <path class="cat-fur-stroke" d="M123 118 C135 114 139 103 134 96 M130 123 C142 118 145 106 140 99"/>
+              <path class="cat-stripe" d="M128 99 C136 101 141 108 140 117 M125 116 C133 116 139 111 141 105"/>
 
               <path class="cat-fur" d="M44 146 C44 116 55 92 80 92 C105 92 116 116 116 146 Z"/>
+              <path class="cat-body-shade" d="M44 146 C44 119 53 100 66 95 C59 110 56 128 56 146 Z"/>
+              <path class="cat-body-shade" d="M116 146 C116 119 107 100 94 95 C101 110 104 128 104 146 Z"/>
 
               <path class="cat-cardigan" d="M47 146 C47 121 55 103 68 97 L80 111 L92 97 C105 103 113 121 113 146 Z"/>
               <path class="cat-knit" d="M58 112 l4 -3 l4 3 l4 -3 l4 3 l4 -3 l4 3 l4 -3 l4 3 l4 -3 l4 3 l4 -3 l4 3"/>
@@ -2592,28 +4221,41 @@
               <path class="cat-cuff" d="M113 135 C119 135 121 140 121 144 L107 147 L103 138 Z"/>
               <path class="cat-cuff-line" d="M42 139 L54 142 M45 144 L54 146 M118 139 L106 142 M115 144 L106 146"/>
 
-              <circle class="cat-button" cx="80" cy="116" r="6"/>
+              <circle class="cat-button cat-button--mint" cx="80" cy="116" r="6"/>
               <circle class="cat-button-shine" cx="78" cy="114" r="1.7"/>
               <circle class="cat-button-hole" cx="78.3" cy="117" r="1.05"/>
               <circle class="cat-button-hole" cx="81.7" cy="117" r="1.05"/>
-              <circle class="cat-button" cx="80" cy="128" r="5.7"/>
+              <circle class="cat-button cat-button--lavender" cx="80" cy="128" r="5.7"/>
               <circle class="cat-button-shine" cx="78.1" cy="126.2" r="1.6"/>
               <circle class="cat-button-hole" cx="78.4" cy="129" r="1"/>
               <circle class="cat-button-hole" cx="81.6" cy="129" r="1"/>
-              <circle class="cat-button" cx="80" cy="140" r="5.4"/>
+              <circle class="cat-button cat-button--mint" cx="80" cy="140" r="5.4"/>
               <circle class="cat-button-shine" cx="78.2" cy="138.3" r="1.5"/>
               <circle class="cat-button-hole" cx="78.5" cy="141" r="0.95"/>
               <circle class="cat-button-hole" cx="81.5" cy="141" r="0.95"/>
 
               <path class="cat-paw" d="M53 145 C47 145 43 149 43 153 C43 157 47 159 53 159 C58 159 61 157 61 153 C61 149 58 145 53 145 Z"/>
               <path class="cat-paw" d="M107 145 C113 145 117 149 117 153 C117 157 113 159 107 159 C102 159 99 157 99 153 C99 149 102 145 107 145 Z"/>
+              <path class="cat-stripe" d="M47 151 L52 152 M46 155 L51 156 M113 151 L108 152 M114 155 L109 156"/>
               <path class="cat-fur-stroke" d="M51 151 L46 150 M51 155 L45 156 M109 151 L114 150 M109 155 L115 156"/>
 
-              <path class="cat-ear" d="M44 53 L38 22 L65 38 Z"/>
-              <path class="cat-ear" d="M116 53 L122 22 L95 38 Z"/>
-              <path class="cat-ear-inner" d="M46 48 L43 31 L59 40 Z"/>
-              <path class="cat-ear-inner" d="M114 48 L117 31 L101 40 Z"/>
+              <path class="cat-head-fluff" d="M42 58 C36 53 40 46 48 46 C44 39 50 33 57 35 C56 28 63 25 69 28 C71 21 79 20 83 27 C87 20 95 21 97 28 C103 25 110 28 109 35 C116 33 122 39 118 46 C125 46 129 53 124 58 C130 62 129 69 122 71 C125 77 120 83 113 82 C113 89 106 93 99 90 C96 97 88 99 82 95 C76 100 68 98 64 93 C57 96 50 93 49 87 C42 89 36 83 39 78 C33 76 31 69 36 65 C32 61 34 55 42 58 Z"/>
+              <path class="cat-ear" d="M40 57 L29 12 L68 35 Z"/>
+              <path class="cat-ear" d="M120 57 L131 12 L92 35 Z"/>
+              <path class="cat-ear-inner" d="M44 48 L36 23 L61 39 Z"/>
+              <path class="cat-ear-inner" d="M116 48 L124 23 L99 39 Z"/>
               <circle class="cat-head" cx="80" cy="62" r="39"/>
+              <ellipse class="cat-head-highlight" cx="69" cy="42" rx="21" ry="13"/>
+              <path class="cat-head-shade" d="M47 68 C52 88 68 96 80 96 C92 96 108 88 113 68 C104 82 92 87 80 87 C68 87 56 82 47 68 Z"/>
+              <path class="cat-cheek-shade" d="M51 76 C56 88 67 94 80 94 C93 94 104 88 109 76 C101 87 91 91 80 91 C69 91 59 87 51 76 Z"/>
+              <path class="cat-fluff" d="M47 64 C39 61 36 69 44 74 C39 77 42 83 49 82"/>
+              <path class="cat-fluff" d="M113 64 C121 61 124 69 116 74 C121 77 118 83 111 82"/>
+              <path class="cat-fluff" d="M45 50 C39 46 36 40 40 34 M115 50 C121 46 124 40 120 34"/>
+              <path class="cat-stripe" d="M68 30 C70 35 70 39 69 43 M80 28 C80 34 80 38 80 43 M92 30 C90 35 90 39 91 43"/>
+              <path class="cat-stripe" d="M46 64 C50 64 53 67 55 70 M114 64 C110 64 107 67 105 70"/>
+              <path class="cat-fur-stroke" d="M57 98 C53 106 54 118 60 126 M103 98 C107 106 106 118 100 126"/>
+              <path class="cat-fur-stroke" d="M69 104 C66 111 66 119 69 126 M91 104 C94 111 94 119 91 126"/>
+              <path class="cat-fur-stroke" d="M126 116 C134 112 137 104 133 98 M132 121 C141 117 144 108 140 102"/>
               <path class="cat-fluff" d="M51 43 C45 39 47 33 54 33 C52 27 59 24 64 28 C63 22 71 21 75 26"/>
               <path class="cat-fluff" d="M109 43 C115 39 113 33 106 33 C108 27 101 24 96 28 C97 22 89 21 85 26"/>
               <path class="cat-fur-stroke" d="M59 34 L56 29 M64 32 L62 26 M70 31 L69 25 M96 31 L97 25 M101 32 L103 26 M106 34 L109 29"/>
@@ -2623,20 +4265,22 @@
               <ellipse class="cat-blush" cx="54" cy="73" rx="7" ry="4"/>
               <ellipse class="cat-blush" cx="106" cy="73" rx="7" ry="4"/>
 
-              <ellipse class="cat-eye" cx="66" cy="58" rx="6.4" ry="8"/>
-              <ellipse class="cat-eye" cx="94" cy="58" rx="6.4" ry="8"/>
-              <circle class="cat-pupil" cx="67" cy="59.5" r="2.8"/>
-              <circle class="cat-pupil" cx="95" cy="59.5" r="2.8"/>
-              <circle class="cat-eye-shine" cx="68.5" cy="55.5" r="2"/>
-              <circle class="cat-eye-shine" cx="96.5" cy="55.5" r="2"/>
-              <circle class="cat-eye-shine cat-eye-shine--small" cx="64.8" cy="61.5" r="0.8"/>
-              <circle class="cat-eye-shine cat-eye-shine--small" cx="92.8" cy="61.5" r="0.8"/>
+              <ellipse class="cat-eye-white" cx="66" cy="58" rx="8.1" ry="8.5"/>
+              <ellipse class="cat-eye-white" cx="94" cy="58" rx="8.1" ry="8.5"/>
+              <ellipse class="cat-eye" cx="66" cy="58" rx="7.2" ry="7.7"/>
+              <ellipse class="cat-eye" cx="94" cy="58" rx="7.2" ry="7.7"/>
+              <circle class="cat-pupil" cx="66.8" cy="59.2" r="3.4"/>
+              <circle class="cat-pupil" cx="94.8" cy="59.2" r="3.4"/>
+              <circle class="cat-eye-shine" cx="68.8" cy="54.6" r="2.6"/>
+              <circle class="cat-eye-shine" cx="96.8" cy="54.6" r="2.6"/>
+              <circle class="cat-eye-shine cat-eye-shine--small" cx="64.2" cy="61.6" r="1.1"/>
+              <circle class="cat-eye-shine cat-eye-shine--small" cx="92.2" cy="61.6" r="1.1"/>
+              <path class="cat-eye-lid" d="M58 64 Q66 67 74 64 M86 64 Q94 67 102 64"/>
 
               <path class="cat-brow cat-brow--sad" d="M57 47 C61 44 67 45 70 48 M90 48 C93 45 99 44 103 47"/>
               <path class="cat-nose" d="M76 72 C78 69 82 69 84 72 C83 76 77 76 76 72 Z"/>
-              <path class="cat-mouth cat-mouth--neutral" d="M74 80 Q80 83 86 80"/>
-              <path class="cat-mouth cat-mouth--smile" d="M70 80 Q80 89 90 80"/>
-              <path class="cat-mouth cat-mouth--sad" d="M72 84 Q80 77 88 84"/>
+              <path class="cat-mouth cat-mouth--neutral" d="M80 76 L80 80 M80 80 C77 84 74 83 72 80 M80 80 C83 84 86 83 88 80"/>
+              <path class="cat-mouth cat-mouth--sad" d="M73 84 C76 78 84 78 87 84"/>
               <path class="cat-whisker" d="M55 69 L34 64 M55 76 L35 78 M105 69 L126 64 M105 76 L125 78"/>
               <path class="cat-whisker cat-whisker--light" d="M56 72 L36 70 M104 72 L124 70"/>
             </svg>
@@ -2652,15 +4296,20 @@
 
         <button class="shop-card" id="card-shop" type="button">
           <span class="shop-card__icon" aria-hidden="true">
-            <svg viewBox="0 0 64 64">
-              <path class="shop-roof" d="M12 28 L32 10 L52 28 Z"/>
-              <rect class="shop-body" x="16" y="28" width="32" height="26" rx="8"/>
-              <rect class="shop-door" x="27" y="39" width="10" height="15" rx="4"/>
-              <circle class="shop-dot" cx="35" cy="47" r="1.6"/>
-              <path class="shop-sign" d="M22 24 C26 18 38 18 42 24"/>
-              <circle class="shop-button" cx="25" cy="33" r="2.6"/>
-              <circle class="shop-button" cx="39" cy="33" r="2.6"/>
-            </svg>
+            <span class="izba">
+              <span class="izba__chimney"></span>
+              <span class="izba__roof"></span>
+              <span class="izba__gable"></span>
+              <span class="izba__wall"></span>
+              <span class="izba__window">
+                <span class="izba__window-glow"></span>
+                <span class="izba__window-cross"></span>
+              </span>
+              <span class="izba__trim izba__trim--left"></span>
+              <span class="izba__trim izba__trim--right"></span>
+              <span class="izba__trim-top"></span>
+              <span class="izba__base"></span>
+            </span>
           </span>
           <span class="shop-card__info">
             <span class="pet-card__eyebrow">магазин</span>
@@ -2674,7 +4323,7 @@
 
       <footer class="hub-foot">
         <span>4 игры</span>
-        <span>2 доступны</span>
+        <span>4 доступны</span>
       </footer>
     </section>
 
@@ -2767,6 +4416,7 @@
       <div class="cat-hero">
         <div class="cat-hero__art">
           <svg class="cat-svg cat-svg--big" viewBox="0 0 160 170" aria-hidden="true"></svg>
+          <span class="cat-particles" id="cat-particles" aria-hidden="true"></span>
           <span class="cat-feedback" id="cat-feedback" hidden aria-live="polite">
             <span class="cat-feedback__icon" id="cat-feedback-icon">🥣</span>
             <span class="cat-feedback__label" id="cat-feedback-label"></span>
@@ -2811,6 +4461,95 @@
       <p class="shop-note">Товары открываются за победы в любой игре. Побед: <strong id="shop-wins">0</strong>. Звёзды тратятся из общего кошелька.</p>
       <p class="shop-message" id="shop-message" role="status" aria-live="polite"></p>
       <div class="shop-grid" id="shop-grid"></div>
+    </section>
+
+    <!-- ================= BACKGAMMON ================= -->
+    <section class="screen screen--backgammon" id="screen-backgammon" aria-label="Игра «Нарды-пуговки»">
+      <header class="game-top">
+        <button class="icon-btn" id="bg-back" type="button" aria-label="Назад в меню">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7"/>
+          </svg>
+          <span class="icon-btn__label">Меню</span>
+        </button>
+        <div class="game-center">
+          <div class="level-pill">
+            <span class="level-pill__label">Уровень</span>
+            <strong class="level-pill__value" id="bg-level">1</strong>
+          </div>
+        </div>
+        <span class="game-top__spacer" aria-hidden="true"></span>
+      </header>
+
+      <p class="bg-status" id="bg-status" role="status" aria-live="polite">
+        Бросьте кубик, чтобы определить, кто начинает.
+      </p>
+
+      <div class="bg-board" id="bg-board" aria-label="Доска коротких нард"></div>
+
+      <div class="bg-play">
+        <div class="bg-dice-row">
+          <div class="bg-die" id="bg-die-1" aria-label="Кубик первый"></div>
+          <div class="bg-die" id="bg-die-2" aria-label="Кубик второй"></div>
+          <span class="bg-doubles" id="bg-doubles" hidden>×4</span>
+        </div>
+        <p class="bg-dice-caption" id="bg-dice-caption">Бросьте кубик</p>
+        <div class="bg-info-row">
+          <span id="bg-moves">Бросков: 0</span>
+          <span id="bg-counts">Бар 0 / 0 · Дом 0 / 0</span>
+        </div>
+        <button class="btn btn--primary bg-roll" id="bg-roll" type="button">Бросить кубик</button>
+        <p class="bg-legend">Вы — розовые, компьютер — мятные. Нажмите на пуговицу, затем на подсвеченный пункт.</p>
+      </div>
+    </section>
+
+    <!-- ================= SUDOKU ================= -->
+    <section class="screen screen--sudoku" id="screen-sudoku" aria-label="Игра «Пуговичный судоку»">
+      <header class="game-top">
+        <button class="icon-btn" id="sudoku-back" type="button" aria-label="Назад в меню">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 5l-7 7 7 7"/>
+          </svg>
+          <span class="icon-btn__label">Меню</span>
+        </button>
+        <div class="game-center">
+          <div class="level-pill">
+            <span class="level-pill__label">Уровень</span>
+            <strong class="level-pill__value" id="sudoku-level">1</strong>
+          </div>
+        </div>
+        <span class="game-top__spacer" aria-hidden="true"></span>
+      </header>
+
+      <p class="sudoku-status" id="sudoku-status" role="status" aria-live="polite">
+        Выберите пустую пуговицу.
+      </p>
+
+      <div class="sudoku-stage">
+        <div class="sudoku-board" id="sudoku-board" role="grid" aria-label="Поле судоку 4 на 4"></div>
+
+        <div class="sudoku-panel" id="sudoku-panel" hidden>
+          <p class="sudoku-panel__title" id="sudoku-panel-title">Пуговица с цифрой</p>
+          <div class="sudoku-choices" id="sudoku-choices">
+            <button class="sudoku-choice sudoku-choice--v1" type="button" data-sudoku-value="1" aria-label="Поставить цифру 1">1</button>
+            <button class="sudoku-choice sudoku-choice--v2" type="button" data-sudoku-value="2" aria-label="Поставить цифру 2">2</button>
+            <button class="sudoku-choice sudoku-choice--v3" type="button" data-sudoku-value="3" aria-label="Поставить цифру 3">3</button>
+            <button class="sudoku-choice sudoku-choice--v4" type="button" data-sudoku-value="4" aria-label="Поставить цифру 4">4</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sudoku-info">
+        <span id="sudoku-progress">Заполнено 0 из 8</span>
+        <span id="sudoku-errors">Ошибок: 0</span>
+      </div>
+
+      <div class="sudoku-actions">
+        <button class="btn btn--soft" id="sudoku-restart" type="button">Заново</button>
+        <button class="btn btn--ghost" id="sudoku-menu" type="button">В меню</button>
+      </div>
+
+      <p class="sudoku-legend">В каждой строке, каждом столбце и каждом квадрате 2×2 — цифры 1–4 без повторов. Игра без таймера.</p>
     </section>
   </div>
 
@@ -2866,6 +4605,35 @@
     </div>
   </div>
 
+  <div class="modal" id="backgammon-modal" hidden>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="backgammon-modal-title">
+      <div class="modal__art" id="backgammon-modal-art" aria-hidden="true">🏆</div>
+      <p class="modal__kicker" id="backgammon-modal-kicker">Нарды-пуговки · уровень 1</p>
+      <h2 class="modal__title" id="backgammon-modal-title">Победа!</h2>
+      <p class="modal__text" id="backgammon-modal-text"></p>
+      <div class="reward-stars" id="backgammon-reward-stars" aria-label="Звёзды за игру"></div>
+      <div class="modal__actions">
+        <button class="btn btn--primary" id="backgammon-primary" type="button">Следующий уровень</button>
+        <button class="btn btn--ghost" id="backgammon-replay" type="button">Сыграть еще</button>
+        <button class="btn btn--ghost" id="backgammon-secondary" type="button">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="sudoku-modal" hidden>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="sudoku-modal-title">
+      <div class="modal__art" id="sudoku-modal-art" aria-hidden="true">🧩</div>
+      <p class="modal__kicker" id="sudoku-modal-kicker">Пуговичный судоку · уровень 1</p>
+      <h2 class="modal__title" id="sudoku-modal-title">Победа!</h2>
+      <p class="modal__text" id="sudoku-modal-text"></p>
+      <div class="reward-stars" id="sudoku-reward-stars" aria-label="Звёзды за игру"></div>
+      <div class="modal__actions">
+        <button class="btn btn--primary" id="sudoku-primary" type="button">Следующий уровень</button>
+        <button class="btn btn--ghost" id="sudoku-secondary" type="button">В меню</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function () {
       'use strict';
@@ -2899,10 +4667,16 @@
       var soundBtn = document.getElementById('sound-toggle');
 
       var pugozhorScreen = document.getElementById('screen-pugozhor');
+      var backgammonScreen = document.getElementById('screen-backgammon');
+      var sudokuScreen = document.getElementById('screen-sudoku');
       var catScreen = document.getElementById('screen-cat');
       var shopScreen = document.getElementById('screen-shop');
       var pugozhorCard = document.getElementById('card-pugozhor');
       var pugozhorCardLevel = document.getElementById('pugozhor-card-level');
+      var backgammonCard = document.getElementById('card-backgammon');
+      var backgammonCardLevel = document.getElementById('backgammon-card-level');
+      var sudokuCard = document.getElementById('card-sudoku');
+      var sudokuCardLevel = document.getElementById('sudoku-card-level');
       var pugozhorBack = document.getElementById('pugozhor-back');
       var pugozhorLevelEl = document.getElementById('pugozhor-level');
       var pugozhorPelletsEl = document.getElementById('pugozhor-pellets');
@@ -2911,6 +4685,8 @@
       var pugozhorCanvas = document.getElementById('pugozhor-canvas');
       var starsPugoryadEl = document.getElementById('stars-pugoryad');
       var starsPugozhorEl = document.getElementById('stars-pugozhor');
+      var starsBackgammonEl = document.getElementById('stars-backgammon');
+      var starsSudokuEl = document.getElementById('stars-sudoku');
       var shopWalletMainEl = document.getElementById('shop-wallet-main');
       var rulesModal = document.getElementById('rules-modal');
       var rulesKicker = document.getElementById('rules-kicker');
@@ -2919,6 +4695,8 @@
       var rulesOk = document.getElementById('rules-ok');
       var cardHelpPugoryad = document.querySelector('#card-connect .card-help');
       var cardHelpPugozhor = document.querySelector('#card-pugozhor .card-help');
+      var cardHelpBackgammon = document.querySelector('#card-backgammon .card-help');
+      var cardHelpSudoku = document.querySelector('#card-sudoku .card-help');
       var pugoryadRewardStars = document.getElementById('pugoryad-reward-stars');
       var pugozhorModal = document.getElementById('pugozhor-modal');
       var pugozhorModalArt = document.getElementById('pugozhor-modal-art');
@@ -2928,6 +4706,45 @@
       var pugozhorRewardStars = document.getElementById('pugozhor-reward-stars');
       var pugozhorPrimary = document.getElementById('pugozhor-primary');
       var pugozhorSecondary = document.getElementById('pugozhor-secondary');
+      var bgBack = document.getElementById('bg-back');
+      var bgLevelEl = document.getElementById('bg-level');
+      var bgStatusEl = document.getElementById('bg-status');
+      var bgBoardEl = document.getElementById('bg-board');
+      var bgDie1 = document.getElementById('bg-die-1');
+      var bgDie2 = document.getElementById('bg-die-2');
+      var bgDoublesEl = document.getElementById('bg-doubles');
+      var bgDiceCaption = document.getElementById('bg-dice-caption');
+      var bgMovesEl = document.getElementById('bg-moves');
+      var bgCountsEl = document.getElementById('bg-counts');
+      var bgRollBtn = document.getElementById('bg-roll');
+      var backgammonModal = document.getElementById('backgammon-modal');
+      var backgammonModalArt = document.getElementById('backgammon-modal-art');
+      var backgammonModalKicker = document.getElementById('backgammon-modal-kicker');
+      var backgammonModalTitle = document.getElementById('backgammon-modal-title');
+      var backgammonModalText = document.getElementById('backgammon-modal-text');
+      var backgammonRewardStars = document.getElementById('backgammon-reward-stars');
+      var backgammonPrimary = document.getElementById('backgammon-primary');
+      var backgammonReplay = document.getElementById('backgammon-replay');
+      var backgammonSecondary = document.getElementById('backgammon-secondary');
+      var sudokuBack = document.getElementById('sudoku-back');
+      var sudokuLevelEl = document.getElementById('sudoku-level');
+      var sudokuStatusEl = document.getElementById('sudoku-status');
+      var sudokuBoardEl = document.getElementById('sudoku-board');
+      var sudokuPanel = document.getElementById('sudoku-panel');
+      var sudokuPanelTitle = document.getElementById('sudoku-panel-title');
+      var sudokuChoicesEl = document.getElementById('sudoku-choices');
+      var sudokuProgressEl = document.getElementById('sudoku-progress');
+      var sudokuErrorsEl = document.getElementById('sudoku-errors');
+      var sudokuRestart = document.getElementById('sudoku-restart');
+      var sudokuMenu = document.getElementById('sudoku-menu');
+      var sudokuModal = document.getElementById('sudoku-modal');
+      var sudokuModalArt = document.getElementById('sudoku-modal-art');
+      var sudokuModalKicker = document.getElementById('sudoku-modal-kicker');
+      var sudokuModalTitle = document.getElementById('sudoku-modal-title');
+      var sudokuModalText = document.getElementById('sudoku-modal-text');
+      var sudokuRewardStars = document.getElementById('sudoku-reward-stars');
+      var sudokuPrimary = document.getElementById('sudoku-primary');
+      var sudokuSecondary = document.getElementById('sudoku-secondary');
       var petCard = document.getElementById('card-cat');
       var shopCard = document.getElementById('card-shop');
       var catBack = document.getElementById('cat-back');
@@ -2948,7 +4765,9 @@
       var catFeedback = document.getElementById('cat-feedback');
       var catFeedbackIcon = document.getElementById('cat-feedback-icon');
       var catFeedbackLabel = document.getElementById('cat-feedback-label');
+      var catParticlesEl = document.getElementById('cat-particles');
       var catFeedbackTimer = null;
+      var catParticlesTimer = null;
       var catExpressionTimer = null;
       var catBaseExpression = null;
       var catRenameBtn = document.getElementById('cat-rename');
@@ -2957,6 +4776,7 @@
       var catNameSave = document.getElementById('cat-name-save');
       var shopGridEl = document.getElementById('shop-grid');
       var shopWalletEl = document.getElementById('shop-wallet');
+      var shopWalletBumpTimer = null;
       var shopWinsEl = document.getElementById('shop-wins');
 
       /* =========================================================
@@ -2974,6 +4794,7 @@
       var WIN_SCORE = 1000000;
 
       var SAVE_KEY = 'pugovki-portal-v1';
+      var SOUND_KEY = 'pugovki-sound-v1';
 
       function clamp(value, min, max) {
         return Math.max(min, Math.min(max, value));
@@ -2981,11 +4802,13 @@
 
       function defaultSaveData() {
         return {
-          stars: { pugoryad: 0, pugozhor: 0 },
-          wins: { pugoryad: 0, pugozhor: 0 },
+          stars: { pugoryad: 0, pugozhor: 0, backgammon: 0, sudoku: 0 },
+          wins: { pugoryad: 0, pugozhor: 0, backgammon: 0, sudoku: 0 },
           spent: 0,
           levelPugoryad: 1,
           levelPugozhor: 1,
+          levelBackgammon: 1,
+          levelSudoku: 1,
           cat: {
             name: 'Пушок',
             hunger: 78,
@@ -3018,14 +4841,20 @@
           if (parsed.stars) {
             data.stars.pugoryad = Math.max(0, Number(parsed.stars.pugoryad) || 0);
             data.stars.pugozhor = Math.max(0, Number(parsed.stars.pugozhor) || 0);
+            data.stars.backgammon = Math.max(0, Number(parsed.stars.backgammon) || 0);
+            data.stars.sudoku = Math.max(0, Number(parsed.stars.sudoku) || 0);
           }
           if (parsed.wins) {
             data.wins.pugoryad = Math.max(0, Number(parsed.wins.pugoryad) || 0);
             data.wins.pugozhor = Math.max(0, Number(parsed.wins.pugozhor) || 0);
+            data.wins.backgammon = Math.max(0, Number(parsed.wins.backgammon) || 0);
+            data.wins.sudoku = Math.max(0, Number(parsed.wins.sudoku) || 0);
           }
           data.spent = Math.max(0, Number(parsed.spent) || 0);
           data.levelPugoryad = Math.max(1, Math.floor(Number(parsed.levelPugoryad) || 1));
           data.levelPugozhor = Math.max(1, Math.floor(Number(parsed.levelPugozhor) || 1));
+          data.levelBackgammon = Math.max(1, Math.floor(Number(parsed.levelBackgammon) || 1));
+          data.levelSudoku = Math.max(1, Math.floor(Number(parsed.levelSudoku) || 1));
           if (parsed.cat && typeof parsed.cat === 'object') {
             var c = parsed.cat;
             data.cat.name = typeof c.name === 'string' && c.name.trim() ? c.name.trim().slice(0, 20) : 'Пушок';
@@ -3062,11 +4891,11 @@
         { id: 'food', name: 'Пуговичная каша', icon: '🥣', price: 3, unlock: 0, desc: 'Голод +30' },
         { id: 'soap', name: 'Мятное мыло', icon: '🧼', price: 3, unlock: 1, desc: 'Чистота +40' },
         { id: 'toy', name: 'Клубок-пуговка', icon: '🧶', price: 4, unlock: 2, desc: 'Настроение +28' },
-        { id: 'bed', name: 'Плюшевая лежанка', icon: '🛏️', price: 5, unlock: 3, desc: 'Энергия +40' },
-        { id: 'medicine', name: 'Лавандовая микстура', icon: '🧪', price: 5, unlock: 4, desc: 'Здоровье +35' },
+        { id: 'vitamin', name: 'Витаминка', icon: '💊', price: 4, unlock: 3, desc: 'Здоровье +20, энергия +10' },
+        { id: 'medicine', name: 'Лавандовая микстура', icon: '🧪', price: 4, unlock: 4, desc: 'Здоровье +35' },
         { id: 'comb', name: 'Гребень с бусиной', icon: '🪮', price: 4, unlock: 5, desc: 'Чистота +22, настроение +4' },
-        { id: 'treat', name: 'Пуговичное лакомство', icon: '🍪', price: 3, unlock: 6, desc: 'Настроение +20' },
-        { id: 'vitamin', name: 'Витаминка', icon: '💊', price: 7, unlock: 7, desc: 'Здоровье +20, энергия +10' }
+        { id: 'treat', name: 'Пуговичное лакомство', icon: '🍪', price: 3, unlock: 6, desc: 'Настроение +15, голод +8' },
+        { id: 'bed', name: 'Плюшевая лежанка', icon: '🛏️', price: 5, unlock: 3, desc: 'Энергия +40' }
       ];
 
       var CAT_ACTIONS = [
@@ -3097,6 +4926,8 @@
       var board = [];
       var level = saveData.levelPugoryad;
       var pugozhorLevel = saveData.levelPugozhor;
+      var backgammonLevel = saveData.levelBackgammon;
+      var sudokuLevel = saveData.levelSudoku;
       var roundStars = 0;
       var roundStartedAt = 0;
       var pendingAdvance = false;
@@ -3106,6 +4937,7 @@
       var modalAction = 'next';
       var rulesOpen = false;
       var catTickTimer = null;
+      var catLifeTimer = null;
       var lastCatStatusKey = '';
       var pugResultAction = 'next';
 
@@ -3274,6 +5106,7 @@
         var sfxBus = null;
         var enabled = true;
         var started = false;
+        var gameDucked = false;
         var current = null;
         var trackTimer = null;
         var suspendTimer = null;
@@ -3314,7 +5147,7 @@
             sfxBus.connect(master);
 
             musicBus = ctx.createGain();
-            musicBus.gain.value = 0.42;
+            musicBus.gain.value = gameDucked ? 0.105 : 0.42;
 
             var lowpass = ctx.createBiquadFilter();
             lowpass.type = 'lowpass';
@@ -3366,6 +5199,12 @@
           musicBus.gain.linearRampToValueAtTime(safeTarget, now + seconds);
         }
 
+        function setGameMusic(ducked) {
+          gameDucked = !!ducked;
+          var target = gameDucked ? 0.105 : 0.42;
+          rampMusicBus(target, gameDucked ? 0.9 : 1.1);
+        }
+
         function startArcade(level) {
           stopArcade();
           var lvl = Math.max(1, Number(level) || 1);
@@ -3398,7 +5237,7 @@
             window.clearInterval(arcadeTimer);
             arcadeTimer = null;
           }
-          rampMusicBus(0.42, 0.4);
+          rampMusicBus(gameDucked ? 0.105 : 0.42, 0.4);
         }
 
         function midiToHz(midi) {
@@ -3716,6 +5555,35 @@
           return enabled;
         }
 
+        function setEnabled(on) {
+          if (!supported) {
+            return false;
+          }
+          if (on) {
+            if (!ctx) {
+              createContext();
+            }
+            enabled = true;
+            if (!ctx) {
+              enabled = false;
+              return false;
+            }
+            try {
+              resumePlayback();
+            } catch (error) {
+              /* audio must never block the interface */
+            }
+          } else {
+            enabled = false;
+            try {
+              pause();
+            } catch (error) {
+              /* ignore */
+            }
+          }
+          return enabled;
+        }
+
         function tone(freq, duration, options) {
           if (!enabled || !ctx || !sfxBus || ctx.state !== 'running') {
             return;
@@ -3748,8 +5616,10 @@
         return {
           enable: enable,
           toggle: toggle,
+          setEnabled: setEnabled,
           startArcade: startArcade,
           stopArcade: stopArcade,
+          setGameMusic: setGameMusic,
           isEnabled: function () {
             return enabled;
           },
@@ -3762,8 +5632,38 @@
           drop: function () {
             tone(210, 0.18, { type: 'sine', amp: 0.085, slide: 130 });
           },
+          sudokuPlace: function () {
+            tone(620, 0.07, { type: 'triangle', amp: 0.045, slide: 760 });
+            tone(940, 0.06, { type: 'sine', amp: 0.02, delay: 0.045 });
+          },
+          sudokuError: function () {
+            tone(220, 0.12, { type: 'sawtooth', amp: 0.04, slide: 170 });
+            tone(150, 0.16, { type: 'square', amp: 0.025, delay: 0.08, slide: 110 });
+          },
           chomp: function () {
             tone(320, 0.06, { type: 'square', amp: 0.032, slide: 245 });
+          },
+          dice: function () {
+            for (var i = 0; i < 6; i += 1) {
+              tone(560 + i * 55, 0.035, {
+                type: 'triangle',
+                amp: 0.018,
+                delay: i * 0.035,
+                slide: 460 + i * 45
+              });
+            }
+          },
+          wood: function () {
+            tone(170, 0.08, { type: 'triangle', amp: 0.05, slide: 105 });
+            tone(95, 0.1, { type: 'sine', amp: 0.035, delay: 0.02, slide: 80 });
+          },
+          hit: function () {
+            tone(120, 0.16, { type: 'sawtooth', amp: 0.05, slide: 82 });
+            tone(300, 0.07, { type: 'square', amp: 0.025, delay: 0.02, slide: 190 });
+          },
+          off: function () {
+            tone(520, 0.1, { type: 'sine', amp: 0.04, slide: 760 });
+            tone(780, 0.08, { type: 'sine', amp: 0.02, delay: 0.05, slide: 980 });
           },
           purr: function () {
             if (!enabled || !ctx || !sfxBus || ctx.state !== 'running') {
@@ -4519,7 +6419,10 @@
       function showMenu() {
         stopCatTicker();
         stopPugozhor();
+        stopBackgammon();
+        stopSudoku();
         Sound.stopArcade();
+        Sound.setGameMusic(false);
         resolveAdvance();
         cancelTimers();
 
@@ -4532,6 +6435,8 @@
         hideModal();
         hideRulesModal();
         hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
         setActiveScreen(menuScreen);
         applyRandomPalette();
         applyCatDecay();
@@ -4545,8 +6450,13 @@
         hideModal();
         hideRulesModal();
         hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
         stopPugozhor();
+        stopBackgammon();
+        stopSudoku();
         Sound.stopArcade();
+        Sound.setGameMusic(true);
         stopCatTicker();
         mode = 'game';
         setActiveScreen(gameScreen);
@@ -4611,7 +6521,8 @@
       }
 
       function syncModalInert() {
-        var anyOpen = !modal.hidden || !rulesModal.hidden || !pugozhorModal.hidden;
+        var anyOpen = !modal.hidden || !rulesModal.hidden || !pugozhorModal.hidden ||
+          !backgammonModal.hidden || !sudokuModal.hidden;
         appEl.inert = anyOpen;
         soundBtn.inert = anyOpen;
         if (!anyOpen) {
@@ -4624,11 +6535,13 @@
          ========================================================= */
 
       function totalWins() {
-        return saveData.wins.pugoryad + saveData.wins.pugozhor;
+        return saveData.wins.pugoryad + saveData.wins.pugozhor +
+          saveData.wins.backgammon + saveData.wins.sudoku;
       }
 
       function walletStars() {
-        return Math.max(0, saveData.stars.pugoryad + saveData.stars.pugozhor - saveData.spent);
+        return Math.max(0, saveData.stars.pugoryad + saveData.stars.pugozhor +
+          saveData.stars.backgammon + saveData.stars.sudoku - saveData.spent);
       }
 
       function starsForTime(seconds, lvl) {
@@ -4674,6 +6587,8 @@
       function updateStarsUI() {
         starsPugoryadEl.textContent = String(saveData.stars.pugoryad);
         starsPugozhorEl.textContent = String(saveData.stars.pugozhor);
+        starsBackgammonEl.textContent = String(saveData.stars.backgammon);
+        starsSudokuEl.textContent = String(saveData.stars.sudoku);
         shopWalletMainEl.textContent = String(walletStars());
         if (shopWalletEl) {
           shopWalletEl.textContent = String(walletStars());
@@ -4691,6 +6606,12 @@
         pugozhorLevelEl.textContent = String(pugozhorLevel);
         pugozhorCardLevel.textContent = 'Ур. ' + pugozhorLevel;
         pugozhorCardLevel.hidden = pugozhorLevel <= 1;
+        bgLevelEl.textContent = String(backgammonLevel);
+        backgammonCardLevel.textContent = 'Ур. ' + backgammonLevel;
+        backgammonCardLevel.hidden = backgammonLevel <= 1;
+        sudokuLevelEl.textContent = String(sudokuLevel);
+        sudokuCardLevel.textContent = 'Ур. ' + sudokuLevel;
+        sudokuCardLevel.hidden = sudokuLevel <= 1;
         updateStarsUI();
         updateCatUI();
       }
@@ -4707,6 +6628,7 @@
         cat.clean = clamp(cat.clean - minutes * 0.7, 0, 100);
         cat.energy = clamp(cat.energy - minutes * 0.55, 0, 100);
         cat.mood = clamp(cat.mood - minutes * 0.5, 0, 100);
+        cat.health = clamp(cat.health - minutes * 0.2, 0, 100);
         if (cat.hunger < 25 || cat.clean < 20) {
           cat.health = clamp(cat.health - minutes * 0.45, 0, 100);
         }
@@ -4719,24 +6641,72 @@
         cat.last = now;
       }
 
+      function applyCatActiveDecay() {
+        var cat = saveData.cat;
+        cat.hunger = clamp(cat.hunger - 2.2, 0, 100);
+        cat.clean = clamp(cat.clean - 1.8, 0, 100);
+        cat.health = clamp(cat.health - 1.2, 0, 100);
+        cat.mood = clamp(cat.mood - 1.8, 0, 100);
+        cat.energy = clamp(cat.energy - 1.8, 0, 100);
+        cat.last = Date.now();
+        persistSave();
+        updateCatUI();
+        if (mode === 'cat') {
+          renderCatStats();
+        }
+      }
+
+      function startCatLifeTicker() {
+        if (catLifeTimer !== null) {
+          return;
+        }
+        catLifeTimer = window.setInterval(applyCatActiveDecay, 45000);
+      }
+
       function catStatus() {
         var cat = saveData.cat;
-        if (cat.health < 30) {
-          return { key: 'sick', emoji: '🤒', text: 'Пушок заболел — нужна микстура' };
+        var stats = [
+          { key: 'health', value: cat.health },
+          { key: 'hunger', value: cat.hunger },
+          { key: 'clean', value: cat.clean },
+          { key: 'energy', value: cat.energy },
+          { key: 'mood', value: cat.mood }
+        ];
+        var worst = stats[0];
+        stats.forEach(function (stat) {
+          if (stat.value < worst.value) {
+            worst = stat;
+          }
+        });
+        var state = worst.value > 60 ? 'happy' : worst.value >= 30 ? 'sad' : 'critical';
+        var emoji = state === 'happy' ? '😺' : state === 'sad' ? '😿' : '🙀';
+        var text;
+        if (state === 'happy') {
+          text = 'Котик мурчит';
+        } else if (state === 'critical') {
+          text = {
+            health: 'Котик очень плох — нужна микстура',
+            hunger: 'Котик очень голоден',
+            clean: 'Котик очень грязный',
+            energy: 'Котик совсем без сил',
+            mood: 'Котику очень грустно'
+          }[worst.key] || 'Котику плохо';
+        } else {
+          text = {
+            health: 'Котик приболел',
+            hunger: 'Котик хочет есть',
+            clean: 'Котик хочет помыться',
+            energy: 'Котик хочет спать',
+            mood: 'Котик грустит'
+          }[worst.key] || 'Котику грустно';
         }
-        if (cat.hunger < 25) {
-          return { key: 'hungry', emoji: '🍽️', text: 'Пушок голоден' };
-        }
-        if (cat.clean < 25) {
-          return { key: 'dirty', emoji: '🫧', text: 'Пушок хочет помыться' };
-        }
-        if (cat.energy < 20) {
-          return { key: 'sleepy', emoji: '😴', text: 'Пушок хочет спать' };
-        }
-        if (cat.mood < 25) {
-          return { key: 'sad', emoji: '😿', text: 'Пушок грустит' };
-        }
-        return { key: 'happy', emoji: '😺', text: 'Котик мурчит' };
+        return {
+          key: state,
+          emoji: emoji,
+          text: text,
+          worst: worst.key,
+          value: Math.round(worst.value)
+        };
       }
 
       function catItemCount(itemId) {
@@ -4783,9 +6753,43 @@
           catFeedback.classList.remove('is-show');
           catFeedback.hidden = true;
         }
+        if (catParticlesEl) {
+          catParticlesEl.textContent = '';
+        }
+        if (catParticlesTimer !== null) {
+          window.clearTimeout(catParticlesTimer);
+          catParticlesTimer = null;
+        }
         Array.prototype.forEach.call(document.querySelectorAll('.cat-svg'), function (svg) {
           svg.classList.remove('is-happy', 'is-sad');
         });
+      }
+
+      function spawnCatParticles() {
+        if (!catParticlesEl) {
+          return;
+        }
+        catParticlesEl.textContent = '';
+        if (catParticlesTimer !== null) {
+          window.clearTimeout(catParticlesTimer);
+        }
+        var icons = ['💗', '✨', '💚', '⭐'];
+        for (var i = 0; i < 6; i += 1) {
+          var particle = document.createElement('span');
+          particle.className = 'cat-particle';
+          particle.textContent = icons[i % icons.length];
+          particle.style.setProperty('--dx', (Math.random() * 96 - 48).toFixed(0) + 'px');
+          particle.style.setProperty('--dy', (-46 - Math.random() * 46).toFixed(0) + 'px');
+          particle.style.setProperty('--rot', (Math.random() * 60 - 30).toFixed(0) + 'deg');
+          particle.style.animationDelay = (i * 0.055).toFixed(2) + 's';
+          catParticlesEl.appendChild(particle);
+        }
+        catParticlesTimer = window.setTimeout(function () {
+          if (catParticlesEl) {
+            catParticlesEl.textContent = '';
+          }
+          catParticlesTimer = null;
+        }, 1550);
       }
 
       function showCatFeedback(icon, label, expression) {
@@ -4795,6 +6799,7 @@
         if (catFeedbackTimer !== null) {
           window.clearTimeout(catFeedbackTimer);
         }
+        spawnCatParticles();
         catFeedbackIcon.textContent = icon;
         catFeedbackLabel.textContent = label;
         catFeedback.hidden = false;
@@ -4990,10 +6995,51 @@
         });
         shopGridEl.querySelectorAll('[data-buy]').forEach(function (button) {
           bindTap(button, function () {
-            buyShopItem(button.getAttribute('data-buy'));
+            buyShopItem(button.getAttribute('data-buy'), button);
           });
         });
         setShopMessage(message || '');
+      }
+
+      function flyShopStar(sourceRect) {
+        if (!sourceRect || !shopWalletEl) {
+          return;
+        }
+        var targetRect = shopWalletEl.getBoundingClientRect();
+        if (!targetRect.width && !targetRect.height) {
+          return;
+        }
+        var startX = sourceRect.left + sourceRect.width / 2;
+        var startY = sourceRect.top + sourceRect.height / 2;
+        var dx = targetRect.left + targetRect.width / 2 - startX;
+        var dy = targetRect.top + targetRect.height / 2 - startY;
+        var star = document.createElement('span');
+        star.className = 'shop-fly-star';
+        star.textContent = '★';
+        star.style.left = startX + 'px';
+        star.style.top = startY + 'px';
+        document.body.appendChild(star);
+        star.getBoundingClientRect();
+        window.requestAnimationFrame(function () {
+          star.style.transform = 'translate(-50%, -50%) translate(' + dx + 'px, ' + dy + 'px) scale(0.35) rotate(360deg)';
+          star.style.opacity = '0.15';
+        });
+        window.setTimeout(function () {
+          if (star.parentNode) {
+            star.parentNode.removeChild(star);
+          }
+        }, 650);
+        if (shopWalletBumpTimer !== null) {
+          window.clearTimeout(shopWalletBumpTimer);
+          shopWalletBumpTimer = null;
+        }
+        shopWalletEl.classList.remove('is-bump');
+        void shopWalletEl.offsetWidth;
+        shopWalletEl.classList.add('is-bump');
+        shopWalletBumpTimer = window.setTimeout(function () {
+          shopWalletEl.classList.remove('is-bump');
+          shopWalletBumpTimer = null;
+        }, 600);
       }
 
       function setShopMessage(text) {
@@ -5003,7 +7049,7 @@
         }
       }
 
-      function buyShopItem(itemId) {
+      function buyShopItem(itemId, sourceEl) {
         var item = SHOP_ITEMS.find(function (candidate) {
           return candidate.id === itemId;
         });
@@ -5019,16 +7065,18 @@
           setShopMessage('Не хватает звёзд: нужно ' + item.price + ', в кошельке ' + wallet + '.');
           return;
         }
+        var sourceRect = sourceEl ? sourceEl.getBoundingClientRect() : null;
         saveData.spent += item.price;
         saveData.cat.inv[item.id] = catItemCount(item.id) + 1;
         persistSave();
         updateStarsUI();
         renderShop('Куплено: ' + item.name + '. Звёзд осталось: ' + walletStars() + '.');
         renderCat();
+        flyShopStar(sourceRect);
       }
 
       function setActiveScreen(screen) {
-        [menuScreen, gameScreen, pugozhorScreen, catScreen, shopScreen].forEach(function (el) {
+        [menuScreen, gameScreen, pugozhorScreen, backgammonScreen, sudokuScreen, catScreen, shopScreen].forEach(function (el) {
           if (!el) {
             return;
           }
@@ -5054,9 +7102,14 @@
         hideModal();
         hideRulesModal();
         hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
         cancelTimers();
         stopPugozhor();
+        stopBackgammon();
+        stopSudoku();
         Sound.stopArcade();
+        Sound.setGameMusic(false);
         stopCatTicker();
         mode = 'cat';
         setActiveScreen(catScreen);
@@ -5068,14 +7121,6 @@
         persistSave();
         renderCat();
         setCatMessage('');
-        catTickTimer = window.setInterval(function () {
-          if (mode !== 'cat') {
-            return;
-          }
-          applyCatDecay();
-          persistSave();
-          renderCat();
-        }, 30000);
       }
 
       function showShopScreen(returnTo) {
@@ -5083,9 +7128,14 @@
         hideModal();
         hideRulesModal();
         hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
         cancelTimers();
         stopPugozhor();
+        stopBackgammon();
+        stopSudoku();
         Sound.stopArcade();
+        Sound.setGameMusic(false);
         stopCatTicker();
         mode = 'shop';
         setActiveScreen(shopScreen);
@@ -5108,6 +7158,32 @@
           title: 'Правила «Пугожор»',
           html: '<p>Стрелки или свайп. Съешьте все пуговки и не попадитесь иголкам. ' +
             'Снежинка замораживает их на 5 секунд.</p>'
+        },
+        backgammon: {
+          kicker: 'Нарды-пуговки',
+          title: 'Правила «Нарды-пуговки»',
+          html: '<p>Вы играете розовыми пуговицами, а компьютер — мятными.</p>' +
+            '<p><strong>Как играть:</strong></p>' +
+            '<ol>' +
+            '<li>Сначала бросьте кубик вместе с компьютером. У кого больше цифра — тот ходит первым.</li>' +
+            '<li>В свой ход бросайте сразу два кубика. На сколько точек выпало — на столько шагов ' +
+            'вы двигаете свои пуговицы (можно двигать одну пуговицу или две разные).</li>' +
+            '<li>Если выпал дубль (например, две тройки), вы делаете 4 хода вместо 2!</li>' +
+            '</ol>' +
+            '<p><strong>Как победить:</strong></p>' +
+            '<p>Вам нужно провести все свои 15 пуговиц по кругу в свой «домик» ' +
+            '(последний угол доски) и первым выбросить их с поля.</p>' +
+            '<p><strong>Важно:</strong></p>' +
+            '<p>Если на клетке стоит только одна пуговица соперника, вы можете её «съесть», ' +
+            'и компьютер будет вынужден начинать её путь заново.</p>' +
+            '<p>Если съели вас, сначала верните свою пуговицу на поле, а потом ходите остальными.</p>' +
+            '<p>В игре нет ничьей. Кто первый выбросил все пуговицы — тот и победил. Удачи!</p>'
+        },
+        sudoku: {
+          kicker: 'Пуговичный судоку',
+          title: 'Правила «Пуговичный судоку»',
+          html: '<p>Заполните сетку так, чтобы в каждой строке, каждом столбце и каждом квадрате 2х2 ' +
+            '(выделен цветом) были пуговицы с цифрами от 1 до 4 без повторений. Игра без таймера!</p>'
         }
       };
 
@@ -5115,7 +7191,7 @@
 
       function showRules(game) {
         var content = RULES_CONTENT[game] || RULES_CONTENT.pugoryad;
-        if (rulesOpen || !modal.hidden || !pugozhorModal.hidden) {
+        if (rulesOpen || !modal.hidden || !pugozhorModal.hidden || !backgammonModal.hidden || !sudokuModal.hidden) {
           return;
         }
         rulesSource = game;
@@ -5475,6 +7551,23 @@
               PUG.left += 1;
             }
           }
+        }
+
+        /* Less pellets, but larger and more readable: keep about 65%. */
+        var pelletCells = [];
+        for (var plr = 1; plr < PUG.rows - 1; plr += 1) {
+          for (var plc = 1; plc < PUG.cols - 1; plc += 1) {
+            if (PUG.pellets[plr][plc]) {
+              pelletCells.push({ c: plc, r: plr });
+            }
+          }
+        }
+        pugShuffle(pelletCells);
+        var removePellets = Math.floor(pelletCells.length * 0.35);
+        for (var rp = 0; rp < removePellets; rp += 1) {
+          var removed = pelletCells[rp];
+          PUG.pellets[removed.r][removed.c] = false;
+          PUG.left -= 1;
         }
 
         PUG.ice = null;
@@ -5885,6 +7978,81 @@
         ctx.restore();
       }
 
+      function pugBuildPelletSprite() {
+        if (!PUG.theme) {
+          return null;
+        }
+        if (PUG.pelletSprite && PUG.pelletSpriteTheme === PUG.theme) {
+          return PUG.pelletSprite;
+        }
+        var scale = PUG.dpr || 1;
+        var size = PUG.tile;
+        var sprite = document.createElement('canvas');
+        sprite.width = Math.round(size * scale);
+        sprite.height = Math.round(size * scale);
+        var sctx = sprite.getContext('2d');
+        if (!sctx) {
+          return null;
+        }
+        sctx.setTransform(scale, 0, 0, scale, 0, 0);
+        var cx = size / 2;
+        var cy = size / 2;
+        var radius = 5.2;
+        var holeOffset = 1.45;
+
+        sctx.save();
+        sctx.shadowColor = 'rgba(55, 35, 25, 0.35)';
+        sctx.shadowBlur = 2.4;
+        sctx.shadowOffsetY = 1.4;
+        var grad = sctx.createRadialGradient(
+          cx - radius * 0.4, cy - radius * 0.45, radius * 0.12,
+          cx, cy, radius
+        );
+        grad.addColorStop(0, '#fff9ea');
+        grad.addColorStop(0.28, PUG.theme.pellet);
+        grad.addColorStop(0.74, PUG.theme.pelletHole);
+        grad.addColorStop(1, '#6f5234');
+        sctx.beginPath();
+        sctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        sctx.fillStyle = grad;
+        sctx.fill();
+        sctx.restore();
+
+        sctx.beginPath();
+        sctx.arc(cx, cy, radius - 0.35, 0, Math.PI * 2);
+        sctx.strokeStyle = 'rgba(255, 248, 230, 0.55)';
+        sctx.lineWidth = 0.8;
+        sctx.stroke();
+
+        sctx.strokeStyle = PUG.theme.thread;
+        sctx.globalAlpha = 0.9;
+        sctx.lineWidth = 0.8;
+        sctx.lineCap = 'round';
+        sctx.beginPath();
+        sctx.moveTo(cx - holeOffset, cy - holeOffset);
+        sctx.lineTo(cx + holeOffset, cy + holeOffset);
+        sctx.moveTo(cx + holeOffset, cy - holeOffset);
+        sctx.lineTo(cx - holeOffset, cy + holeOffset);
+        sctx.stroke();
+        sctx.globalAlpha = 1;
+
+        sctx.fillStyle = PUG.theme.pelletHole;
+        [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (offset) {
+          sctx.beginPath();
+          sctx.arc(cx + offset[0] * holeOffset, cy + offset[1] * holeOffset, 0.62, 0, Math.PI * 2);
+          sctx.fill();
+        });
+
+        sctx.beginPath();
+        sctx.arc(cx - radius * 0.35, cy - radius * 0.35, radius * 0.22, 0, Math.PI * 2);
+        sctx.fillStyle = 'rgba(255, 255, 255, 0.58)';
+        sctx.fill();
+
+        PUG.pelletSprite = sprite;
+        PUG.pelletSpriteTheme = PUG.theme;
+        return sprite;
+      }
+
       function drawPug(now) {
         var ctx = PUG.ctx;
         if (!ctx) {
@@ -5914,21 +8082,15 @@
           }
         }
 
+        var pelletSprite = pugBuildPelletSprite();
         for (var pr = 0; pr < PUG.rows; pr += 1) {
           for (var pc = 0; pc < PUG.cols; pc += 1) {
-            if (!PUG.pellets[pr][pc]) {
+            if (!PUG.pellets[pr][pc] || !pelletSprite) {
               continue;
             }
             var px = (pc + 0.5) * t;
             var py = (pr + 0.5) * t;
-            ctx.beginPath();
-            ctx.arc(px, py, 3.1, 0, Math.PI * 2);
-            ctx.fillStyle = theme.pellet;
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(px, py, 0.9, 0, Math.PI * 2);
-            ctx.fillStyle = theme.pelletHole;
-            ctx.fill();
+            ctx.drawImage(pelletSprite, px - t / 2, py - t / 2, t, t);
           }
         }
 
@@ -6031,13 +8193,1732 @@
         hideModal();
         hideRulesModal();
         hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
         cancelTimers();
         stopCatTicker();
+        stopBackgammon();
+        stopSudoku();
         Sound.stopArcade();
+        Sound.setGameMusic(true);
         mode = 'pugozhor';
         setActiveScreen(pugozhorScreen);
         updateLevelUI();
         startPugozhorLevel(pugozhorLevel);
+      }
+
+      /* =========================================================
+         BACKGAMMON — короткие нарды
+         ========================================================= */
+
+      var BG_THEMES = [
+        { page: '#f7eef8', glow: 'rgba(205, 165, 225, 0.34)', tri: '#f2e2d8', triAlt: '#e5c6cd' },
+        { page: '#eaf7f0', glow: 'rgba(150, 215, 185, 0.32)', tri: '#e3f1e7', triAlt: '#bcdcc9' },
+        { page: '#fff1e8', glow: 'rgba(245, 185, 150, 0.30)', tri: '#f8e3d2', triAlt: '#eac9b7' },
+        { page: '#eaf3fc', glow: 'rgba(150, 195, 240, 0.32)', tri: '#e1edf8', triAlt: '#bfd5ea' },
+        { page: '#fceef3', glow: 'rgba(240, 170, 195, 0.30)', tri: '#f6e0e6', triAlt: '#e5c2cc' },
+        { page: '#fbf8e3', glow: 'rgba(230, 210, 120, 0.28)', tri: '#f4edcb', triAlt: '#ded3a8' }
+      ];
+
+      var BG = {
+        active: false,
+        phase: 'opening',
+        points: [],
+        bar: { user: 0, ai: 0 },
+        off: { user: 0, ai: 0 },
+        turn: 'user',
+        dice: [],
+        remaining: [],
+        opening: { user: 0, ai: 0 },
+        selected: null,
+        legalMoves: [],
+        hint: null,
+        hintTimer: null,
+        timeouts: [],
+        intervals: [],
+        busy: false,
+        userRolls: 0,
+        userMoves: 0,
+        level: 1,
+        resultWin: false
+      };
+
+      function bgOther(player) {
+        return player === 'user' ? 'ai' : 'user';
+      }
+
+      function bgApplyTheme(theme) {
+        if (!backgammonScreen) {
+          return;
+        }
+        backgammonScreen.style.setProperty('--bg-page', theme.page);
+        backgammonScreen.style.setProperty('--bg-glow', theme.glow);
+        backgammonScreen.style.setProperty('--bg-tri', theme.tri);
+        backgammonScreen.style.setProperty('--bg-tri-alt', theme.triAlt);
+      }
+
+      function bgClearBoard() {
+        BG.points = [];
+        for (var i = 0; i < 24; i += 1) {
+          BG.points.push({ user: 0, ai: 0 });
+        }
+        BG.bar = { user: 0, ai: 0 };
+        BG.off = { user: 0, ai: 0 };
+      }
+
+      function bgSetupPoints() {
+        BG.points = [];
+        for (var i = 0; i < 24; i += 1) {
+          BG.points.push({ user: 0, ai: 0 });
+        }
+        BG.points[23].user = 2;
+        BG.points[12].user = 5;
+        BG.points[7].user = 3;
+        BG.points[5].user = 5;
+        BG.points[0].ai = 2;
+        BG.points[11].ai = 5;
+        BG.points[16].ai = 3;
+        BG.points[18].ai = 5;
+        BG.bar = { user: 0, ai: 0 };
+        BG.off = { user: 0, ai: 0 };
+      }
+
+      function bgAfter(fn, ms) {
+        var id = window.setTimeout(function () {
+          BG.timeouts = BG.timeouts.filter(function (value) {
+            return value !== id;
+          });
+          if (!BG.active) {
+            return;
+          }
+          fn();
+        }, ms);
+        BG.timeouts.push(id);
+        return id;
+      }
+
+      function bgClearTimers() {
+        BG.timeouts.forEach(function (id) {
+          window.clearTimeout(id);
+        });
+        BG.timeouts = [];
+        BG.intervals.forEach(function (id) {
+          window.clearInterval(id);
+        });
+        BG.intervals = [];
+        if (BG.hintTimer !== null) {
+          window.clearTimeout(BG.hintTimer);
+          BG.hintTimer = null;
+        }
+        BG.hint = null;
+      }
+
+      function stopBackgammon() {
+        BG.active = false;
+        bgClearTimers();
+        BG.selected = null;
+        BG.legalMoves = [];
+        BG.hint = null;
+        if (bgDie1) {
+          bgDie1.classList.remove('is-rolling');
+        }
+        if (bgDie2) {
+          bgDie2.classList.remove('is-rolling');
+        }
+      }
+
+      function bgSetStatus(text) {
+        if (bgStatusEl) {
+          bgStatusEl.textContent = text;
+        }
+      }
+
+      function bgStarsForTurns(turns) {
+        if (turns <= 15) {
+          return 5;
+        }
+        if (turns <= 20) {
+          return 4;
+        }
+        if (turns <= 26) {
+          return 3;
+        }
+        if (turns <= 32) {
+          return 2;
+        }
+        return 1;
+      }
+
+      function bgCanLand(player, to) {
+        return BG.points[to] && BG.points[to][bgOther(player)] < 2;
+      }
+
+      function bgWillHit(player, to) {
+        return BG.points[to] && BG.points[to][bgOther(player)] === 1;
+      }
+
+      function bgCanBearOff(player) {
+        if (BG.bar[player] > 0) {
+          return false;
+        }
+        var start = player === 'user' ? 0 : 18;
+        var end = player === 'user' ? 5 : 23;
+        var count = 0;
+        for (var i = start; i <= end; i += 1) {
+          count += BG.points[i][player];
+        }
+        return count === 15 - BG.off[player];
+      }
+
+      function bgNoCheckersFarther(player, from) {
+        var i;
+        if (player === 'user') {
+          for (i = from + 1; i <= 5; i += 1) {
+            if (BG.points[i].user > 0) {
+              return false;
+            }
+          }
+        } else {
+          for (i = 18; i < from; i += 1) {
+            if (BG.points[i].ai > 0) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      function bgPointMove(player, from, die) {
+        if (!BG.points[from] || BG.points[from][player] <= 0) {
+          return null;
+        }
+        var target = player === 'user' ? from - die : from + die;
+        if (target >= 0 && target <= 23) {
+          if (!bgCanLand(player, target)) {
+            return null;
+          }
+          return {
+            from: 'point',
+            fromIndex: from,
+            to: target,
+            die: die,
+            hit: bgWillHit(player, target),
+            off: false
+          };
+        }
+        if (!bgCanBearOff(player)) {
+          return null;
+        }
+        if (player === 'user') {
+          if (from > 5) {
+            return null;
+          }
+          var exact = die === from + 1;
+          var overshoot = die > from + 1 && bgNoCheckersFarther('user', from);
+          if (exact || overshoot) {
+            return {
+              from: 'point',
+              fromIndex: from,
+              to: -1,
+              die: die,
+              hit: false,
+              off: true
+            };
+          }
+        } else {
+          if (from < 18) {
+            return null;
+          }
+          var exactAi = die === 24 - from;
+          var overshootAi = die > 24 - from && bgNoCheckersFarther('ai', from);
+          if (exactAi || overshootAi) {
+            return {
+              from: 'point',
+              fromIndex: from,
+              to: -1,
+              die: die,
+              hit: false,
+              off: true
+            };
+          }
+        }
+        return null;
+      }
+
+      function bgEntryMove(player, die) {
+        var to = player === 'user' ? 24 - die : die - 1;
+        if (to < 0 || to > 23 || !bgCanLand(player, to)) {
+          return null;
+        }
+        return {
+          from: 'bar',
+          fromIndex: -1,
+          to: to,
+          die: die,
+          hit: bgWillHit(player, to),
+          off: false
+        };
+      }
+
+      function bgUniqueDice(dice) {
+        var unique = [];
+        dice.forEach(function (die) {
+          if (unique.indexOf(die) < 0) {
+            unique.push(die);
+          }
+        });
+        return unique;
+      }
+
+      function bgMovesForSource(player, type, index, dice) {
+        var moves = [];
+        if (type === 'bar') {
+          if (BG.bar[player] <= 0) {
+            return moves;
+          }
+          bgUniqueDice(dice).forEach(function (die) {
+            var move = bgEntryMove(player, die);
+            if (move) {
+              moves.push(move);
+            }
+          });
+          return moves;
+        }
+        if (BG.bar[player] > 0) {
+          return moves;
+        }
+        bgUniqueDice(dice).forEach(function (die) {
+          var move = bgPointMove(player, index, die);
+          if (move) {
+            moves.push(move);
+          }
+        });
+        return moves;
+      }
+
+      function bgAllMoves(player, dice) {
+        var moves = [];
+        if (!dice.length) {
+          return moves;
+        }
+        if (BG.bar[player] > 0) {
+          bgUniqueDice(dice).forEach(function (die) {
+            var move = bgEntryMove(player, die);
+            if (move) {
+              moves.push(move);
+            }
+          });
+          return moves;
+        }
+        bgUniqueDice(dice).forEach(function (die) {
+          for (var i = 0; i < 24; i += 1) {
+            if (BG.points[i][player] <= 0) {
+              continue;
+            }
+            var move = bgPointMove(player, i, die);
+            if (move) {
+              moves.push(move);
+            }
+          }
+        });
+        return moves;
+      }
+
+      function bgPointThreatened(player, point) {
+        var opponent = bgOther(player);
+        var i;
+        if (player === 'user') {
+          for (i = point - 6; i <= point - 1; i += 1) {
+            if (i >= 0 && BG.points[i][opponent] > 0) {
+              return true;
+            }
+          }
+        } else {
+          for (i = point + 1; i <= point + 6; i += 1) {
+            if (i <= 23 && BG.points[i][opponent] > 0) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+
+      function bgScoreMove(move, player) {
+        var own = bgOther(player);
+        var score = 0;
+        if (move.off) {
+          return 10000 - BG.off[player];
+        }
+        if (move.hit) {
+          score += 5000;
+        }
+        var targetCount = BG.points[move.to][player];
+        score += 700;
+        if (targetCount > 0) {
+          score += targetCount * 110;
+        }
+        if (bgPointThreatened(player, move.to)) {
+          score -= targetCount === 0 && !move.hit ? 0 : 260;
+          if (targetCount === 0) {
+            score -= 420;
+          }
+        } else {
+          score += 180;
+        }
+        score += (player === 'user' ? 23 - move.to : move.to) * 2;
+        if (move.from === 'point') {
+          var left = BG.points[move.fromIndex][player] - 1;
+          if (left === 1 && bgPointThreatened(player, move.fromIndex)) {
+            score -= 320;
+          }
+        }
+        return score;
+      }
+
+      function bgChooseAIMove(moves) {
+        var best = moves[0];
+        var bestScore = -Infinity;
+        moves.forEach(function (move) {
+          var score = bgScoreMove(move, 'ai') + Math.random() * 4;
+          if (score > bestScore) {
+            bestScore = score;
+            best = move;
+          }
+        });
+        return best;
+      }
+
+      function bgRenderBoard() {
+        if (!bgBoardEl) {
+          return;
+        }
+        var selectedKeys = [];
+        BG.legalMoves.forEach(function (move) {
+          selectedKeys.push(move.off ? 'off' : 'p' + move.to);
+        });
+        var hintKeys = BG.hint ? BG.hint.targets : [];
+        var selectedPoint = BG.selected && BG.selected.type === 'point' ? BG.selected.index : -1;
+        var hintPoint = BG.hint && BG.hint.type === 'point' ? BG.hint.index : -1;
+        var selectedBar = BG.selected && BG.selected.type === 'bar';
+        var hintBar = BG.hint && BG.hint.type === 'bar';
+
+        function pointHtml(index, row) {
+          var p = BG.points[index];
+          var count = p.user + p.ai;
+          var owner = p.user > 0 ? 'user' : 'ai';
+          var classes = 'bg-point bg-point--' + row;
+          if (index >= 18) {
+            classes += ' is-home-ai';
+          }
+          if (index <= 5) {
+            classes += ' is-home-user';
+          }
+          if (index === selectedPoint) {
+            classes += ' is-selected';
+          }
+          if (index === hintPoint) {
+            classes += ' is-hint-source';
+          }
+          if (selectedKeys.indexOf('p' + index) >= 0) {
+            classes += ' is-target';
+          }
+          if (hintKeys.indexOf('p' + index) >= 0) {
+            classes += ' is-hint-target';
+          }
+          var stack = '';
+          var visible = Math.min(count, 5);
+          for (var k = 0; k < visible; k += 1) {
+            stack += '<span class="bg-checker bg-checker--' + owner +
+              (k === visible - 1 ? ' is-top-checker' : '') + '"></span>';
+          }
+          if (count > 5) {
+            stack += '<span class="bg-stack__count">' + count + '</span>';
+          }
+          return '<div class="' + classes + '" data-point="' + index + '" role="button" tabindex="0" ' +
+            'aria-label="Пункт ' + (index + 1) + ': розовых ' + p.user + ', мятных ' + p.ai + '">' +
+            '<span class="bg-point__tri"></span><span class="bg-stack">' + stack + '</span></div>';
+        }
+
+        function offHtml(player) {
+          var count = BG.off[player];
+          var classes = 'bg-off bg-off--' + player;
+          if (player === 'user') {
+            if (selectedKeys.indexOf('off') >= 0) {
+              classes += ' is-target';
+            }
+            if (hintKeys.indexOf('off') >= 0) {
+              classes += ' is-hint-target';
+            }
+          }
+          var stack = '';
+          var visible = Math.min(count, 5);
+          for (var k = 0; k < visible; k += 1) {
+            stack += '<span class="bg-checker bg-checker--' + player +
+              (k === visible - 1 ? ' is-top-checker' : '') + '"></span>';
+          }
+          return '<div class="' + classes + '" data-off="' + player + '" role="button" tabindex="0" ' +
+            'aria-label="Дом ' + (player === 'user' ? 'игрока' : 'компьютера') + ': ' + count + '">' +
+            '<span class="bg-off__label">ДОМ</span><span class="bg-off__count">' + count + '</span>' +
+            '<span class="bg-off__stack">' + stack + '</span></div>';
+        }
+
+        var top = '';
+        for (var topIndex = 12; topIndex <= 23; topIndex += 1) {
+          top += pointHtml(topIndex, 'top');
+        }
+        top += offHtml('ai');
+
+        var bottom = '';
+        for (var bottomIndex = 11; bottomIndex >= 0; bottomIndex -= 1) {
+          bottom += pointHtml(bottomIndex, 'bottom');
+        }
+        bottom += offHtml('user');
+
+        var userBarClasses = 'bg-bar__pocket bg-bar__pocket--user';
+        if (selectedBar) {
+          userBarClasses += ' is-selected';
+        }
+        if (hintBar) {
+          userBarClasses += ' is-hint-source';
+        }
+        if (BG.bar.user > 0 && BG.phase === 'playing') {
+          userBarClasses += ' is-active';
+        }
+        var userBarCheckers = '';
+        for (var ub = 0; ub < Math.min(BG.bar.user, 4); ub += 1) {
+          userBarCheckers += '<span class="bg-checker bg-checker--user"></span>';
+        }
+        var aiBarCheckers = '';
+        for (var ab = 0; ab < Math.min(BG.bar.ai, 4); ab += 1) {
+          aiBarCheckers += '<span class="bg-checker bg-checker--ai"></span>';
+        }
+
+        bgBoardEl.innerHTML =
+          '<div class="bg-half bg-half--top">' + top + '</div>' +
+          '<div class="bg-bar">' +
+            '<div class="' + userBarClasses + '" data-bar="user" role="button" tabindex="0" ' +
+              'aria-label="Ваш бар: ' + BG.bar.user + '">' +
+              (BG.bar.user ? userBarCheckers + '<span class="bg-bar__count">' + BG.bar.user + '</span>' :
+                '<span class="bg-bar__empty">бар</span>') +
+            '</div>' +
+            '<span class="bg-bar__label">БАР</span>' +
+            '<div class="bg-bar__pocket bg-bar__pocket--ai" data-bar="ai" ' +
+              'aria-label="Бар компьютера: ' + BG.bar.ai + '">' +
+              (BG.bar.ai ? aiBarCheckers + '<span class="bg-bar__count">' + BG.bar.ai + '</span>' :
+                '<span class="bg-bar__empty">бар</span>') +
+            '</div>' +
+          '</div>' +
+          '<div class="bg-half bg-half--bottom">' + bottom + '</div>';
+      }
+
+      function bgPipHtml(value) {
+        var maps = {
+          1: [4],
+          2: [0, 8],
+          3: [0, 4, 8],
+          4: [0, 2, 6, 8],
+          5: [0, 2, 4, 6, 8],
+          6: [0, 2, 3, 5, 6, 8]
+        };
+        var active = maps[value] || [];
+        var html = '';
+        for (var i = 0; i < 9; i += 1) {
+          html += '<span class="bg-pip' + (active.indexOf(i) >= 0 ? ' is-on' : '') + '"></span>';
+        }
+        return html;
+      }
+
+      function bgRenderDice() {
+        if (!bgDie1 || !bgDie2) {
+          return;
+        }
+        var d1 = BG.dice[0] || 0;
+        var d2 = BG.dice[1] || 0;
+        bgDie1.innerHTML = bgPipHtml(d1);
+        bgDie2.innerHTML = bgPipHtml(d2);
+        var double = d1 > 0 && d1 === d2;
+        bgDoublesEl.hidden = !(double && BG.phase === 'playing');
+        var caption = 'Бросьте кубик';
+        if (BG.busy && BG.phase !== 'over') {
+          caption = 'Бросаем кубики…';
+        } else if (BG.phase === 'opening') {
+          caption = BG.opening.user
+            ? 'Вы: ' + BG.opening.user + ' · Компьютер: ' + BG.opening.ai
+            : 'Бросьте кубик';
+        } else if (BG.phase === 'playing') {
+          if (double) {
+            caption = 'Дубль — 4 хода';
+          } else if (d1 && d2) {
+            caption = BG.turn === 'user' ? 'Ваш бросок' : 'Ход компьютера';
+          }
+        } else if (BG.phase === 'over') {
+          caption = 'Игра завершена';
+        }
+        if (bgDiceCaption) {
+          bgDiceCaption.textContent = caption;
+        }
+      }
+
+      function bgUpdateControls() {
+        if (!bgRollBtn) {
+          return;
+        }
+        var canRoll = false;
+        if (BG.phase === 'opening') {
+          canRoll = !BG.busy;
+        } else if (BG.phase === 'playing' && BG.turn === 'user' && BG.remaining.length === 0 && !BG.busy) {
+          canRoll = true;
+        }
+        bgRollBtn.disabled = !canRoll;
+        if (BG.phase === 'opening') {
+          bgRollBtn.textContent = 'Бросить кубик';
+        } else if (BG.phase === 'playing' && BG.turn === 'ai') {
+          bgRollBtn.textContent = 'Ход компьютера';
+        } else if (BG.phase === 'playing' && BG.remaining.length > 0) {
+          bgRollBtn.textContent = 'Выберите ход';
+        } else if (BG.phase === 'over') {
+          bgRollBtn.textContent = 'Игра завершена';
+        } else {
+          bgRollBtn.textContent = 'Бросить кубик';
+        }
+        if (bgMovesEl) {
+          bgMovesEl.textContent = 'Бросков: ' + BG.userRolls +
+            (BG.remaining.length ? ' · осталось: ' + BG.remaining.length : '');
+        }
+        if (bgCountsEl) {
+          bgCountsEl.textContent = 'Бар ' + BG.bar.user + ' / ' + BG.bar.ai +
+            ' · Дом ' + BG.off.user + ' / ' + BG.off.ai;
+        }
+      }
+
+      function bgRender() {
+        bgRenderBoard();
+        bgRenderDice();
+        bgUpdateControls();
+      }
+
+      function bgFindTargetMove(key) {
+        for (var i = 0; i < BG.legalMoves.length; i += 1) {
+          var move = BG.legalMoves[i];
+          if (key === 'off' && move.off) {
+            return move;
+          }
+          if (key !== 'off' && !move.off && 'p' + move.to === key) {
+            return move;
+          }
+        }
+        return null;
+      }
+
+      function bgDeselect() {
+        BG.selected = null;
+        BG.legalMoves = [];
+        bgSetStatus('Ваш ход — выберите пуговицу.');
+        bgRender();
+        bgResetHint();
+      }
+
+      function bgSelectSource(type, index) {
+        if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'user' || BG.busy) {
+          return;
+        }
+        if (type === 'bar') {
+          if (BG.bar.user <= 0) {
+            bgSetStatus('На баре нет ваших пуговиц.');
+            return;
+          }
+        } else {
+          if (BG.bar.user > 0) {
+            bgSetStatus('Сначала введите пуговицу с бара.');
+            return;
+          }
+          if (!BG.points[index] || BG.points[index].user <= 0) {
+            return;
+          }
+        }
+        var moves = bgMovesForSource('user', type, index, BG.remaining);
+        if (!moves.length) {
+          bgSetStatus('У этой пуговицы нет хода — выберите другую.');
+          BG.selected = null;
+          BG.legalMoves = [];
+          bgRender();
+          return;
+        }
+        BG.selected = { type: type, index: index };
+        BG.legalMoves = moves;
+        BG.hint = null;
+        bgSetStatus('Выберите подсвеченный пункт.');
+        bgRender();
+        bgResetHint();
+      }
+
+      function bgBoardClick(event) {
+        if (mode !== 'backgammon' || BG.phase !== 'playing' || BG.turn !== 'user' || BG.busy) {
+          return;
+        }
+        var element = event.target && event.target.closest
+          ? event.target.closest('[data-point],[data-bar],[data-off]')
+          : null;
+        if (!element || !bgBoardEl.contains(element)) {
+          return;
+        }
+        bgResetHint();
+        if (!BG.remaining.length) {
+          bgSetStatus('Сначала бросьте кубик.');
+          return;
+        }
+        var pointAttr = element.getAttribute('data-point');
+        var barAttr = element.getAttribute('data-bar');
+        var offAttr = element.getAttribute('data-off');
+
+        if (offAttr === 'user') {
+          if (BG.selected) {
+            var offMove = bgFindTargetMove('off');
+            if (offMove) {
+              bgApplyMove(offMove, 'user', false);
+              return;
+            }
+          }
+          bgSetStatus('Выбросить пуговицу можно, когда все 15 в доме.');
+          return;
+        }
+        if (offAttr) {
+          return;
+        }
+        if (barAttr === 'user') {
+          if (BG.selected && BG.selected.type === 'bar') {
+            bgDeselect();
+            return;
+          }
+          bgSelectSource('bar');
+          return;
+        }
+        if (barAttr) {
+          return;
+        }
+        if (pointAttr !== null) {
+          var index = Number(pointAttr);
+          if (BG.selected) {
+            var targetMove = bgFindTargetMove('p' + index);
+            if (targetMove) {
+              bgApplyMove(targetMove, 'user', false);
+              return;
+            }
+            if (BG.selected.type === 'point' && BG.selected.index === index) {
+              bgDeselect();
+              return;
+            }
+          }
+          if (BG.bar.user > 0) {
+            bgSetStatus('Сначала введите пуговицу с бара.');
+            return;
+          }
+          if (BG.points[index].user > 0) {
+            bgSelectSource('point', index);
+            return;
+          }
+          bgSetStatus('Выберите свою пуговицу или подсвеченный пункт.');
+        }
+      }
+
+      function bgStopHintTimer() {
+        if (BG.hintTimer !== null) {
+          window.clearTimeout(BG.hintTimer);
+          BG.hintTimer = null;
+        }
+      }
+
+      function bgResetHint() {
+        bgStopHintTimer();
+        if (BG.hint) {
+          BG.hint = null;
+          bgRenderBoard();
+        }
+        if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'user' ||
+            BG.busy || !BG.remaining.length) {
+          return;
+        }
+        BG.hintTimer = window.setTimeout(function () {
+          BG.hintTimer = null;
+          if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'user' ||
+              BG.busy || !BG.remaining.length) {
+            return;
+          }
+          bgShowHint();
+        }, 7000);
+      }
+
+      function bgShowHint() {
+        var moves = bgAllMoves('user', BG.remaining);
+        if (!moves.length) {
+          return;
+        }
+        var best = moves[0];
+        var bestScore = -Infinity;
+        moves.forEach(function (move) {
+          var score = bgScoreMove(move, 'user');
+          if (score > bestScore) {
+            bestScore = score;
+            best = move;
+          }
+        });
+        var targets = [];
+        moves.forEach(function (move) {
+          if (move.from !== best.from) {
+            return;
+          }
+          if (best.from === 'point' && move.fromIndex !== best.fromIndex) {
+            return;
+          }
+          var key = move.off ? 'off' : 'p' + move.to;
+          if (targets.indexOf(key) < 0) {
+            targets.push(key);
+          }
+        });
+        BG.hint = {
+          type: best.from === 'bar' ? 'bar' : 'point',
+          index: best.from === 'bar' ? -1 : best.fromIndex,
+          targets: targets
+        };
+        bgRenderBoard();
+        bgSetStatus('Подсказка: нажмите пуговицу с обводкой, затем зелёный пункт.');
+      }
+
+      function bgPlayMoveGhost(player, move, sourceRect) {
+        if (!sourceRect || !bgBoardEl) {
+          return;
+        }
+        var destSelector = move.off
+          ? '.bg-off--' + player
+          : '[data-point="' + move.to + '"]';
+        var destEl = bgBoardEl.querySelector(destSelector);
+        if (!destEl) {
+          return;
+        }
+        var destRect = destEl.getBoundingClientRect();
+        var startX = sourceRect.left + sourceRect.width / 2;
+        var startY = sourceRect.top + sourceRect.height / 2;
+        var dx = destRect.left + destRect.width / 2 - startX;
+        var dy = destRect.top + destRect.height / 2 - startY;
+        var ghost = document.createElement('span');
+        ghost.className = 'bg-checker bg-checker--' + player + ' bg-fly-checker';
+        ghost.style.left = startX + 'px';
+        ghost.style.top = startY + 'px';
+        document.body.appendChild(ghost);
+        ghost.getBoundingClientRect();
+
+        window.requestAnimationFrame(function () {
+          ghost.style.transform = 'translate(-50%, -50%) translate(' + dx + 'px, ' + dy + 'px) scale(0.9)';
+          ghost.style.opacity = '0.3';
+        });
+
+        window.setTimeout(function () {
+          if (ghost.parentNode) {
+            ghost.parentNode.removeChild(ghost);
+          }
+        }, 440);
+
+        destEl.classList.add('is-just-moved');
+        if (player === 'ai') {
+          destEl.classList.add('is-ai-destination');
+        }
+        window.setTimeout(function () {
+          destEl.classList.remove('is-just-moved');
+          destEl.classList.remove('is-ai-destination');
+        }, 700);
+      }
+
+      function bgHighlightAIOptions(moves) {
+        if (!bgBoardEl) {
+          return;
+        }
+        var seen = {};
+        moves.forEach(function (move) {
+          var el;
+          if (move.off) {
+            el = bgBoardEl.querySelector('.bg-off--ai');
+          } else {
+            if (seen[move.to]) {
+              return;
+            }
+            seen[move.to] = true;
+            el = bgBoardEl.querySelector('[data-point="' + move.to + '"]');
+          }
+          if (el) {
+            el.classList.add('is-ai-option');
+          }
+        });
+      }
+
+      function bgApplyMove(move, player, isAI) {
+        if (!move || !BG.active || BG.phase !== 'playing') {
+          return;
+        }
+        if (player === 'user' && BG.turn !== 'user') {
+          return;
+        }
+        if (player === 'ai' && BG.turn !== 'ai') {
+          return;
+        }
+        var dieIndex = BG.remaining.indexOf(move.die);
+        if (dieIndex < 0) {
+          return;
+        }
+        var sourceSelector = move.from === 'bar'
+          ? '[data-bar="' + player + '"]'
+          : '[data-point="' + move.fromIndex + '"]';
+        var sourceEl = bgBoardEl ? bgBoardEl.querySelector(sourceSelector) : null;
+        var sourceChecker = sourceEl ? sourceEl.querySelector('.bg-checker:last-child') : null;
+        var sourceRect = (sourceChecker || sourceEl) ? (sourceChecker || sourceEl).getBoundingClientRect() : null;
+        BG.remaining.splice(dieIndex, 1);
+        bgStopHintTimer();
+        BG.hint = null;
+        BG.selected = null;
+        BG.legalMoves = [];
+
+        if (move.from === 'bar') {
+          BG.bar[player] = Math.max(0, BG.bar[player] - 1);
+        } else {
+          BG.points[move.fromIndex][player] = Math.max(0, BG.points[move.fromIndex][player] - 1);
+        }
+
+        if (move.off) {
+          BG.off[player] += 1;
+          try {
+            Sound.off();
+          } catch (error) {}
+        } else {
+          var opponent = bgOther(player);
+          if (BG.points[move.to][opponent] === 1) {
+            BG.points[move.to][opponent] = 0;
+            BG.bar[opponent] += 1;
+            try {
+              Sound.hit();
+            } catch (error) {}
+          } else {
+            try {
+              Sound.wood();
+            } catch (error) {}
+          }
+          BG.points[move.to][player] += 1;
+        }
+
+        if (!isAI) {
+          BG.userMoves += 1;
+        }
+
+        if (player === 'user' && BG.off.user >= 15) {
+          bgFinish('user');
+          return;
+        }
+        if (player === 'ai' && BG.off.ai >= 15) {
+          bgFinish('ai');
+          return;
+        }
+
+        var turnEnded = BG.remaining.length === 0 ||
+          !bgAllMoves(player, BG.remaining).length;
+        if (turnEnded) {
+          BG.busy = true;
+        }
+        bgRender();
+        bgPlayMoveGhost(player, move, sourceRect);
+
+        if (turnEnded) {
+          bgSetStatus(player === 'user' ? 'Ход завершён.' : 'Компьютер завершил ход.');
+          bgAfter(bgEndTurn, 350);
+          return;
+        }
+        if (isAI) {
+          bgSetStatus('Компьютер ходит…');
+          bgAfter(bgAIStep, 420);
+        } else {
+          bgSetStatus('Ваш ход — выберите пуговицу.');
+          bgResetHint();
+        }
+      }
+
+      function bgEndTurn() {
+        if (!BG.active || BG.phase !== 'playing') {
+          return;
+        }
+        BG.selected = null;
+        BG.legalMoves = [];
+        BG.hint = null;
+        bgStopHintTimer();
+        BG.remaining = [];
+        BG.dice = [];
+        if (BG.off.user >= 15) {
+          bgFinish('user');
+          return;
+        }
+        if (BG.off.ai >= 15) {
+          bgFinish('ai');
+          return;
+        }
+        if (BG.turn === 'user') {
+          BG.turn = 'ai';
+          BG.busy = false;
+          bgSetStatus('Компьютер бросает кубик…');
+          bgRender();
+          bgAfter(bgAIRoll, 650);
+        } else {
+          BG.turn = 'user';
+          BG.busy = false;
+          bgSetStatus('Ваш ход — бросьте кубик.');
+          bgRender();
+        }
+      }
+
+      function bgAnimateDice(finalDice, callback) {
+        if (!BG.active) {
+          return;
+        }
+        BG.dice = [
+          1 + Math.floor(Math.random() * 6),
+          1 + Math.floor(Math.random() * 6)
+        ];
+        bgRenderDice();
+        bgDie1.classList.add('is-rolling');
+        bgDie2.classList.add('is-rolling');
+        var frames = 0;
+        var interval = window.setInterval(function () {
+          if (!BG.active) {
+            window.clearInterval(interval);
+            return;
+          }
+          BG.dice = [
+            1 + Math.floor(Math.random() * 6),
+            1 + Math.floor(Math.random() * 6)
+          ];
+          bgRenderDice();
+          frames += 1;
+          if (frames >= 8) {
+            window.clearInterval(interval);
+            BG.intervals = BG.intervals.filter(function (id) {
+              return id !== interval;
+            });
+            bgDie1.classList.remove('is-rolling');
+            bgDie2.classList.remove('is-rolling');
+            BG.dice = finalDice.slice();
+            bgRenderDice();
+            if (BG.active) {
+              callback();
+            }
+          }
+        }, 75);
+        BG.intervals.push(interval);
+      }
+
+      function bgOpeningRoll() {
+        if (!BG.active || BG.phase !== 'opening' || BG.busy) {
+          return;
+        }
+        BG.busy = true;
+        bgSetStatus('Бросаем кубики…');
+        bgRenderDice();
+        bgUpdateControls();
+        try {
+          Sound.dice();
+        } catch (error) {}
+        var userDie = 1 + Math.floor(Math.random() * 6);
+        var aiDie = 1 + Math.floor(Math.random() * 6);
+        bgAnimateDice([userDie, aiDie], function () {
+          if (!BG.active) {
+            return;
+          }
+          BG.busy = false;
+          BG.opening = { user: userDie, ai: aiDie };
+          if (userDie === aiDie) {
+            BG.dice = [userDie, aiDie];
+            bgSetStatus('Ничья ' + userDie + ':' + aiDie + ' — бросьте ещё раз.');
+            bgRender();
+            return;
+          }
+          BG.phase = 'playing';
+          BG.dice = [];
+          BG.remaining = [];
+          bgSetupPoints();
+          if (userDie > aiDie) {
+            BG.turn = 'user';
+            bgSetStatus('Вы начинаете (' + userDie + ':' + aiDie + '). Бросьте кубик.');
+            bgRender();
+          } else {
+            BG.turn = 'ai';
+            bgSetStatus('Компьютер начинает (' + userDie + ':' + aiDie + ').');
+            bgRender();
+            bgAfter(bgAIRoll, 800);
+          }
+        });
+      }
+
+      function bgRoll() {
+        if (!BG.active || BG.phase === 'over' || BG.busy) {
+          return;
+        }
+        bgResetHint();
+        if (BG.phase === 'opening') {
+          bgOpeningRoll();
+          return;
+        }
+        if (BG.phase !== 'playing' || BG.turn !== 'user' || BG.remaining.length > 0) {
+          return;
+        }
+        BG.busy = true;
+        BG.userRolls += 1;
+        bgSetStatus('Бросаем кубики…');
+        bgRenderDice();
+        bgUpdateControls();
+        try {
+          Sound.dice();
+        } catch (error) {}
+        var d1 = 1 + Math.floor(Math.random() * 6);
+        var d2 = 1 + Math.floor(Math.random() * 6);
+        bgAnimateDice([d1, d2], function () {
+          if (!BG.active) {
+            return;
+          }
+          BG.busy = false;
+          BG.dice = [d1, d2];
+          BG.remaining = d1 === d2 ? [d1, d1, d1, d1] : [d1, d2];
+          var noMoves = !bgAllMoves('user', BG.remaining).length;
+          if (noMoves) {
+            BG.busy = true;
+          }
+          bgRender();
+          if (noMoves) {
+            bgSetStatus('Ходов нет — ход переходит компьютеру.');
+            bgAfter(bgEndTurn, 900);
+            return;
+          }
+          bgSetStatus('Ваш ход — выберите пуговицу.');
+          bgResetHint();
+        });
+      }
+
+      function bgAIRoll() {
+        if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'ai') {
+          return;
+        }
+        BG.busy = true;
+        bgSetStatus('Компьютер бросает кубик…');
+        bgUpdateControls();
+        try {
+          Sound.dice();
+        } catch (error) {}
+        var d1 = 1 + Math.floor(Math.random() * 6);
+        var d2 = 1 + Math.floor(Math.random() * 6);
+        bgAnimateDice([d1, d2], function () {
+          if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'ai') {
+            return;
+          }
+          BG.busy = false;
+          BG.dice = [d1, d2];
+          BG.remaining = d1 === d2 ? [d1, d1, d1, d1] : [d1, d2];
+          var aiMoves = bgAllMoves('ai', BG.remaining);
+          var aiNoMoves = !aiMoves.length;
+          if (aiNoMoves) {
+            BG.busy = true;
+          }
+          bgRender();
+          if (aiNoMoves) {
+            bgSetStatus('У компьютера нет ходов — ваш ход.');
+            bgAfter(bgEndTurn, 900);
+            return;
+          }
+          bgHighlightAIOptions(aiMoves);
+          bgSetStatus('Компьютер ходит…');
+          bgAfter(bgAIStep, 600);
+        });
+      }
+
+      function bgAIStep() {
+        if (!BG.active || BG.phase !== 'playing' || BG.turn !== 'ai') {
+          return;
+        }
+        var moves = bgAllMoves('ai', BG.remaining);
+        if (!moves.length) {
+          BG.busy = true;
+          bgSetStatus('Компьютер завершил ход.');
+          bgAfter(bgEndTurn, 500);
+          return;
+        }
+        bgApplyMove(bgChooseAIMove(moves), 'ai', true);
+      }
+
+      function bgFinish(winner) {
+        if (BG.phase === 'over') {
+          return;
+        }
+        BG.phase = 'over';
+        BG.busy = true;
+        bgClearTimers();
+        BG.selected = null;
+        BG.legalMoves = [];
+        BG.hint = null;
+        bgRender();
+        if (winner === 'user') {
+          var earned = bgStarsForTurns(BG.userRolls);
+          saveData.stars.backgammon += earned;
+          saveData.wins.backgammon += 1;
+          persistSave();
+          updateStarsUI();
+          updateProgressUI();
+          try {
+            Sound.win();
+          } catch (error) {}
+          bgShowResult(true, earned);
+        } else {
+          try {
+            Sound.trombone();
+          } catch (error) {}
+          bgShowResult(false, 0);
+        }
+      }
+
+      function bgShowResult(win, stars) {
+        BG.resultWin = win;
+        backgammonModalArt.textContent = win ? '🏆' : '😞';
+        backgammonModalKicker.textContent = 'Нарды-пуговки · уровень ' + backgammonLevel;
+        backgammonModalTitle.textContent = win ? 'Победа!' : 'Поражение';
+        backgammonModalText.textContent = win
+          ? 'Вы выбросили все 15 пуговиц за ' + BG.userRolls + ' бросков. Звёзд: ' + stars + '.'
+          : 'Компьютер выбросил все свои пуговицы первым. Попробуйте ещё раз — уровень тот же.';
+        backgammonPrimary.textContent = win ? 'Следующий уровень' : 'Сыграть еще';
+        backgammonReplay.hidden = !win;
+        backgammonSecondary.textContent = 'В меню';
+        renderRewardStars(backgammonRewardStars, win ? stars : 0);
+        backgammonRewardStars.hidden = !win;
+        backgammonModal.hidden = false;
+        document.body.classList.add('modal-open');
+        window.requestAnimationFrame(function () {
+          if (backgammonModal.hidden) {
+            return;
+          }
+          backgammonModal.classList.add('is-open');
+          appEl.inert = true;
+          soundBtn.inert = true;
+          backgammonPrimary.focus({ preventScroll: true });
+        });
+      }
+
+      function hideBackgammonModal() {
+        backgammonModal.classList.remove('is-open');
+        backgammonModal.hidden = true;
+        syncModalInert();
+      }
+
+      function startBackgammonLevel(lvl) {
+        stopBackgammon();
+        backgammonLevel = Math.max(1, Math.floor(Number(lvl) || 1));
+        saveData.levelBackgammon = backgammonLevel;
+        persistSave();
+        BG.active = true;
+        BG.level = backgammonLevel;
+        BG.phase = 'opening';
+        BG.turn = 'user';
+        BG.busy = false;
+        BG.userRolls = 0;
+        BG.userMoves = 0;
+        BG.dice = [];
+        BG.remaining = [];
+        BG.opening = { user: 0, ai: 0 };
+        BG.selected = null;
+        BG.legalMoves = [];
+        BG.hint = null;
+        BG.resultWin = false;
+        BG.timeouts = [];
+        BG.intervals = [];
+        BG.hintTimer = null;
+        bgClearBoard();
+        bgApplyTheme(BG_THEMES[(backgammonLevel - 1) % BG_THEMES.length]);
+        bgLevelEl.textContent = String(backgammonLevel);
+        bgSetStatus('Бросьте кубик, чтобы определить, кто начинает.');
+        bgRender();
+      }
+
+      function enterBackgammon() {
+        hideModal();
+        hideRulesModal();
+        hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
+        cancelTimers();
+        stopPugozhor();
+        stopCatTicker();
+        stopBackgammon();
+        stopSudoku();
+        Sound.stopArcade();
+        Sound.setGameMusic(true);
+        mode = 'backgammon';
+        setActiveScreen(backgammonScreen);
+        updateLevelUI();
+        startBackgammonLevel(backgammonLevel);
+      }
+
+      /* =========================================================
+         SUDOKU — 4×4
+         ========================================================= */
+
+      var SUDOKU_BASES = [
+        [
+          [1, 2, 3, 4],
+          [3, 4, 1, 2],
+          [2, 1, 4, 3],
+          [4, 3, 2, 1]
+        ],
+        [
+          [1, 2, 3, 4],
+          [4, 3, 2, 1],
+          [2, 1, 4, 3],
+          [3, 4, 1, 2]
+        ],
+        [
+          [2, 1, 4, 3],
+          [4, 3, 2, 1],
+          [3, 4, 1, 2],
+          [1, 2, 3, 4]
+        ],
+        [
+          [3, 4, 1, 2],
+          [1, 2, 3, 4],
+          [4, 3, 2, 1],
+          [2, 1, 4, 3]
+        ],
+        [
+          [4, 3, 2, 1],
+          [2, 1, 4, 3],
+          [1, 2, 3, 4],
+          [3, 4, 1, 2]
+        ],
+        [
+          [2, 3, 4, 1],
+          [4, 1, 2, 3],
+          [3, 4, 1, 2],
+          [1, 2, 3, 4]
+        ],
+        [
+          [1, 3, 2, 4],
+          [4, 2, 3, 1],
+          [2, 4, 1, 3],
+          [3, 1, 4, 2]
+        ],
+        [
+          [3, 1, 2, 4],
+          [2, 4, 3, 1],
+          [1, 3, 4, 2],
+          [4, 2, 1, 3]
+        ],
+        [
+          [4, 1, 3, 2],
+          [2, 3, 1, 4],
+          [3, 2, 4, 1],
+          [1, 4, 2, 3]
+        ]
+      ];
+
+      var SUDOKU_THEMES = [
+        { page: '#fbf0f5', glow: 'rgba(240, 180, 210, 0.34)' },
+        { page: '#eef8f2', glow: 'rgba(160, 220, 190, 0.32)' },
+        { page: '#fff4ea', glow: 'rgba(245, 190, 150, 0.30)' },
+        { page: '#eef4fc', glow: 'rgba(160, 200, 240, 0.32)' },
+        { page: '#f8f0fc', glow: 'rgba(205, 170, 235, 0.32)' },
+        { page: '#fcf8e8', glow: 'rgba(230, 215, 140, 0.28)' }
+      ];
+
+      var SUDOKU = {
+        active: false,
+        level: 1,
+        values: [],
+        fixed: [],
+        wrong: [],
+        solution: [],
+        selected: null,
+        errors: 0,
+        holes: 0,
+        locked: false,
+        resultWin: false
+      };
+
+      function sudokuEmptyGrid() {
+        return [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0]
+        ];
+      }
+
+      function sudokuApplyTheme(lvl) {
+        var theme = SUDOKU_THEMES[(Math.max(1, lvl) - 1) % SUDOKU_THEMES.length];
+        if (!sudokuScreen) {
+          return;
+        }
+        sudokuScreen.style.setProperty('--sd-page', theme.page);
+        sudokuScreen.style.setProperty('--sd-glow', theme.glow);
+      }
+
+      function sudokuSetStatus(text) {
+        if (sudokuStatusEl) {
+          sudokuStatusEl.textContent = text;
+        }
+      }
+
+      function sudokuIsValid(grid) {
+        var r;
+        var c;
+        var i;
+        for (r = 0; r < 4; r += 1) {
+          var rowSeen = {};
+          var colSeen = {};
+          for (c = 0; c < 4; c += 1) {
+            if (grid[r][c]) {
+              if (rowSeen[grid[r][c]]) {
+                return false;
+              }
+              rowSeen[grid[r][c]] = true;
+            }
+            if (grid[c][r]) {
+              if (colSeen[grid[c][r]]) {
+                return false;
+              }
+              colSeen[grid[c][r]] = true;
+            }
+          }
+        }
+        for (var br = 0; br < 4; br += 2) {
+          for (var bc = 0; bc < 4; bc += 2) {
+            var seen = {};
+            for (r = br; r < br + 2; r += 1) {
+              for (c = bc; c < bc + 2; c += 1) {
+                var value = grid[r][c];
+                if (!value) {
+                  continue;
+                }
+                if (seen[value]) {
+                  return false;
+                }
+                seen[value] = true;
+              }
+            }
+          }
+        }
+        return true;
+      }
+
+      function sudokuCanPlace(row, col, value) {
+        if (value < 1 || value > 4) {
+          return false;
+        }
+        var i;
+        for (i = 0; i < 4; i += 1) {
+          if (i !== col && SUDOKU.values[row][i] === value) {
+            return false;
+          }
+          if (i !== row && SUDOKU.values[i][col] === value) {
+            return false;
+          }
+        }
+        var startRow = Math.floor(row / 2) * 2;
+        var startCol = Math.floor(col / 2) * 2;
+        for (var r = startRow; r < startRow + 2; r += 1) {
+          for (var c = startCol; c < startCol + 2; c += 1) {
+            if ((r !== row || c !== col) && SUDOKU.values[r][c] === value) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      function sudokuProgress() {
+        var filled = 0;
+        for (var r = 0; r < 4; r += 1) {
+          for (var c = 0; c < 4; c += 1) {
+            if (!SUDOKU.fixed[r][c] && SUDOKU.values[r][c] > 0 && !SUDOKU.wrong[r][c]) {
+              filled += 1;
+            }
+          }
+        }
+        return { filled: filled, total: SUDOKU.holes };
+      }
+
+      function sudokuIsComplete() {
+        for (var r = 0; r < 4; r += 1) {
+          for (var c = 0; c < 4; c += 1) {
+            if (!SUDOKU.values[r][c]) {
+              return false;
+            }
+          }
+        }
+        return sudokuIsValid(SUDOKU.values);
+      }
+
+      function sudokuSetPanel(show) {
+        if (sudokuPanel) {
+          sudokuPanel.hidden = !show;
+        }
+      }
+
+      function sudokuRender() {
+        if (!sudokuBoardEl) {
+          return;
+        }
+        sudokuBoardEl.textContent = '';
+        var blockClasses = ['a', 'b', 'c', 'd'];
+
+        for (var r = 0; r < 4; r += 1) {
+          for (var c = 0; c < 4; c += 1) {
+            var value = SUDOKU.values[r][c];
+            var isFixed = SUDOKU.fixed[r][c];
+            var isWrong = SUDOKU.wrong[r][c];
+            var blockIndex = (r < 2 ? 0 : 2) + (c < 2 ? 0 : 1);
+            var cell = document.createElement('button');
+            cell.type = 'button';
+            cell.className = 'sudoku-cell sudoku-cell--block-' + blockClasses[blockIndex];
+            if (SUDOKU.selected && SUDOKU.selected.row === r && SUDOKU.selected.col === c) {
+              cell.classList.add('is-selected');
+            }
+            cell.setAttribute('data-row', String(r));
+            cell.setAttribute('data-col', String(c));
+            cell.setAttribute('role', 'gridcell');
+            cell.setAttribute('aria-label',
+              'Строка ' + (r + 1) + ', столбец ' + (c + 1) + ': ' +
+              (value ? value + (isFixed ? ', закреплено' : '') : 'пусто') +
+              (isWrong ? ', ошибка' : ''));
+
+            var button = document.createElement('span');
+            var buttonClasses = 'sudoku-button';
+            if (!value) {
+              buttonClasses += ' sudoku-button--empty';
+            } else {
+              buttonClasses += ' sudoku-button--v' + value;
+              if (isFixed) {
+                buttonClasses += ' sudoku-button--given';
+              }
+              if (isWrong) {
+                buttonClasses += ' sudoku-button--wrong';
+              }
+              button.textContent = String(value);
+            }
+            button.className = buttonClasses;
+            cell.appendChild(button);
+            (function (row, col, element) {
+              bindTap(element, function () {
+                sudokuSelectCell(row, col);
+              });
+            })(r, c, cell);
+            sudokuBoardEl.appendChild(cell);
+          }
+        }
+
+        var progress = sudokuProgress();
+        if (sudokuProgressEl) {
+          sudokuProgressEl.textContent = 'Заполнено ' + progress.filled + ' из ' + progress.total;
+        }
+        if (sudokuErrorsEl) {
+          sudokuErrorsEl.textContent = 'Ошибок: ' + SUDOKU.errors;
+        }
+        if (SUDOKU.selected) {
+          if (sudokuPanelTitle) {
+            sudokuPanelTitle.textContent =
+              'Строка ' + (SUDOKU.selected.row + 1) +
+              ', столбец ' + (SUDOKU.selected.col + 1);
+          }
+        }
+      }
+
+      function sudokuSelectCell(row, col) {
+        if (!SUDOKU.active || SUDOKU.locked) {
+          return;
+        }
+        if (SUDOKU.fixed[row][col]) {
+          SUDOKU.selected = null;
+          sudokuSetPanel(false);
+          sudokuSetStatus('Эта пуговица уже стоит — выберите пустую.');
+          sudokuRender();
+          return;
+        }
+        SUDOKU.selected = { row: row, col: col };
+        sudokuSetPanel(true);
+        sudokuSetStatus('Выберите цифру 1–4.');
+        sudokuRender();
+      }
+
+      function sudokuPlaceChoice(value) {
+        if (!SUDOKU.active || SUDOKU.locked || !SUDOKU.selected) {
+          return;
+        }
+        var row = SUDOKU.selected.row;
+        var col = SUDOKU.selected.col;
+        if (SUDOKU.fixed[row][col]) {
+          return;
+        }
+        if (sudokuCanPlace(row, col, value)) {
+          SUDOKU.values[row][col] = value;
+          SUDOKU.wrong[row][col] = false;
+          SUDOKU.selected = null;
+          sudokuSetPanel(false);
+          try {
+            Sound.sudokuPlace();
+          } catch (error) {}
+          sudokuRender();
+          if (sudokuIsComplete()) {
+            sudokuFinish();
+            return;
+          }
+          sudokuSetStatus('Верно! Выберите следующую пустую пуговицу.');
+        } else {
+          SUDOKU.values[row][col] = value;
+          SUDOKU.wrong[row][col] = true;
+          SUDOKU.errors += 1;
+          try {
+            Sound.sudokuError();
+          } catch (error) {}
+          sudokuSetStatus('Неверно: эта цифра уже есть в строке, столбце или квадрате.');
+          sudokuRender();
+        }
+      }
+
+      function showSudokuResult() {
+        if (!sudokuModal) {
+          return;
+        }
+        sudokuModal.hidden = false;
+        document.body.classList.add('modal-open');
+        window.requestAnimationFrame(function () {
+          if (sudokuModal.hidden) {
+            return;
+          }
+          sudokuModal.classList.add('is-open');
+          appEl.inert = true;
+          soundBtn.inert = true;
+          if (sudokuPrimary) {
+            sudokuPrimary.focus({ preventScroll: true });
+          }
+        });
+      }
+
+      function hideSudokuModal() {
+        if (!sudokuModal) {
+          return;
+        }
+        sudokuModal.classList.remove('is-open');
+        sudokuModal.hidden = true;
+        syncModalInert();
+      }
+
+      function sudokuFinish() {
+        if (SUDOKU.locked || SUDOKU.resultWin) {
+          return;
+        }
+        SUDOKU.locked = true;
+        SUDOKU.resultWin = true;
+        SUDOKU.selected = null;
+        for (var wr = 0; wr < 4; wr += 1) {
+          for (var wc = 0; wc < 4; wc += 1) {
+            SUDOKU.wrong[wr][wc] = false;
+          }
+        }
+        sudokuSetPanel(false);
+        sudokuRender();
+        try {
+          Sound.win();
+        } catch (error) {}
+        saveData.stars.sudoku += 3;
+        saveData.wins.sudoku += 1;
+        persistSave();
+        updateStarsUI();
+        updateProgressUI();
+        if (sudokuModalKicker) {
+          sudokuModalKicker.textContent = 'Пуговичный судоку · уровень ' + sudokuLevel;
+        }
+        if (sudokuModalText) {
+          sudokuModalText.textContent = 'Все пуговицы встали на свои места!';
+        }
+        renderRewardStars(sudokuRewardStars, 3);
+        sudokuSetStatus('Победа! Все пуговицы на своих местах.');
+        showSudokuResult();
+      }
+
+      function startSudokuLevel(lvl, isRestart) {
+        stopSudoku();
+        sudokuLevel = Math.max(1, Math.floor(Number(lvl) || 1));
+        saveData.levelSudoku = sudokuLevel;
+        persistSave();
+        var puzzleIndex = isRestart
+          ? Math.floor(Math.random() * SUDOKU_BASES.length)
+          : (sudokuLevel - 1) % SUDOKU_BASES.length;
+        var puzzle = SUDOKU_BASES[puzzleIndex];
+
+        SUDOKU.active = true;
+        SUDOKU.level = sudokuLevel;
+        SUDOKU.values = puzzle.map(function (row) { return row.slice(); });
+        SUDOKU.solution = puzzle.map(function (row) { return row.slice(); });
+        SUDOKU.fixed = [
+          [true, true, true, true],
+          [true, true, true, true],
+          [true, true, true, true],
+          [true, true, true, true]
+        ];
+        SUDOKU.wrong = sudokuEmptyGrid().map(function (row) {
+          return row.map(function () { return false; });
+        });
+        SUDOKU.selected = null;
+        SUDOKU.errors = 0;
+        SUDOKU.locked = false;
+        SUDOKU.resultWin = false;
+
+        var cells = [];
+        for (var i = 0; i < 16; i += 1) {
+          cells.push(i);
+        }
+        SUDOKU.holes = sudokuLevel <= 4
+          ? 8 + Math.floor(Math.random() * 3)
+          : 12;
+        for (var h = 0; h < SUDOKU.holes; h += 1) {
+          var pick = Math.floor(Math.random() * cells.length);
+          var flat = cells.splice(pick, 1)[0];
+          var row = Math.floor(flat / 4);
+          var col = flat % 4;
+          SUDOKU.values[row][col] = 0;
+          SUDOKU.fixed[row][col] = false;
+        }
+
+        sudokuLevelEl.textContent = String(sudokuLevel);
+        sudokuCardLevel.textContent = 'Ур. ' + sudokuLevel;
+        sudokuCardLevel.hidden = sudokuLevel <= 1;
+        sudokuApplyTheme(sudokuLevel);
+        sudokuSetPanel(false);
+        sudokuSetStatus('Выберите пустую пуговицу.');
+        sudokuRender();
+      }
+
+      function stopSudoku() {
+        SUDOKU.active = false;
+        SUDOKU.locked = true;
+        SUDOKU.selected = null;
+        SUDOKU.resultWin = false;
+        sudokuSetPanel(false);
+      }
+
+      function enterSudoku() {
+        hideModal();
+        hideRulesModal();
+        hidePugozhorModal();
+        hideBackgammonModal();
+        hideSudokuModal();
+        cancelTimers();
+        stopPugozhor();
+        stopCatTicker();
+        stopBackgammon();
+        stopSudoku();
+        Sound.stopArcade();
+        Sound.setGameMusic(true);
+        mode = 'sudoku';
+        setActiveScreen(sudokuScreen);
+        updateLevelUI();
+        startSudokuLevel(sudokuLevel);
       }
 
       /* =========================================================
@@ -6087,13 +9968,14 @@
       });
 
       bindTap(soundBtn, function () {
-        var on = Sound.isEnabled();
-        try {
-          on = Sound.toggle();
-        } catch (error) {
-          on = Sound.isEnabled();
-        }
+        var next = !Sound.isEnabled();
+        var on = Sound.setEnabled(next);
         setSoundUI(on);
+        try {
+          window.localStorage.setItem(SOUND_KEY, on ? 'on' : 'off');
+        } catch (error) {
+          /* private mode */
+        }
         if (on) {
           audioUnlocked = true;
           document.removeEventListener('pointerdown', unlockAudio, true);
@@ -6145,6 +10027,8 @@
 
       wireCardRules(cardHelpPugoryad, 'pugoryad');
       wireCardRules(cardHelpPugozhor, 'pugozhor');
+      wireCardRules(cardHelpBackgammon, 'backgammon');
+      wireCardRules(cardHelpSudoku, 'sudoku');
 
       bindTap(rulesOk, function () {
         hideRulesModal();
@@ -6184,6 +10068,116 @@
           persistSave();
         }
         updateProgressUI();
+        showMenu();
+      });
+
+      bindTap(backgammonCard, function () {
+        enterBackgammon();
+        try {
+          Sound.enable();
+        } catch (error) {
+          /* ignore */
+        }
+      });
+
+      bindTap(bgBack, function () {
+        stopBackgammon();
+        showMenu();
+      });
+
+      bindTap(bgRollBtn, function () {
+        bgRoll();
+      });
+
+      bgBoardEl.addEventListener('click', bgBoardClick);
+
+      bindTap(backgammonPrimary, function () {
+        var wasWin = BG.resultWin;
+        hideBackgammonModal();
+        if (wasWin) {
+          backgammonLevel += 1;
+          saveData.levelBackgammon = backgammonLevel;
+          persistSave();
+          updateProgressUI();
+        }
+        startBackgammonLevel(backgammonLevel);
+      });
+
+      bindTap(backgammonReplay, function () {
+        hideBackgammonModal();
+        startBackgammonLevel(backgammonLevel);
+      });
+
+      bindTap(backgammonSecondary, function () {
+        var wasWin = BG.resultWin;
+        hideBackgammonModal();
+        if (wasWin) {
+          backgammonLevel += 1;
+          saveData.levelBackgammon = backgammonLevel;
+          persistSave();
+          updateProgressUI();
+        }
+        showMenu();
+      });
+
+      bindTap(sudokuCard, function () {
+        enterSudoku();
+        try {
+          Sound.enable();
+        } catch (error) {
+          /* ignore */
+        }
+      });
+
+      bindTap(sudokuBack, function () {
+        stopSudoku();
+        showMenu();
+      });
+
+      bindTap(sudokuRestart, function () {
+        if (SUDOKU.active) {
+          startSudokuLevel(sudokuLevel, true);
+        }
+      });
+
+      bindTap(sudokuMenu, function () {
+        stopSudoku();
+        showMenu();
+      });
+
+      if (sudokuChoicesEl) {
+        Array.prototype.forEach.call(
+          sudokuChoicesEl.querySelectorAll('[data-sudoku-value]'),
+          function (button) {
+            bindTap(button, function () {
+              sudokuPlaceChoice(Number(button.getAttribute('data-sudoku-value')));
+            });
+          }
+        );
+      }
+
+      bindTap(sudokuPrimary, function () {
+        var wasWin = SUDOKU.resultWin;
+        hideSudokuModal();
+        if (wasWin) {
+          sudokuLevel += 1;
+          saveData.levelSudoku = sudokuLevel;
+          persistSave();
+          updateProgressUI();
+        }
+        startSudokuLevel(sudokuLevel);
+      });
+
+      bindTap(sudokuSecondary, function () {
+        var wasWin = SUDOKU.resultWin;
+        hideSudokuModal();
+        if (wasWin) {
+          sudokuLevel += 1;
+          saveData.levelSudoku = sudokuLevel;
+          persistSave();
+          updateProgressUI();
+        }
+        stopSudoku();
         showMenu();
       });
 
@@ -6378,11 +10372,19 @@
       updateProgressUI();
       applyCatDecay();
       persistSave();
+      var storedSound = true;
+      try {
+        storedSound = window.localStorage.getItem(SOUND_KEY) !== 'off';
+      } catch (error) {
+        storedSound = true;
+      }
+      Sound.setEnabled(storedSound);
       setSoundUI(Sound.isEnabled());
       if (!Sound.isSupported()) {
         soundBtn.hidden = true;
       }
       showMenu();
+      startCatLifeTicker();
     })();
   </script>
 </body>
