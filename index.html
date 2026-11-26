@@ -1078,8 +1078,9 @@
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       box-shadow:
-        0 16px 32px -18px var(--shadow-strong),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 14px 28px -16px rgba(70, 50, 80, 0.42),
+        inset 0 2px 2px rgba(255, 255, 255, 0.98),
+        inset 0 -3px 5px rgba(90, 70, 100, 0.14);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       transition: transform 0.18s ease, background 0.18s ease;
@@ -1112,7 +1113,6 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
-
     .sound-btn .spk-body {
       fill: currentColor;
       stroke: none;
@@ -3755,6 +3755,29 @@
       animation: sudokuCellError 0.5s ease;
     }
 
+    .sudoku-cell.is-hint {
+      z-index: 4;
+      outline: 3px solid rgba(255, 199, 92, 0.92);
+      outline-offset: -2px;
+      box-shadow:
+        0 0 0 2px rgba(255, 211, 120, 0.75),
+        0 0 14px 3px rgba(255, 211, 120, 0.32);
+      animation: sudokuHintPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes sudokuHintPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 0 2px rgba(255, 211, 120, 0.75),
+          0 0 14px 3px rgba(255, 211, 120, 0.32);
+      }
+      50% {
+        box-shadow:
+          0 0 0 4px rgba(255, 199, 92, 0.95),
+          0 0 22px 8px rgba(255, 199, 92, 0.5);
+      }
+    }
+
     .sudoku-cell.is-error .sudoku-button--empty {
       background: radial-gradient(circle at 34% 26%, #ffe1e7 0 12%, #ef7e96 18% 46%, #b53753 72% 100%);
       border-color: #9c2d45;
@@ -4121,10 +4144,10 @@
       top: calc(74px + env(safe-area-inset-top, 0px));
       right: calc(14px + env(safe-area-inset-right, 0px));
       z-index: 39;
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
-      min-height: 44px;
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      min-height: 52px;
       display: grid;
       place-items: center;
       padding: 0;
@@ -4147,7 +4170,7 @@
       width: 23px;
       height: 23px;
       display: block;
-      filter: drop-shadow(0 1px 1px rgba(90, 60, 20, 0.28));
+      filter: drop-shadow(0 1px 1px rgba(90, 60, 20, 0.3));
     }
 
     .progress-link:hover {
@@ -4259,6 +4282,20 @@
     .screen--sudoku,
     .screen--pugozhor {
       overscroll-behavior: contain;
+    }
+
+    /* Keep the fixed key button from sitting on top of the first rows
+       on narrow screens. The right gutter is empty under the button. */
+    @media (max-width: 740px) {
+      .screen--menu .hub-lead,
+      .screen--menu .star-strip,
+      .screen--game .status,
+      .screen--pugozhor .pugozhor-hud,
+      .screen--backgammon .bg-status,
+      .screen--sudoku .sudoku-status,
+      .screen--sudoku .sudoku-actions {
+        padding-right: 62px;
+      }
     }
 
   </style>
@@ -4857,9 +4894,9 @@
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <defs>
         <linearGradient id="progressKeyGrad" x1="4" y1="4" x2="21" y2="21" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stop-color="#fff9df"/>
-          <stop offset="0.42" stop-color="#f4cf6a"/>
-          <stop offset="1" stop-color="#c58a29"/>
+          <stop offset="0" stop-color="#ffffff"/>
+          <stop offset="0.5" stop-color="#fff9e8"/>
+          <stop offset="1" stop-color="#ffe6a6"/>
         </linearGradient>
       </defs>
       <g fill="none" stroke="url(#progressKeyGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -5266,6 +5303,7 @@
 
       var mode = 'menu';
       var board = [];
+      var inputReadyAt = 0;
       var level = saveData.levelPugoryad;
       var pugozhorLevel = saveData.levelPugozhor;
       var backgammonLevel = saveData.levelBackgammon;
@@ -5462,16 +5500,90 @@
         var ARCADE_MUSIC_GAIN = 0.28;
 
         var TRACKS = [
-          { bpm: 62, pattern: [0, 2, 1, 3, 4, 2, 5, 3], chords: [[60, 64, 67, 71], [57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 67]], amp: 0.072, pad: 0.05, decay: 0.95, bright: false, octave: 0 },
-          { bpm: 58, pattern: [0, 1, 3, 2, 4, 3, 1, 5], chords: [[53, 57, 60, 64], [60, 64, 67, 71], [62, 65, 69, 72], [58, 62, 65, 69]], amp: 0.07, pad: 0.045, decay: 1.1, bright: true, octave: 0 },
-          { bpm: 66, pattern: [0, 2, 1, 4, 3, 2, 1, 3], chords: [[57, 60, 64, 67], [53, 57, 60, 64], [60, 64, 67, 71], [55, 59, 62, 67]], amp: 0.068, pad: 0.05, decay: 1, bright: false, octave: 0 },
-          { bpm: 60, pattern: [0, 2, 3, 1, 4, 3, 2, 5], chords: [[62, 66, 69, 73], [59, 62, 66, 69], [55, 59, 62, 66], [57, 61, 64, 67]], amp: 0.074, pad: 0.052, decay: 0.9, bright: true, octave: 0 },
-          { bpm: 56, pattern: [0, 3, 1, 2, 4, 1, 3, 2], chords: [[64, 68, 71, 75], [61, 64, 68, 71], [57, 61, 64, 68], [59, 63, 66, 69]], amp: 0.066, pad: 0.048, decay: 1.2, bright: false, octave: 12 },
-          { bpm: 68, pattern: [0, 1, 2, 4, 3, 2, 1, 3], chords: [[55, 59, 62, 66], [52, 55, 59, 62], [60, 64, 67, 71], [62, 66, 69, 72]], amp: 0.07, pad: 0.045, decay: 0.85, bright: false, octave: 0 },
-          { bpm: 54, pattern: [0, 2, 1, 3, 4, 2, 5, 3], chords: [[58, 62, 65, 69], [55, 58, 62, 65], [51, 55, 58, 62], [53, 57, 60, 63]], amp: 0.065, pad: 0.055, decay: 1.35, bright: false, octave: 0 },
-          { bpm: 64, pattern: [0, 2, 4, 1, 3, 2, 0, 5], chords: [[62, 65, 69, 72], [55, 59, 62, 65], [60, 64, 67, 71], [57, 60, 64, 67]], amp: 0.07, pad: 0.046, decay: 0.95, bright: true, octave: 0 },
-          { bpm: 52, pattern: [0, 1, 2, 3, 4, 3, 2, 1], chords: [[60, 64, 67, 71], [53, 57, 60, 64], [62, 65, 69, 72], [55, 59, 62, 65]], amp: 0.063, pad: 0.055, decay: 1.4, bright: false, octave: 0 },
-          { bpm: 61, pattern: [0, 2, 3, 4, 1, 3, 5, 2], chords: [[57, 61, 64, 68], [54, 57, 61, 64], [62, 66, 69, 73], [64, 68, 71, 74]], amp: 0.072, pad: 0.05, decay: 1, bright: true, octave: 0 }
+          {
+            name: 'sunny', bpm: 104, lead: 'piano',
+            pattern: [0, 2, 1, 3, 2, 4, 3, 5],
+            chords: [[60, 64, 67, 72], [57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 67]],
+            amp: 0.052, pad: 0.014, decay: 0.5, bright: true, octave: 0,
+            drums: 'pop', kick: 0.1, snare: 0.055, hat: 0.018, bass: 0.05
+          },
+          {
+            name: 'bounce', bpm: 112, lead: 'piano',
+            pattern: [0, 1, 2, 4, 3, 2, 1, 5],
+            chords: [[62, 65, 69, 72], [58, 62, 65, 69], [60, 64, 67, 72], [55, 59, 62, 65]],
+            amp: 0.05, pad: 0.013, decay: 0.42, bright: true, octave: 0,
+            drums: 'bounce', kick: 0.105, snare: 0.06, hat: 0.021, bass: 0.055
+          },
+          {
+            name: 'skip', bpm: 96, lead: 'piano',
+            pattern: [0, 2, 3, 1, 4, 2, 5, 3],
+            chords: [[57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 66], [60, 64, 67, 71]],
+            amp: 0.055, pad: 0.015, decay: 0.48, bright: true, octave: 0,
+            drums: 'swing', kick: 0.09, snare: 0.05, hat: 0.016, bass: 0.045
+          },
+          {
+            name: 'sparkle', bpm: 100, lead: 'synth',
+            pattern: [0, 3, 1, 2, 4, 1, 5, 2],
+            chords: [[60, 64, 67, 71], [57, 61, 64, 68], [53, 57, 60, 64], [55, 59, 62, 67]],
+            amp: 0.052, pad: 0.014, decay: 0.4, bright: true, octave: 12,
+            drums: 'drive', kick: 0.1, snare: 0.055, hat: 0.02, bass: 0.05
+          },
+          {
+            name: 'fado-amor', bpm: 88, lead: 'guitar',
+            pattern: [0, 2, 1, 4, 3, 2, 4, 1],
+            chords: [[57, 60, 64, 67], [50, 53, 57, 60], [55, 59, 62, 65], [57, 61, 64, 67]],
+            amp: 0.056, pad: 0.012, decay: 0.55, bright: false, octave: 0,
+            drums: 'fado', kick: 0.07, snare: 0.04, hat: 0.013, bass: 0.045
+          },
+          {
+            name: 'flute-meadow', bpm: 84, lead: 'flute',
+            pattern: [0, 2, 4, 2, 1, 3, 5, 3],
+            chords: [[60, 64, 67, 71], [57, 60, 64, 67], [53, 57, 60, 64], [55, 59, 62, 65]],
+            amp: 0.047, pad: 0.017, decay: 0.85, bright: false, octave: 12,
+            drums: 'soft', kick: 0.055, snare: 0.028, hat: 0.012, bass: 0.035
+          },
+          {
+            name: 'violin-dusk', bpm: 76, lead: 'violin',
+            pattern: [0, 3, 2, 4, 1, 3, 2, 5],
+            chords: [[53, 57, 60, 64], [50, 53, 57, 60], [55, 58, 62, 65], [57, 60, 64, 67]],
+            amp: 0.044, pad: 0.018, decay: 1.05, bright: false, octave: 0,
+            drums: 'soft', kick: 0.045, snare: 0.022, hat: 0.009, bass: 0.03
+          },
+          {
+            name: 'neon', bpm: 118, lead: 'synth',
+            pattern: [0, 1, 3, 2, 4, 3, 5, 1],
+            chords: [[55, 59, 62, 67], [52, 55, 59, 62], [60, 64, 67, 71], [57, 61, 64, 67]],
+            amp: 0.05, pad: 0.012, decay: 0.32, bright: true, octave: 12,
+            drums: 'drive', kick: 0.11, snare: 0.06, hat: 0.022, bass: 0.055
+          },
+          {
+            name: 'waltz', bpm: 92, lead: 'piano',
+            pattern: [0, 1, 2, 3, 4, 3, 2, 1],
+            chords: [[60, 64, 67, 72], [57, 60, 64, 67], [55, 59, 62, 65], [53, 57, 60, 64]],
+            amp: 0.052, pad: 0.016, decay: 0.58, bright: false, octave: 0,
+            drums: 'soft', kick: 0.05, snare: 0.025, hat: 0.01, bass: 0.035
+          },
+          {
+            name: 'flute-play', bpm: 108, lead: 'flute',
+            pattern: [0, 3, 1, 2, 4, 2, 5, 3],
+            chords: [[62, 65, 69, 72], [58, 62, 65, 69], [60, 64, 67, 72], [55, 59, 62, 65]],
+            amp: 0.046, pad: 0.013, decay: 0.65, bright: true, octave: 12,
+            drums: 'bounce', kick: 0.065, snare: 0.035, hat: 0.016, bass: 0.04
+          },
+          {
+            name: 'fado-night', bpm: 80, lead: 'guitar',
+            pattern: [0, 2, 3, 1, 4, 3, 2, 4],
+            chords: [[57, 60, 64, 67], [52, 55, 59, 62], [53, 57, 60, 64], [55, 58, 62, 65]],
+            amp: 0.055, pad: 0.013, decay: 0.6, bright: false, octave: 0,
+            drums: 'fado', kick: 0.06, snare: 0.035, hat: 0.011, bass: 0.04
+          },
+          {
+            name: 'dream', bpm: 90, lead: 'synth',
+            pattern: [0, 2, 1, 4, 2, 3, 5, 1],
+            chords: [[53, 57, 60, 65], [50, 53, 57, 60], [55, 59, 62, 67], [57, 60, 64, 69]],
+            amp: 0.045, pad: 0.019, decay: 0.9, bright: false, octave: 0,
+            drums: 'soft', kick: 0.045, snare: 0.02, hat: 0.008, bass: 0.03
+          }
         ];
 
         function createContext() {
@@ -5489,7 +5601,7 @@
             sfxBus.connect(master);
 
             musicBus = ctx.createGain();
-            musicBus.gain.value = gameDucked ? 0.105 : 0.42;
+            musicBus.gain.value = gameDucked ? 0.09 : 0.32;
 
             var lowpass = ctx.createBiquadFilter();
             lowpass.type = 'lowpass';
@@ -5543,7 +5655,7 @@
 
         function setGameMusic(ducked) {
           gameDucked = !!ducked;
-          var target = gameDucked ? 0.105 : 0.42;
+          var target = gameDucked ? 0.09 : 0.32;
           rampMusicBus(target, gameDucked ? 0.9 : 1.1);
         }
 
@@ -5556,7 +5668,7 @@
           arcadeStep = 0;
           /* The arcade melody is intentionally quiet during Пугожор:
              SFX (chomp, ice, fanfares) must stay clearly audible. */
-          rampMusicBus(0.1, 0.35);
+          rampMusicBus(0.08, 0.35);
           arcadeTimer = window.setInterval(function () {
             if (!ctx || ctx.state !== 'running' || !enabled) {
               return;
@@ -5579,7 +5691,7 @@
             window.clearInterval(arcadeTimer);
             arcadeTimer = null;
           }
-          rampMusicBus(gameDucked ? 0.105 : 0.42, 0.4);
+          rampMusicBus(gameDucked ? 0.09 : 0.32, 0.4);
         }
 
         function midiToHz(midi) {
@@ -5595,31 +5707,111 @@
           var left = buffer.getChannelData(0);
           var right = buffer.getChannelData(1);
 
-          function addNote(startSec, midi, durSec, amp, pan, attack, decay, bright) {
+          function addNote(startSec, midi, durSec, amp, pan, attack, decay, bright, timbre) {
             var freq = midiToHz(midi);
             var start = Math.floor(startSec * sr);
             var length = Math.floor(durSec * sr);
             var lg = Math.sqrt((1 - pan) / 2);
             var rg = Math.sqrt((1 + pan) / 2);
+            var voice = timbre || 'piano';
 
             for (var i = 0; i < length; i += 1) {
               var t = i / sr;
-              var attackEnv = Math.min(1, t / attack);
+              var attackEnv = Math.min(1, t / Math.max(0.002, attack));
               var env = attackEnv * Math.exp(-t / decay);
-              var endEnv = Math.min(1, (length - i) / (0.06 * sr));
+              var endEnv = Math.min(1, (length - i) / (0.045 * sr));
               env *= endEnv;
               if (env < 0.0002) {
                 continue;
               }
+
               var phase = 2 * Math.PI * freq * t;
-              var sample = Math.sin(phase) * 0.85 + Math.sin(phase * 1.0035) * 0.15;
-              if (bright) {
-                sample += Math.sin(phase * 2) * 0.08;
+              var sample;
+              if (voice === 'flute') {
+                var vibrato = 1 + 0.0055 * Math.sin(2 * Math.PI * 5.1 * t);
+                phase = 2 * Math.PI * freq * t * vibrato;
+                sample = Math.sin(phase) * 0.91 + Math.sin(phase * 2) * 0.06;
+              } else if (voice === 'violin') {
+                sample = Math.sin(phase) * 0.55 +
+                  Math.sin(phase * 2) * 0.22 +
+                  Math.sin(phase * 3) * 0.13 +
+                  Math.sin(phase * 4) * 0.055 +
+                  Math.sin(phase * 5) * 0.025;
+              } else if (voice === 'guitar') {
+                sample = Math.sin(phase) * 0.7 +
+                  Math.sin(phase * 2) * 0.24 +
+                  Math.sin(phase * 3) * 0.08 +
+                  Math.sin(phase * 4) * 0.03;
+              } else if (voice === 'synth') {
+                sample = Math.sin(phase) * 0.58 +
+                  Math.sin(phase * 2) * 0.24 +
+                  Math.sin(phase * 3) * 0.12 +
+                  Math.sin(phase * 4) * 0.05;
+              } else if (voice === 'bass') {
+                sample = Math.sin(phase) * 0.9 + Math.sin(phase * 2) * 0.1;
+              } else {
+                /* Piano-like electric piano: clean, slightly detuned harmonics. */
+                sample = Math.sin(phase) * 0.66 +
+                  Math.sin(phase * 2) * 0.2 +
+                  Math.sin(phase * 3) * 0.09 +
+                  Math.sin(phase * 4) * 0.035 +
+                  Math.sin(phase * 1.0035) * 0.025;
+              }
+              if (bright && voice !== 'flute' && voice !== 'violin') {
+                sample += Math.sin(phase * 5) * 0.018;
               }
               sample *= env * amp;
-              var index = (start + i) % total;
+              var index = ((start + i) % total + total) % total;
               left[index] += sample * lg;
               right[index] += sample * rg;
+            }
+          }
+
+          function addKick(startSec, amp) {
+            var start = Math.floor(startSec * sr);
+            var length = Math.floor(0.26 * sr);
+            var phase = 0;
+            for (var i = 0; i < length; i += 1) {
+              var t = i / sr;
+              var freq = 46 + 110 * Math.exp(-t * 28);
+              phase += (2 * Math.PI * freq) / sr;
+              var env = Math.exp(-t * 16);
+              var sample = Math.sin(phase) * env * amp;
+              var index = ((start + i) % total + total) % total;
+              left[index] += sample;
+              right[index] += sample;
+            }
+          }
+
+          function addSnare(startSec, amp) {
+            var start = Math.floor(startSec * sr);
+            var length = Math.floor(0.16 * sr);
+            for (var i = 0; i < length; i += 1) {
+              var t = i / sr;
+              var noise = Math.random() * 2 - 1;
+              var body = Math.sin(2 * Math.PI * 190 * t) * 0.35;
+              var env = Math.exp(-t * 22);
+              var sample = (noise * 0.55 + body) * env * amp;
+              var index = ((start + i) % total + total) % total;
+              left[index] += sample * 0.9;
+              right[index] += sample;
+            }
+          }
+
+          function addHat(startSec, amp) {
+            var start = Math.floor(startSec * sr);
+            var length = Math.floor(0.065 * sr);
+            var prev = 0;
+            for (var i = 0; i < length; i += 1) {
+              var t = i / sr;
+              var noise = Math.random() * 2 - 1;
+              var high = noise - prev * 0.82;
+              prev = noise;
+              var env = Math.exp(-t * 78);
+              var sample = high * env * amp * 0.5;
+              var index = ((start + i) % total + total) % total;
+              left[index] += sample * 0.8;
+              right[index] += sample;
             }
           }
 
@@ -5628,9 +5820,47 @@
             var barStart = bar * 4 * beat;
             var barDur = 4 * beat;
 
-            addNote(barStart, chord[0] - 12, barDur * 1.05, track.pad, 0, 0.5, 2.4, false);
-            addNote(barStart, chord[0], barDur * 0.95, track.pad * 0.45, 0, 0.8, 2.8, false);
+            /* Soft pad, very low level, keeps the harmony together. */
+            addNote(barStart, chord[0] - 12, barDur * 1.02, track.pad, 0, 0.35, 1.8, false);
+            addNote(barStart, chord[0], barDur * 0.9, track.pad * 0.5, 0, 0.6, 2.2, false);
 
+            /* Walking bass on eighths. */
+            var bassSteps = [0, 0, 2, 0, 0, 2, 3, 2];
+            for (var bassStep = 0; bassStep < 8; bassStep += 1) {
+              if (track.drums === 'swing' && bassStep % 2 === 1) {
+                continue;
+              }
+              var bassNote = chord[bassSteps[bassStep] % chord.length] - 24;
+              addNote(
+                barStart + bassStep * beat / 2,
+                bassNote,
+                0.18,
+                track.bass,
+                0,
+                0.006,
+                0.22,
+                false,
+                'bass'
+              );
+            }
+
+            /* Short piano chord stabs on beats 2 and 4. */
+            [1, 3].forEach(function (beatIndex) {
+              chord.forEach(function (note, noteIndex) {
+                addNote(
+                  barStart + beatIndex * beat,
+                  note + 12,
+                  0.14,
+                  track.amp * 0.34,
+                  (noteIndex - 1.5) * 0.12,
+                  0.004,
+                  0.18,
+                  true
+                );
+              });
+            });
+
+            /* Happy piano melody, eighth-note pulse. */
             for (var step = 0; step < 8; step += 1) {
               var patternValue = track.pattern[step];
               if (patternValue === null) {
@@ -5641,16 +5871,103 @@
                 note += 12;
               }
               note += track.octave || 0;
+              var leadDur = track.lead === 'violin' ? 0.62
+                : track.lead === 'flute' ? 0.46
+                  : track.lead === 'guitar' ? 0.28
+                    : 0.22;
+              var leadAttack = track.lead === 'violin' ? 0.055
+                : track.lead === 'flute' ? 0.028
+                  : track.lead === 'guitar' ? 0.004
+                    : 0.006;
               addNote(
                 barStart + step * beat / 2,
                 note,
-                2.2,
+                leadDur,
                 track.amp,
-                step % 2 === 0 ? -0.26 : 0.26,
-                0.02,
+                step % 2 === 0 ? -0.24 : 0.24,
+                leadAttack,
                 track.decay,
-                track.bright
+                track.bright,
+                track.lead
               );
+              if (track.lead === 'guitar') {
+                addNote(
+                  barStart + step * beat / 2 + beat * 0.12,
+                  chord[(step + 1) % chord.length] + 12,
+                  0.3,
+                  track.amp * 0.28,
+                  step % 2 === 0 ? 0.18 : -0.18,
+                  0.003,
+                  0.4,
+                  false,
+                  'guitar'
+                );
+              }
+              if (step % 4 === 2) {
+                addNote(
+                  barStart + step * beat / 2,
+                  note + 12,
+                  0.12,
+                  track.amp * 0.22,
+                  step % 2 === 0 ? 0.2 : -0.2,
+                  0.004,
+                  0.2,
+                  true,
+                  track.lead
+                );
+              }
+            }
+
+            /* Rhythm section: four different patterns. */
+            var drumStyle = track.drums;
+            if (drumStyle === 'bounce') {
+              addKick(barStart, track.kick);
+              addKick(barStart + beat * 2, track.kick);
+              addSnare(barStart + beat, track.snare);
+              addSnare(barStart + beat * 3, track.snare);
+              for (var bh = 0; bh < 8; bh += 1) {
+                addHat(barStart + bh * beat / 2, track.hat * (bh % 2 ? 0.55 : 1));
+              }
+            } else if (drumStyle === 'swing') {
+              addKick(barStart, track.kick);
+              addKick(barStart + beat * 2.5, track.kick * 0.75);
+              addSnare(barStart + beat, track.snare);
+              addSnare(barStart + beat * 3, track.snare);
+              for (var sh = 0; sh < 4; sh += 1) {
+                addHat(barStart + sh * beat + (sh % 2 ? beat * 0.08 : 0), track.hat);
+              }
+            } else if (drumStyle === 'drive') {
+              for (var dk = 0; dk < 4; dk += 1) {
+                addKick(barStart + dk * beat, track.kick * (dk % 2 ? 0.78 : 1));
+              }
+              addSnare(barStart + beat, track.snare);
+              addSnare(barStart + beat * 3, track.snare);
+              for (var dh = 0; dh < 8; dh += 1) {
+                addHat(barStart + dh * beat / 2, track.hat);
+              }
+            } else if (drumStyle === 'fado') {
+              addKick(barStart, track.kick);
+              addKick(barStart + beat * 2, track.kick * 0.7);
+              addSnare(barStart + beat * 2.5, track.snare * 0.8);
+              for (var fh = 0; fh < 4; fh += 1) {
+                addHat(barStart + fh * beat, track.hat * (fh % 2 ? 0.6 : 1));
+              }
+            } else if (drumStyle === 'soft') {
+              addKick(barStart, track.kick);
+              addHat(barStart + beat * 2, track.hat * 0.6);
+              addSnare(barStart + beat * 3, track.snare * 0.5);
+            } else {
+              addKick(barStart, track.kick);
+              addKick(barStart + beat * 2, track.kick);
+              addSnare(barStart + beat, track.snare);
+              addSnare(barStart + beat * 3, track.snare);
+              for (var ph = 0; ph < 8; ph += 1) {
+                addHat(barStart + ph * beat / 2, track.hat * (ph % 2 ? 0.6 : 1));
+              }
+            }
+
+            if (bar === track.chords.length - 1) {
+              addSnare(barStart + beat * 3.5, track.snare * 0.65);
             }
           }
 
@@ -6172,6 +6489,10 @@
             cell.classList.remove('ghost');
           });
         });
+        var stray = gridEl.querySelectorAll('.disc');
+        for (var i = 0; i < stray.length; i += 1) {
+          stray[i].remove();
+        }
       }
 
       function clearGhost() {
@@ -6183,7 +6504,7 @@
 
       function showGhost(col) {
         clearGhost();
-        if (mode !== 'game' || busy || over || !board.length) {
+        if (mode !== 'game' || busy || over || !board.length || performance.now() < inputReadyAt) {
           return;
         }
         if (board[0][col] !== EMPTY) {
@@ -6615,6 +6936,7 @@
         pendingAdvance = false;
         roundStars = 0;
         roundStartedAt = performance.now();
+        inputReadyAt = performance.now() + 450;
 
         clearBoardDom();
         clearGhost();
@@ -6648,7 +6970,7 @@
       }
 
       function handleColumn(col) {
-        if (mode !== 'game' || busy || over || rulesOpen || !board.length) {
+        if (mode !== 'game' || busy || over || rulesOpen || !board.length || performance.now() < inputReadyAt) {
           return;
         }
         if (col < 0 || col >= COLS) {
@@ -7698,48 +8020,54 @@
         var cols = PUG.cols;
         var rows = PUG.rows;
         var maze = [];
-        for (var r = 0; r < rows; r += 1) {
+        var r;
+        var c;
+        for (r = 0; r < rows; r += 1) {
           maze.push(new Array(cols).fill(1));
         }
-        var stack = [{ c: 1, r: 1 }];
-        maze[1][1] = 0;
-        var carveDirs = [[2, 0], [-2, 0], [0, 2], [0, -2]];
-        while (stack.length) {
-          var current = stack[stack.length - 1];
-          var options = [];
-          carveDirs.forEach(function (d) {
-            var nc = current.c + d[0];
-            var nr = current.r + d[1];
-            if (nc > 0 && nc < cols - 1 && nr > 0 && nr < rows - 1 && maze[nr][nc] === 1) {
-              options.push({ c: nc, r: nr, wc: current.c + d[0] / 2, wr: current.r + d[1] / 2 });
+
+        /* Wide open floor with a few friendly wall islands.
+           No long one-tile corridors and no dead ends. */
+        for (r = 1; r < rows - 1; r += 1) {
+          for (c = 1; c < cols - 1; c += 1) {
+            maze[r][c] = 0;
+          }
+        }
+
+        var islands = [
+          { r: 2, c: 2, h: 2, w: 2 },
+          { r: 2, c: 9, h: 2, w: 2 },
+          { r: 5, c: 5, h: 2, w: 2 },
+          { r: 5, c: 12, h: 2, w: 1 },
+          { r: 8, c: 2, h: 2, w: 2 },
+          { r: 8, c: 8, h: 2, w: 2 },
+          { r: 10, c: 11, h: 2, w: 1 }
+        ];
+        var variants = [
+          [{ r: 4, c: 7, h: 1, w: 2 }],
+          [{ r: 3, c: 12, h: 1, w: 2 }],
+          [{ r: 7, c: 11, h: 2, w: 1 }],
+          [{ r: 6, c: 3, h: 1, w: 2 }],
+          [{ r: 9, c: 6, h: 2, w: 1 }],
+          [{ r: 3, c: 4, h: 1, w: 3 }]
+        ];
+        var extra = variants[(Math.max(1, pugLevel) - 1) % variants.length];
+        islands = islands.concat(extra);
+
+        islands.forEach(function (block) {
+          for (var br = block.r; br < block.r + block.h; br += 1) {
+            for (var bc = block.c; bc < block.c + block.w; bc += 1) {
+              if (br > 0 && br < rows - 1 && bc > 0 && bc < cols - 1) {
+                maze[br][bc] = 1;
+              }
             }
-          });
-          if (!options.length) {
-            stack.pop();
-            continue;
           }
-          var pick = options[Math.floor(Math.random() * options.length)];
-          maze[pick.r][pick.c] = 0;
-          maze[pick.wr][pick.wc] = 0;
-          stack.push({ c: pick.c, r: pick.r });
-        }
-        var extra = Math.max(4, 16 - Math.floor(pugLevel / 2));
-        var extraDirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];
-        for (var i = 0; i < extra; i += 1) {
-          var c = 1 + Math.floor(Math.random() * (cols - 2));
-          var rr = 1 + Math.floor(Math.random() * (rows - 2));
-          if (maze[rr][c] !== 1) {
-            continue;
-          }
-          var hasOpenNeighbour = extraDirs.some(function (d) {
-            var nc = c + d[0];
-            var nr = rr + d[1];
-            return nc >= 0 && nc < cols && nr >= 0 && nr < rows && maze[nr][nc] === 0;
-          });
-          if (hasOpenNeighbour) {
-            maze[rr][c] = 0;
-          }
-        }
+        });
+
+        /* Keep the starting corner and the outer ring friendly. */
+        maze[1][1] = 0;
+        maze[1][2] = 0;
+        maze[2][1] = 0;
         return maze;
       }
 
@@ -7804,9 +8132,7 @@
         persistSave();
         PUG.level = pugozhorLevel;
         pugozhorLevelEl.textContent = String(pugozhorLevel);
-        var levelTheme = pugozhorLevel >= 7
-          ? PUG_THEMES[(pugozhorLevel - 7) % PUG_THEMES.length]
-          : PUG_DEFAULT_THEME;
+        var levelTheme = PUG_THEMES[(pugozhorLevel - 1) % PUG_THEMES.length];
         applyPugozhorTheme(levelTheme);
         PUG.maze = generatePugMaze(pugozhorLevel);
         PUG.pellets = [];
@@ -7835,12 +8161,17 @@
         PUG.player = makePugEntity(spawn.c, spawn.r, 4.5);
         PUG.player.arrived = false;
 
-        /* Difficulty curve: one very slow needle on levels 1–6,
-           two needles from level 7, both accelerating very gently. */
-        var enemyCount = pugozhorLevel < 7 ? 1 : 2;
-        var enemySpeed = pugozhorLevel < 7
-          ? 1.55
-          : 1.8 + Math.min(1.2, (pugozhorLevel - 7) * 0.05);
+        /* Difficulty: one slow needle on 1–10, second from 11,
+           gentle speed-up from 33. The maze stays open. */
+        var enemyCount = pugozhorLevel < 11 ? 1 : 2;
+        var enemySpeed;
+        if (pugozhorLevel <= 10) {
+          enemySpeed = 1.25;
+        } else if (pugozhorLevel < 33) {
+          enemySpeed = 1.4 + Math.min(0.3, (pugozhorLevel - 11) * 0.015);
+        } else {
+          enemySpeed = 1.85 + Math.min(0.85, (pugozhorLevel - 33) * 0.02);
+        }
         var fromPlayer = pugBfs(spawn.c, spawn.r);
         var candidates = [];
         for (var er = 1; er < PUG.rows - 1; er += 1) {
@@ -9888,7 +10219,9 @@
         holes: 0,
         locked: false,
         resultWin: false,
-        errorTimer: null
+        errorTimer: null,
+        idleTimer: null,
+        hint: null
       };
       var sudokuChoiceGuardUntil = 0;
 
@@ -10006,6 +10339,122 @@
         return true;
       }
 
+      function sudokuGridCanPlace(grid, row, col, value) {
+        for (var i = 0; i < 4; i += 1) {
+          if (i !== col && grid[row][i] === value) {
+            return false;
+          }
+          if (i !== row && grid[i][col] === value) {
+            return false;
+          }
+        }
+        var startRow = Math.floor(row / 2) * 2;
+        var startCol = Math.floor(col / 2) * 2;
+        for (var r = startRow; r < startRow + 2; r += 1) {
+          for (var c = startCol; c < startCol + 2; c += 1) {
+            if ((r !== row || c !== col) && grid[r][c] === value) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+
+      function sudokuCountSolutions(limit) {
+        var grid = SUDOKU.values.map(function (row) { return row.slice(); });
+        var count = 0;
+
+        function solve() {
+          if (count >= limit) {
+            return;
+          }
+          var br = -1;
+          var bc = -1;
+          for (var r = 0; r < 4 && br < 0; r += 1) {
+            for (var c = 0; c < 4; c += 1) {
+              if (!grid[r][c]) {
+                br = r;
+                bc = c;
+                break;
+              }
+            }
+          }
+          if (br < 0) {
+            count += 1;
+            return;
+          }
+          for (var value = 1; value <= 4; value += 1) {
+            if (!sudokuGridCanPlace(grid, br, bc, value)) {
+              continue;
+            }
+            grid[br][bc] = value;
+            solve();
+            grid[br][bc] = 0;
+            if (count >= limit) {
+              return;
+            }
+          }
+        }
+
+        solve();
+        return count;
+      }
+
+      function sudokuEnsureUniqueSolution() {
+        var hidden = [];
+        for (var r = 0; r < 4; r += 1) {
+          for (var c = 0; c < 4; c += 1) {
+            if (!SUDOKU.fixed[r][c]) {
+              hidden.push({ r: r, c: c });
+            }
+          }
+        }
+        var guard = 0;
+        while (hidden.length && sudokuCountSolutions(2) > 1 && guard < 16) {
+          var pick = hidden.splice(Math.floor(Math.random() * hidden.length), 1)[0];
+          SUDOKU.values[pick.r][pick.c] = SUDOKU.solution[pick.r][pick.c];
+          SUDOKU.fixed[pick.r][pick.c] = true;
+          guard += 1;
+        }
+        SUDOKU.holes = hidden.length;
+      }
+
+      function sudokuClearIdleHint() {
+        if (SUDOKU.idleTimer !== null) {
+          window.clearTimeout(SUDOKU.idleTimer);
+          SUDOKU.idleTimer = null;
+        }
+      }
+
+      function sudokuResetIdleHint() {
+        sudokuClearIdleHint();
+        SUDOKU.hint = null;
+        if (!SUDOKU.active || SUDOKU.locked) {
+          return;
+        }
+        SUDOKU.idleTimer = window.setTimeout(function () {
+          SUDOKU.idleTimer = null;
+          if (!SUDOKU.active || SUDOKU.locked) {
+            return;
+          }
+          var wrongCells = [];
+          for (var r = 0; r < 4; r += 1) {
+            for (var c = 0; c < 4; c += 1) {
+              if (!SUDOKU.fixed[r][c] && SUDOKU.values[r][c] > 0 &&
+                SUDOKU.values[r][c] !== SUDOKU.solution[r][c]) {
+                wrongCells.push({ r: r, c: c });
+              }
+            }
+          }
+          if (!wrongCells.length) {
+            return;
+          }
+          SUDOKU.hint = wrongCells[Math.floor(Math.random() * wrongCells.length)];
+          sudokuRender();
+          sudokuSetStatus('Подсказка: проверьте пульсирующую пуговицу.');
+        }, 7000);
+      }
+
       function sudokuSetPanel(show) {
         if (sudokuPanel) {
           sudokuPanel.hidden = !show;
@@ -10030,6 +10479,9 @@
             cell.className = 'sudoku-cell sudoku-cell--block-' + blockClasses[blockIndex];
             if (isWrong) {
               cell.classList.add('is-error');
+            }
+            if (SUDOKU.hint && SUDOKU.hint.r === r && SUDOKU.hint.c === c) {
+              cell.classList.add('is-hint');
             }
             if (SUDOKU.selected && SUDOKU.selected.row === r && SUDOKU.selected.col === c) {
               cell.classList.add('is-selected');
@@ -10090,9 +10542,11 @@
         return Date.now() < sudokuChoiceGuardUntil;
       }
 
-      function sudokuSelectCell(row, col) {        if (!SUDOKU.active || SUDOKU.locked) {
+      function sudokuSelectCell(row, col) {
+        if (!SUDOKU.active || SUDOKU.locked) {
           return;
         }
+        sudokuResetIdleHint();
         if (SUDOKU.fixed[row][col]) {
           SUDOKU.selected = null;
           sudokuSetPanel(false);
@@ -10118,6 +10572,7 @@
           return;
         }
 
+        sudokuResetIdleHint();
         sudokuChoiceGuardUntil = Date.now() + 500;
 
         if (!sudokuCanPlace(row, col, value)) {
@@ -10186,6 +10641,7 @@
           sudokuSetStatus('В этой ячейке уже пусто.');
           return;
         }
+        sudokuResetIdleHint();
         sudokuChoiceGuardUntil = Date.now() + 500;
         SUDOKU.values[row][col] = 0;
         SUDOKU.wrong[row][col] = false;
@@ -10232,6 +10688,8 @@
         SUDOKU.locked = true;
         SUDOKU.resultWin = true;
         SUDOKU.selected = null;
+        SUDOKU.hint = null;
+        sudokuClearIdleHint();
         if (SUDOKU.errorTimer !== null) {
           window.clearTimeout(SUDOKU.errorTimer);
           SUDOKU.errorTimer = null;
@@ -10305,6 +10763,7 @@
           SUDOKU.values[row][col] = 0;
           SUDOKU.fixed[row][col] = false;
         }
+        sudokuEnsureUniqueSolution();
 
         sudokuLevelEl.textContent = String(sudokuLevel);
         sudokuCardLevel.textContent = 'Ур. ' + sudokuLevel;
@@ -10313,6 +10772,7 @@
         sudokuSetPanel(false);
         sudokuSetStatus('Выберите пустую пуговицу.');
         sudokuRender();
+        sudokuResetIdleHint();
       }
 
       function stopSudoku() {
@@ -10320,6 +10780,8 @@
         SUDOKU.locked = true;
         SUDOKU.selected = null;
         SUDOKU.resultWin = false;
+        SUDOKU.hint = null;
+        sudokuClearIdleHint();
         if (SUDOKU.errorTimer !== null) {
           window.clearTimeout(SUDOKU.errorTimer);
           SUDOKU.errorTimer = null;
@@ -10360,22 +10822,73 @@
         for (var i = 0; i < json.length; i += 1) {
           xored += String.fromCharCode(json.charCodeAt(i) ^ (0x5a + (i % 7)));
         }
-        return 'PUG1-' + b64EncodeUnicode(xored);
+        var b64 = b64EncodeUnicode(xored)
+          .replace(/\+/g, '-')
+          .replace(/\//g, '_')
+          .replace(/=+$/g, '');
+        return 'PUG1-' + b64;
       }
 
       function decodeProgress(code) {
-        var raw = String(code || '').trim();
-        if (raw.indexOf('PUG1-') !== 0) {
-          throw new Error('bad code');
+        /* Only trim the edges; spaces inside raw JSON must survive.
+           Copying from a phone often adds line breaks, smart quotes or BOM. */
+        var source = String(code || '')
+          .replace(/^\uFEFF+/, '')
+          .trim()
+          .replace(/^[`"'«»“”]+|[`"'«»“”]+$/g, '')
+          .trim();
+        if (!source) {
+          throw new Error('empty code');
         }
-        var b64 = raw.slice(5).replace(/\s+/g, '');
+
+        var upper = source.toUpperCase();
+        var prefixAt = upper.indexOf('PUG1-');
+        var payload;
+        if (prefixAt >= 0) {
+          payload = source.slice(prefixAt + 5);
+        } else {
+          var looseAt = upper.indexOf('PUG1');
+          payload = looseAt >= 0 ? source.slice(looseAt + 4) : source;
+          if (payload.charAt(0) === '-') {
+            payload = payload.slice(1);
+          }
+        }
+
+        /* A raw JSON code is also accepted (with its internal spaces). */
+        if (/^[\[{]/.test(payload)) {
+          return JSON.parse(payload);
+        }
+
+        var compact = payload.replace(/[\s\u00A0\uFEFF\u200B-\u200D]+/g, '');
+        if (/^[\[{]/.test(compact)) {
+          return JSON.parse(compact);
+        }
+
+        var b64 = compact
+          .replace(/-/g, '+')
+          .replace(/_/g, '/')
+          .replace(/[^A-Za-z0-9+/=]/g, '');
         if (!b64) {
-          throw new Error('empty');
+          throw new Error('empty base64');
         }
-        var xored = b64DecodeUnicode(b64);
+        while (b64.length % 4 !== 0) {
+          b64 += '=';
+        }
+
+        var decoded;
+        try {
+          decoded = b64DecodeUnicode(b64);
+        } catch (unicodeError) {
+          decoded = atob(b64);
+        }
+
+        if (/^[\[{]/.test(decoded)) {
+          return JSON.parse(decoded);
+        }
+
         var json = '';
-        for (var j = 0; j < xored.length; j += 1) {
-          json += String.fromCharCode(xored.charCodeAt(j) ^ (0x5a + (j % 7)));
+        for (var j = 0; j < decoded.length; j += 1) {
+          json += String.fromCharCode(decoded.charCodeAt(j) ^ (0x5a + (j % 7)));
         }
         return JSON.parse(json);
       }
@@ -10461,11 +10974,21 @@
           if (!data || typeof data !== 'object' || Array.isArray(data)) {
             throw new Error('bad object');
           }
-          if (!window.confirm('Заменить текущий прогресс на загруженный код?')) {
-            return;
-          }
+          pendingAdvance = false;
           window.localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-          window.location.reload();
+          saveData = loadSaveData();
+          level = saveData.levelPugoryad;
+          pugozhorLevel = saveData.levelPugozhor;
+          backgammonLevel = saveData.levelBackgammon;
+          sudokuLevel = saveData.levelSudoku;
+          persistSave();
+          hideProgressModal();
+          setProgressMessage('');
+          applyCatDecay();
+          updateStarsUI();
+          updateProgressUI();
+          updateCatUI();
+          showMenu();
         } catch (error) {
           setProgressMessage('Не удалось прочитать код. Проверьте, что он скопирован целиком.');
         }
@@ -11005,7 +11528,8 @@
       });
 
       function onKeyDown(event) {
-        if (mode !== 'game' || event.defaultPrevented || event.repeat || rulesOpen) {
+        if (mode !== 'game' || event.defaultPrevented || event.repeat || rulesOpen ||
+          document.body.classList.contains('modal-open')) {
           return;
         }
         if (event.key >= '1' && event.key <= '7') {
@@ -11017,7 +11541,8 @@
       document.addEventListener('keydown', onKeyDown);
 
       document.addEventListener('keydown', function (event) {
-        if (mode !== 'pugozhor' || !PUG.running || event.defaultPrevented) {
+        if (mode !== 'pugozhor' || !PUG.running || event.defaultPrevented ||
+          document.body.classList.contains('modal-open')) {
           return;
         }
         var keyMap = {
