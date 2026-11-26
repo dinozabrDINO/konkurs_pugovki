@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#f8f2ff">
   <meta name="description" content="Пуговки — игровой портал: «Пугоряд», «Пугожор», звёзды, магазин и котик-тамагочи Пушок.">
   <title>Пуговки — игровой портал</title>
@@ -1139,9 +1139,9 @@
       display: grid;
       place-items: center;
       padding: 20px;
-      background: rgba(62, 48, 84, 0.26);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(62, 48, 84, 0.16);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -1159,8 +1159,9 @@
     }
 
     .modal__card {
-      width: min(100%, 360px);
-      max-height: calc(100svh - 40px);
+      position: relative;
+      width: min(100%, 340px);
+      max-height: min(82svh, calc(100svh - 40px));
       overflow-y: auto;
       padding: clamp(22px, 6vw, 30px);
       border-radius: 32px;
@@ -1175,6 +1176,42 @@
         inset 0 1px 0 #ffffff;
       transform: translateY(16px) scale(0.96);
       transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.88);
+      color: var(--ink-soft);
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 1;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        0 8px 18px -14px var(--shadow-strong),
+        inset 0 1px 0 #ffffff;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .modal__close:hover {
+      background: #ffffff;
+    }
+
+    .modal__close:active {
+      transform: scale(0.9);
     }
 
     .modal.is-open .modal__card {
@@ -2948,7 +2985,7 @@
 
     .bg-half {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr)) 40px;
+      grid-template-columns: repeat(6, minmax(0, 1fr)) 44px;
       grid-template-rows: repeat(2, minmax(0, 1fr));
       grid-auto-flow: row;
       gap: 2px;
@@ -3201,7 +3238,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      height: 44px;
+      height: 52px;
       padding: 4px 8px;
       border-radius: 14px;
       border: 1px solid rgba(255, 240, 225, 0.28);
@@ -3450,7 +3487,7 @@
       }
 
       .bg-half {
-        grid-template-columns: repeat(6, minmax(0, 1fr)) 34px;
+        grid-template-columns: repeat(6, minmax(0, 1fr)) 40px;
         grid-template-rows: repeat(2, minmax(0, 1fr));
         gap: 1px;
       }
@@ -3713,10 +3750,6 @@
       z-index: 2;
     }
 
-    .sudoku-cell.is-locked {
-      cursor: default;
-    }
-
     .sudoku-cell.is-error {
       z-index: 3;
       animation: sudokuCellError 0.5s ease;
@@ -3819,13 +3852,6 @@
         inset 0 -3px 5px rgba(85, 50, 70, 0.2);
     }
 
-    .sudoku-button--locked {
-      box-shadow:
-        0 4px 7px -5px rgba(65, 40, 55, 0.45),
-        inset 0 0 0 2px rgba(255, 255, 255, 0.68),
-        inset 0 -3px 5px rgba(85, 50, 70, 0.22);
-    }
-
     .sudoku-button--wrong {
       background: radial-gradient(circle at 34% 26%, #ffe0e6 0 12%, #ef7b94 18% 46%, #b53451 72% 100%);
       border-color: #8f263d;
@@ -3907,6 +3933,37 @@
       transform: scale(0.94);
     }
 
+    .sudoku-erase {
+      display: block;
+      width: 100%;
+      min-height: 42px;
+      margin-top: 9px;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(150, 125, 165, 0.4);
+      background: linear-gradient(145deg, #fff9fd, #f1e8f7);
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow:
+        0 4px 8px -6px rgba(80, 55, 90, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    .sudoku-erase:active {
+      transform: scale(0.98);
+    }
+
+    .sudoku-erase:disabled {
+      opacity: 0.42;
+      cursor: default;
+    }
+
     .sudoku-choice--v1 {
       background: radial-gradient(circle at 34% 26%, #fff8fa 0 12%, #f5bccd 16% 44%, #d97697 72% 100%);
       border-color: #c46283;
@@ -3951,7 +4008,7 @@
       gap: 8px;
       width: 100%;
       max-width: 390px;
-      margin: 0 auto;
+      margin: 0 auto 6px;
     }
 
     .sudoku-actions .btn {
@@ -4060,31 +4117,50 @@
     }
 
     .progress-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      align-self: center;
-      width: fit-content;
-      gap: 7px;
-      margin-top: 12px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      background: var(--surface);
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1.2;
+      position: fixed;
+      top: calc(74px + env(safe-area-inset-top, 0px));
+      right: calc(14px + env(safe-area-inset-right, 0px));
+      z-index: 39;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      background:
+        radial-gradient(circle at 35% 25%, #fffdf4 0 12%, #f7e8b8 35%, #e9c56c 70%, #c99a3f 100%);
+      color: #8a6423;
       cursor: pointer;
+      touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       box-shadow:
-        0 12px 24px -22px var(--shadow-strong),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 14px 28px -16px rgba(92, 67, 30, 0.5),
+        inset 0 2px 2px rgba(255, 255, 255, 0.85),
+        inset 0 -3px 5px rgba(120, 85, 30, 0.25);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
+    .progress-link svg {
+      width: 23px;
+      height: 23px;
+      display: block;
+      filter: drop-shadow(0 1px 1px rgba(90, 60, 20, 0.28));
+    }
+
+    .progress-link:hover {
+      transform: translateY(-2px);
+    }
+
     .progress-link:active {
-      transform: scale(0.98);
+      transform: scale(0.94);
+    }
+
+    .progress-link:focus-visible {
+      outline: 3px solid var(--accent-strong);
+      outline-offset: 3px;
     }
 
     .progress-modal .modal__card {
@@ -4129,6 +4205,62 @@
       flex: 1 1 0;
     }
 
+    /* ============ MOBILE HIT TARGETS & TOUCH ============ */
+
+    button,
+    .btn,
+    .icon-btn,
+    .action-btn,
+    .shop-item__buy,
+    .card-help,
+    .sudoku-cell,
+    .sudoku-choice,
+    .sudoku-erase,
+    .bg-point,
+    .bg-bar__pocket,
+    .bg-off,
+    .bg-roll,
+    .progress-link,
+    .sound-btn,
+    .modal__close,
+    .game-card {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .icon-btn,
+    .btn,
+    .action-btn,
+    .shop-item__buy,
+    .card-help,
+    .sudoku-choice,
+    .sudoku-erase,
+    .bg-bar__pocket,
+    .bg-roll,
+    .progress-link,
+    .sound-btn,
+    .modal__close {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .sudoku-cell {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .bg-board,
+    .sudoku-board,
+    #pugozhor-canvas {
+      touch-action: none;
+    }
+
+    .screen--backgammon,
+    .screen--sudoku,
+    .screen--pugozhor {
+      overscroll-behavior: contain;
+    }
+
   </style>
 </head>
 <body>
@@ -4170,10 +4302,6 @@
           <strong class="star-counter__value" id="stars-backgammon">0</strong>
         </div>
       </div>
-
-      <button class="progress-link" id="progress-btn" type="button">
-        <span aria-hidden="true">🔑</span> Сохранить / загрузить прогресс
-      </button>
 
       <div class="games" aria-label="Игры">
         <button class="game-card game-card--live" id="card-connect" type="button">
@@ -4683,6 +4811,11 @@
         Выберите пустую пуговицу.
       </p>
 
+      <div class="sudoku-actions">
+        <button class="btn btn--soft" id="sudoku-restart" type="button">Заново</button>
+        <button class="btn btn--ghost" id="sudoku-menu" type="button">В меню</button>
+      </div>
+
       <div class="sudoku-stage">
         <div class="sudoku-board" id="sudoku-board" role="grid" aria-label="Поле судоку 4 на 4"></div>
 
@@ -4694,17 +4827,13 @@
             <button class="sudoku-choice sudoku-choice--v3" type="button" data-sudoku-value="3" aria-label="Поставить цифру 3">3</button>
             <button class="sudoku-choice sudoku-choice--v4" type="button" data-sudoku-value="4" aria-label="Поставить цифру 4">4</button>
           </div>
+          <button class="sudoku-erase" id="sudoku-erase" type="button" disabled>Стереть</button>
         </div>
       </div>
 
       <div class="sudoku-info">
         <span id="sudoku-progress">Заполнено 0 из 8</span>
         <span id="sudoku-errors">Ошибок: 0</span>
-      </div>
-
-      <div class="sudoku-actions">
-        <button class="btn btn--soft" id="sudoku-restart" type="button">Заново</button>
-        <button class="btn btn--ghost" id="sudoku-menu" type="button">В меню</button>
       </div>
 
       <p class="sudoku-legend">В каждой строке, каждом столбце и каждом квадрате 2×2 — цифры 1–4 без повторов. Игра без таймера.</p>
@@ -4724,8 +4853,28 @@
     </svg>
   </button>
 
+  <button class="progress-link" id="progress-btn" type="button" aria-label="Сохранить или загрузить прогресс" title="Код прогресса">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="progressKeyGrad" x1="4" y1="4" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#fff9df"/>
+          <stop offset="0.42" stop-color="#f4cf6a"/>
+          <stop offset="1" stop-color="#c58a29"/>
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#progressKeyGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8.1" cy="8.1" r="4.2"/>
+        <path d="M11.1 11.1 L20 20"/>
+        <path d="M16.2 16.2 L18.5 13.9"/>
+        <path d="M18.4 18.4 L20.7 16.1"/>
+        <path d="M5.2 6.1 A4.1 4.1 0 0 1 8.4 4.1" stroke="#fffdf0" stroke-width="1.1" opacity="0.9"/>
+      </g>
+    </svg>
+  </button>
+
   <div class="modal" id="modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-text">
+      <button class="modal__close" id="modal-close" type="button" aria-label="Закрыть окно">×</button>
       <div class="modal__art" id="modal-art" aria-hidden="true">🎉</div>
       <p class="modal__kicker" id="modal-kicker">Уровень 1</p>
       <h2 class="modal__title" id="modal-title">Вы победили!</h2>
@@ -4741,6 +4890,7 @@
 
   <div class="modal" id="rules-modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+      <button class="modal__close" id="rules-close" type="button" aria-label="Закрыть правила">×</button>
       <div class="modal__art" aria-hidden="true">?</div>
       <p class="modal__kicker" id="rules-kicker">Пугоряд</p>
       <h2 class="modal__title" id="rules-title">Правила «Пугоряд»</h2>
@@ -4751,6 +4901,7 @@
 
   <div class="modal" id="pugozhor-modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="pugozhor-modal-title">
+      <button class="modal__close" id="pugozhor-modal-close" type="button" aria-label="Закрыть окно">×</button>
       <div class="modal__art" id="pugozhor-modal-art" aria-hidden="true">🎉</div>
       <p class="modal__kicker" id="pugozhor-modal-kicker">Уровень 1</p>
       <h2 class="modal__title" id="pugozhor-modal-title">Поздравляем!</h2>
@@ -4765,6 +4916,7 @@
 
   <div class="modal" id="backgammon-modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="backgammon-modal-title">
+      <button class="modal__close" id="backgammon-modal-close" type="button" aria-label="Закрыть окно">×</button>
       <div class="modal__art" id="backgammon-modal-art" aria-hidden="true">🏆</div>
       <p class="modal__kicker" id="backgammon-modal-kicker">Нарды-пуговки · уровень 1</p>
       <h2 class="modal__title" id="backgammon-modal-title">Победа!</h2>
@@ -4780,6 +4932,7 @@
 
   <div class="modal" id="sudoku-modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="sudoku-modal-title">
+      <button class="modal__close" id="sudoku-modal-close" type="button" aria-label="Закрыть окно">×</button>
       <div class="modal__art" id="sudoku-modal-art" aria-hidden="true">🧩</div>
       <p class="modal__kicker" id="sudoku-modal-kicker">Пуговичный судоку · уровень 1</p>
       <h2 class="modal__title" id="sudoku-modal-title">Победа!</h2>
@@ -4794,6 +4947,7 @@
 
   <div class="modal progress-modal" id="progress-modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="progress-title">
+      <button class="modal__close" id="progress-modal-close" type="button" aria-label="Закрыть окно">×</button>
       <div class="modal__art" aria-hidden="true">🔑</div>
       <p class="modal__kicker">Перенос прогресса</p>
       <h2 class="modal__title" id="progress-title">Код прогресса</h2>
@@ -4907,6 +5061,7 @@
       var sudokuPanel = document.getElementById('sudoku-panel');
       var sudokuPanelTitle = document.getElementById('sudoku-panel-title');
       var sudokuChoicesEl = document.getElementById('sudoku-choices');
+      var sudokuErase = document.getElementById('sudoku-erase');
       var sudokuProgressEl = document.getElementById('sudoku-progress');
       var sudokuErrorsEl = document.getElementById('sudoku-errors');
       var sudokuRestart = document.getElementById('sudoku-restart');
@@ -4926,6 +5081,12 @@
       var progressCopy = document.getElementById('progress-copy');
       var progressLoad = document.getElementById('progress-load');
       var progressClose = document.getElementById('progress-close');
+      var modalClose = document.getElementById('modal-close');
+      var rulesClose = document.getElementById('rules-close');
+      var pugozhorModalClose = document.getElementById('pugozhor-modal-close');
+      var backgammonModalClose = document.getElementById('backgammon-modal-close');
+      var sudokuModalClose = document.getElementById('sudoku-modal-close');
+      var progressModalClose = document.getElementById('progress-modal-close');
       var petCard = document.getElementById('card-cat');
       var shopCard = document.getElementById('card-shop');
       var catBack = document.getElementById('cat-back');
@@ -6691,6 +6852,7 @@
             modal.classList.add('is-open');
             appEl.inert = true;
             soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
             modalPrimary.focus({ preventScroll: true });
           }
         });
@@ -6707,6 +6869,9 @@
           !backgammonModal.hidden || !sudokuModal.hidden || !progressModal.hidden;
         appEl.inert = anyOpen;
         soundBtn.inert = anyOpen;
+        if (progressBtn) {
+          progressBtn.inert = anyOpen;
+        }
         if (!anyOpen) {
           document.body.classList.remove('modal-open');
         }
@@ -7390,6 +7555,7 @@
           rulesModal.classList.add('is-open');
           appEl.inert = true;
           soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
           if (rulesOk) {
             rulesOk.focus({ preventScroll: true });
           }
@@ -8361,6 +8527,7 @@
           pugozhorModal.classList.add('is-open');
           appEl.inert = true;
           soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
           pugozhorPrimary.focus({ preventScroll: true });
         });
       }
@@ -9580,6 +9747,7 @@
           backgammonModal.classList.add('is-open');
           appEl.inert = true;
           soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
           backgammonPrimary.focus({ preventScroll: true });
         });
       }
@@ -9713,7 +9881,6 @@
         level: 1,
         values: [],
         fixed: [],
-        lockedCells: [],
         wrong: [],
         solution: [],
         selected: null,
@@ -9723,6 +9890,7 @@
         resultWin: false,
         errorTimer: null
       };
+      var sudokuChoiceGuardUntil = 0;
 
       function sudokuEmptyGrid() {
         return [
@@ -9819,7 +9987,7 @@
         var filled = 0;
         for (var r = 0; r < 4; r += 1) {
           for (var c = 0; c < 4; c += 1) {
-            if (SUDOKU.lockedCells[r][c]) {
+            if (!SUDOKU.fixed[r][c] && SUDOKU.values[r][c] > 0) {
               filled += 1;
             }
           }
@@ -9830,12 +9998,12 @@
       function sudokuIsComplete() {
         for (var r = 0; r < 4; r += 1) {
           for (var c = 0; c < 4; c += 1) {
-            if (!SUDOKU.values[r][c]) {
+            if (!SUDOKU.values[r][c] || SUDOKU.values[r][c] !== SUDOKU.solution[r][c]) {
               return false;
             }
           }
         }
-        return sudokuIsValid(SUDOKU.values);
+        return true;
       }
 
       function sudokuSetPanel(show) {
@@ -9855,15 +10023,11 @@
           for (var c = 0; c < 4; c += 1) {
             var value = SUDOKU.values[r][c];
             var isFixed = SUDOKU.fixed[r][c];
-            var isLocked = SUDOKU.lockedCells[r][c];
             var isWrong = SUDOKU.wrong[r][c];
             var blockIndex = (r < 2 ? 0 : 2) + (c < 2 ? 0 : 1);
             var cell = document.createElement('button');
             cell.type = 'button';
             cell.className = 'sudoku-cell sudoku-cell--block-' + blockClasses[blockIndex];
-            if (isLocked) {
-              cell.classList.add('is-locked');
-            }
             if (isWrong) {
               cell.classList.add('is-error');
             }
@@ -9875,7 +10039,7 @@
             cell.setAttribute('role', 'gridcell');
             cell.setAttribute('aria-label',
               'Строка ' + (r + 1) + ', столбец ' + (c + 1) + ': ' +
-              (value ? value + (isFixed ? ', закреплено' : ', зафиксировано') : 'пусто') +
+              (value ? value + (isFixed ? ', закреплено' : ', введено') : 'пусто') +
               (isWrong ? ', ошибка' : ''));
 
             var button = document.createElement('span');
@@ -9886,9 +10050,6 @@
               buttonClasses += ' sudoku-button--v' + value;
               if (isFixed) {
                 buttonClasses += ' sudoku-button--given';
-              }
-              if (isLocked) {
-                buttonClasses += ' sudoku-button--locked';
               }
               button.textContent = String(value);
             }
@@ -9917,22 +10078,33 @@
               ', столбец ' + (SUDOKU.selected.col + 1);
           }
         }
+        if (sudokuErase) {
+          var hasSelectedValue = !!(SUDOKU.selected &&
+            !SUDOKU.fixed[SUDOKU.selected.row][SUDOKU.selected.col] &&
+            SUDOKU.values[SUDOKU.selected.row][SUDOKU.selected.col] > 0);
+          sudokuErase.disabled = !hasSelectedValue;
+        }
       }
 
-      function sudokuSelectCell(row, col) {
-        if (!SUDOKU.active || SUDOKU.locked) {
+      function sudokuChoiceGuardActive() {
+        return Date.now() < sudokuChoiceGuardUntil;
+      }
+
+      function sudokuSelectCell(row, col) {        if (!SUDOKU.active || SUDOKU.locked) {
           return;
         }
-        if (SUDOKU.fixed[row][col] || SUDOKU.lockedCells[row][col]) {
+        if (SUDOKU.fixed[row][col]) {
           SUDOKU.selected = null;
           sudokuSetPanel(false);
-          sudokuSetStatus('Эта цифра уже зафиксирована — выберите пустую пуговицу.');
+          sudokuSetStatus('Эта цифра закреплена — выберите другую пуговицу.');
           sudokuRender();
           return;
         }
         SUDOKU.selected = { row: row, col: col };
         sudokuSetPanel(true);
-        sudokuSetStatus('Выберите цифру 1–4.');
+        sudokuSetStatus(SUDOKU.values[row][col] > 0
+          ? 'Выберите другую цифру или нажмите «Стереть».'
+          : 'Выберите цифру 1–4.');
         sudokuRender();
       }
 
@@ -9942,34 +10114,13 @@
         }
         var row = SUDOKU.selected.row;
         var col = SUDOKU.selected.col;
-        if (SUDOKU.fixed[row][col] || SUDOKU.lockedCells[row][col]) {
+        if (SUDOKU.fixed[row][col]) {
           return;
         }
 
-        if (SUDOKU.solution[row][col] === value) {
-          SUDOKU.values[row][col] = value;
-          SUDOKU.lockedCells[row][col] = true;
-          for (var fr = 0; fr < 4; fr += 1) {
-            for (var fc = 0; fc < 4; fc += 1) {
-              SUDOKU.wrong[fr][fc] = false;
-            }
-          }
-          SUDOKU.selected = null;
-          sudokuSetPanel(false);
-          if (SUDOKU.errorTimer !== null) {
-            window.clearTimeout(SUDOKU.errorTimer);
-            SUDOKU.errorTimer = null;
-          }
-          try {
-            Sound.sudokuPlace();
-          } catch (error) {}
-          sudokuRender();
-          if (sudokuIsComplete()) {
-            sudokuFinish();
-            return;
-          }
-          sudokuSetStatus('Верно! Цифра зафиксирована. Выберите следующую пустую пуговицу.');
-        } else {
+        sudokuChoiceGuardUntil = Date.now() + 500;
+
+        if (!sudokuCanPlace(row, col, value)) {
           for (var er = 0; er < 4; er += 1) {
             for (var ec = 0; ec < 4; ec += 1) {
               SUDOKU.wrong[er][ec] = false;
@@ -9980,7 +10131,7 @@
           try {
             Sound.sudokuError();
           } catch (error) {}
-          sudokuSetStatus('Неверно: эта цифра не подходит. Попробуйте снова.');
+          sudokuSetStatus('Нельзя: эта цифра уже есть в строке, столбце или квадрате.');
           sudokuRender();
           if (SUDOKU.errorTimer !== null) {
             window.clearTimeout(SUDOKU.errorTimer);
@@ -9997,7 +10148,52 @@
             }
             sudokuRender();
           }, 520);
+          return;
         }
+
+        SUDOKU.values[row][col] = value;
+        for (var fr = 0; fr < 4; fr += 1) {
+          for (var fc = 0; fc < 4; fc += 1) {
+            SUDOKU.wrong[fr][fc] = false;
+          }
+        }
+        if (SUDOKU.errorTimer !== null) {
+          window.clearTimeout(SUDOKU.errorTimer);
+          SUDOKU.errorTimer = null;
+        }
+        try {
+          Sound.sudokuPlace();
+        } catch (error) {}
+        sudokuRender();
+        if (sudokuIsComplete()) {
+          sudokuSetStatus('Победа! Все пуговицы на своих местах.');
+          sudokuFinish();
+          return;
+        }
+        sudokuSetStatus('Цифра поставлена. Можно заменить её или нажать «Стереть».');
+      }
+
+      function sudokuEraseCell() {
+        if (!SUDOKU.active || SUDOKU.locked || !SUDOKU.selected) {
+          return;
+        }
+        var row = SUDOKU.selected.row;
+        var col = SUDOKU.selected.col;
+        if (SUDOKU.fixed[row][col]) {
+          return;
+        }
+        if (!SUDOKU.values[row][col]) {
+          sudokuSetStatus('В этой ячейке уже пусто.');
+          return;
+        }
+        sudokuChoiceGuardUntil = Date.now() + 500;
+        SUDOKU.values[row][col] = 0;
+        SUDOKU.wrong[row][col] = false;
+        try {
+          Sound.click();
+        } catch (error) {}
+        sudokuRender();
+        sudokuSetStatus('Цифра стёрта. Выберите новую.');
       }
 
       function showSudokuResult() {
@@ -10013,6 +10209,7 @@
           sudokuModal.classList.add('is-open');
           appEl.inert = true;
           soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
           if (sudokuPrimary) {
             sudokuPrimary.focus({ preventScroll: true });
           }
@@ -10085,9 +10282,6 @@
           [true, true, true, true],
           [true, true, true, true]
         ];
-        SUDOKU.lockedCells = sudokuEmptyGrid().map(function (row) {
-          return row.map(function () { return false; });
-        });
         SUDOKU.wrong = sudokuEmptyGrid().map(function (row) {
           return row.map(function () { return false; });
         });
@@ -10207,6 +10401,7 @@
           progressModal.classList.add('is-open');
           appEl.inert = true;
           soundBtn.inert = true;
+          if (progressBtn) { progressBtn.inert = true; }
           if (progressCodeEl) {
             progressCodeEl.focus({ preventScroll: true });
             progressCodeEl.select();
@@ -10405,6 +10600,62 @@
         hideProgressModal();
       });
 
+      bindTap(modalClose, function () {
+        hideModal();
+      });
+      bindTap(rulesClose, function () {
+        hideRulesModal();
+      });
+      bindTap(pugozhorModalClose, function () {
+        hidePugozhorModal();
+      });
+      bindTap(backgammonModalClose, function () {
+        hideBackgammonModal();
+      });
+      bindTap(sudokuModalClose, function () {
+        hideSudokuModal();
+      });
+      bindTap(progressModalClose, function () {
+        hideProgressModal();
+      });
+
+      function wireModalOverlay(el, hide) {
+        if (!el || typeof hide !== 'function') {
+          return;
+        }
+        el.addEventListener('click', function (event) {
+          if (event.target === el) {
+            hide();
+          }
+        });
+      }
+
+      wireModalOverlay(modal, hideModal);
+      wireModalOverlay(rulesModal, hideRulesModal);
+      wireModalOverlay(pugozhorModal, hidePugozhorModal);
+      wireModalOverlay(backgammonModal, hideBackgammonModal);
+      wireModalOverlay(sudokuModal, hideSudokuModal);
+      wireModalOverlay(progressModal, hideProgressModal);
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') {
+          return;
+        }
+        if (!progressModal.hidden) {
+          hideProgressModal();
+        } else if (!rulesModal.hidden) {
+          hideRulesModal();
+        } else if (!sudokuModal.hidden) {
+          hideSudokuModal();
+        } else if (!backgammonModal.hidden) {
+          hideBackgammonModal();
+        } else if (!pugozhorModal.hidden) {
+          hidePugozhorModal();
+        } else if (!modal.hidden) {
+          hideModal();
+        }
+      });
+
       bindTap(pugozhorCard, function () {
         enterPugozhor();
         try {
@@ -10500,21 +10751,51 @@
         }
       });
 
-      bindTap(sudokuBack, function () {
+      bindTap(sudokuBack, function (event) {
+        if (sudokuChoiceGuardActive()) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          return;
+        }
         stopSudoku();
         showMenu();
       });
 
-      bindTap(sudokuRestart, function () {
+      bindTap(sudokuRestart, function (event) {
+        if (sudokuChoiceGuardActive()) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          return;
+        }
         if (SUDOKU.active) {
           startSudokuLevel(sudokuLevel, true);
         }
       });
 
-      bindTap(sudokuMenu, function () {
+      bindTap(sudokuMenu, function (event) {
+        if (sudokuChoiceGuardActive()) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          return;
+        }
         stopSudoku();
         showMenu();
       });
+
+      if (sudokuPanel) {
+        sudokuPanel.addEventListener('pointerdown', function (event) {
+          event.stopPropagation();
+        });
+        sudokuPanel.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+      }
 
       if (sudokuChoicesEl) {
         sudokuChoicesEl.addEventListener('pointerdown', function (event) {
@@ -10542,6 +10823,23 @@
             });
           }
         );
+      }
+
+      if (sudokuErase) {
+        sudokuErase.addEventListener('pointerdown', function (event) {
+          event.stopPropagation();
+        });
+        sudokuErase.addEventListener('click', function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+        bindTap(sudokuErase, function (event) {
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          sudokuEraseCell();
+        });
       }
 
       bindTap(sudokuPrimary, function () {
@@ -10744,10 +11042,78 @@
         setPugDirection(direction[0], direction[1]);
       });
 
+      function logDeviceInfo() {
+        var ua = String(navigator.userAgent || '');
+        var touch = (navigator.maxTouchPoints || 0) > 1;
+
+        var device = 'Desktop';
+        if (/iPad|Tablet|PlayBook|Silk|(Android(?!.*Mobile))/i.test(ua)) {
+          device = 'Tablet';
+        } else if (/Mobi|Android|iPhone|iPod|Windows Phone|BlackBerry|Opera Mini|IEMobile|Mobile/i.test(ua)) {
+          device = 'Mobile';
+        }
+        if (device === 'Desktop' && touch && /Macintosh|Mac OS X/i.test(ua)) {
+          device = 'Tablet';
+        }
+
+        var os = 'Other';
+        if (/Windows/i.test(ua)) {
+          os = 'Windows';
+        } else if (/Android/i.test(ua)) {
+          os = 'Android';
+        } else if (/iPhone|iPad|iPod/i.test(ua)) {
+          os = 'iOS';
+        } else if (/Macintosh|Mac OS X/i.test(ua)) {
+          os = 'macOS';
+        } else if (/Linux/i.test(ua)) {
+          os = 'Linux';
+        }
+
+        var browser = 'Other';
+        if (/Edg\//i.test(ua)) {
+          browser = 'Edge';
+        } else if (/OPR\/|Opera/i.test(ua)) {
+          browser = 'Opera';
+        } else if (/CriOS|Chrome\//i.test(ua)) {
+          browser = 'Chrome';
+        } else if (/FxiOS|Firefox\//i.test(ua)) {
+          browser = 'Firefox';
+        } else if (/Safari\//i.test(ua)) {
+          browser = 'Safari';
+        }
+
+        var info = {
+          device: device,
+          os: os,
+          browser: browser,
+          touch: touch,
+          userAgent: ua,
+          ts: new Date().toISOString()
+        };
+        try {
+          console.log('[Pugovki] Device info:', info);
+        } catch (error) {
+          /* ignore */
+        }
+        try {
+          var logKey = 'pugovki-device-log-v1';
+          var list = JSON.parse(window.localStorage.getItem(logKey) || '[]');
+          if (!Array.isArray(list)) {
+            list = [];
+          }
+          list.unshift(info);
+          list = list.slice(0, 12);
+          window.localStorage.setItem(logKey, JSON.stringify(list));
+        } catch (error) {
+          /* private mode / quota — not critical */
+        }
+      }
+
       /* =========================================================
          INIT
          ========================================================= */
 
+      logDeviceInfo();
       buildBoard();
       initPugozhorCanvas();
 
