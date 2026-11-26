@@ -5586,6 +5586,39 @@
           }
         ];
 
+        /* Each track has its own form, meter, length and B-section pattern.
+           This changes melody shape and rhythm, not just the lead sound. */
+        var TRACK_STYLES = [
+          { form: 'pop', meter: 4, bars: 16, patternB: [0, 2, 3, 1, 4, 3, 5, 2] },
+          { form: 'pop', meter: 4, bars: 16, patternB: [0, 3, 2, 4, 1, 5, 2, 4] },
+          { form: 'swing', meter: 4, bars: 16, patternB: [0, 1, 3, 2, 5, 3, 1, 4] },
+          { form: 'synthwave', meter: 4, bars: 16, patternB: [0, 4, 2, 5, 3, 4, 1, 5] },
+          { form: 'fado', meter: 4, bars: 16, patternB: [0, 3, 1, 4, 2, 4, 1, 3] },
+          { form: 'ambient', meter: 4, bars: 16, patternB: [0, 4, 2, 5, 1, 4, 3, 2] },
+          { form: 'ballad', meter: 4, bars: 16, patternB: [0, 3, 2, 5, 1, 4, 2, 3] },
+          { form: 'synthwave', meter: 4, bars: 16, patternB: [0, 2, 4, 1, 5, 3, 2, 4] },
+          {
+            form: 'waltz', meter: 3, bars: 16,
+            pattern: [0, 2, 4, 2, 5, 3],
+            patternB: [0, 3, 5, 1, 4, 2]
+          },
+          {
+            form: 'marimba', meter: 4, bars: 16, lead: 'marimba',
+            patternB: [0, 2, 1, 5, 3, 4, 2, 5]
+          },
+          { form: 'fado', meter: 4, bars: 16, patternB: [0, 3, 4, 1, 5, 2, 3, 4] },
+          {
+            form: 'ambient', meter: 4, bars: 16, lead: 'harp',
+            patternB: [0, 4, 1, 5, 2, 4, 3, 1]
+          }
+        ];
+        TRACKS.forEach(function (track, index) {
+          var style = TRACK_STYLES[index] || TRACK_STYLES[0];
+          Object.keys(style).forEach(function (key) {
+            track[key] = style[key];
+          });
+        });
+
         function createContext() {
           if (ctx || !supported) {
             return ctx;
@@ -5701,7 +5734,9 @@
         function renderTrack(track) {
           var sr = 22050;
           var beat = 60 / track.bpm;
-          var totalSec = track.chords.length * 4 * beat;
+          var meter = track.meter || 4;
+          var bars = track.bars || track.chords.length;
+          var totalSec = bars * meter * beat;
           var total = Math.ceil(totalSec * sr);
           var buffer = ctx.createBuffer(2, total, sr);
           var left = buffer.getChannelData(0);
@@ -5747,6 +5782,15 @@
                   Math.sin(phase * 2) * 0.24 +
                   Math.sin(phase * 3) * 0.12 +
                   Math.sin(phase * 4) * 0.05;
+              } else if (voice === 'marimba') {
+                sample = Math.sin(phase) * 0.7 +
+                  Math.sin(phase * 4) * 0.2 +
+                  Math.sin(phase * 10) * 0.05;
+              } else if (voice === 'harp') {
+                sample = Math.sin(phase) * 0.6 +
+                  Math.sin(phase * 2) * 0.25 +
+                  Math.sin(phase * 3) * 0.1 +
+                  Math.sin(phase * 4) * 0.04;
               } else if (voice === 'bass') {
                 sample = Math.sin(phase) * 0.9 + Math.sin(phase * 2) * 0.1;
               } else {
@@ -5815,112 +5859,263 @@
             }
           }
 
-          for (var bar = 0; bar < track.chords.length; bar += 1) {
-            var chord = track.chords[bar];
-            var barStart = bar * 4 * beat;
-            var barDur = 4 * beat;
+          for (var bar = 0; bar < bars; bar += 1) {
+            var chord = track.chords[bar % track.chords.length];
+            var barStart = bar * meter * beat;
+            var barDur = meter * beat;
+            var form = track.form || 'pop';
+            var section = Math.floor(bar / 4) % 2;
+            var pattern = section === 1 && track.patternB ? track.patternB : track.pattern;
+            var lead = track.lead || 'piano';
 
-            /* Soft pad, very low level, keeps the harmony together. */
-            addNote(barStart, chord[0] - 12, barDur * 1.02, track.pad, 0, 0.35, 1.8, false);
-            addNote(barStart, chord[0], barDur * 0.9, track.pad * 0.5, 0, 0.6, 2.2, false);
-
-            /* Walking bass on eighths. */
-            var bassSteps = [0, 0, 2, 0, 0, 2, 3, 2];
-            for (var bassStep = 0; bassStep < 8; bassStep += 1) {
-              if (track.drums === 'swing' && bassStep % 2 === 1) {
-                continue;
-              }
-              var bassNote = chord[bassSteps[bassStep] % chord.length] - 24;
-              addNote(
-                barStart + bassStep * beat / 2,
-                bassNote,
-                0.18,
-                track.bass,
-                0,
-                0.006,
-                0.22,
-                false,
-                'bass'
-              );
+            /* Form-specific pad and bass. */
+            if (form === 'ambient' || form === 'ballad' || form === 'fado') {
+              addNote(barStart, chord[0] - 12, barDur * 1.02, track.pad, 0, 0.5, 2.2, false);
+            } else if (form !== 'marimba') {
+              addNote(barStart, chord[0] - 12, barDur * 0.95, track.pad * 0.7, 0, 0.3, 1.6, false);
             }
 
-            /* Short piano chord stabs on beats 2 and 4. */
-            [1, 3].forEach(function (beatIndex) {
-              chord.forEach(function (note, noteIndex) {
+            if (form === 'ambient' || form === 'ballad') {
+              addNote(barStart, chord[0] - 24, barDur * 0.9, track.bass * 0.8, 0, 0.01, 0.9, false, 'bass');
+            } else if (form === 'waltz') {
+              addNote(barStart, chord[0] - 24, beat * 0.8, track.bass, 0, 0.008, 0.3, false, 'bass');
+              addNote(barStart + beat * 2, chord[2] - 24, beat * 0.6, track.bass * 0.7, 0, 0.008, 0.25, false, 'bass');
+            } else if (form === 'fado') {
+              addNote(barStart, chord[0] - 24, beat * 1.6, track.bass, 0, 0.01, 0.45, false, 'bass');
+              addNote(barStart + beat * 2, chord[2] - 24, beat * 1.4, track.bass * 0.8, 0, 0.01, 0.4, false, 'bass');
+            } else {
+              var bassSteps = [0, 0, 2, 0, 0, 2, 3, 2];
+              for (var bassStep = 0; bassStep < 8; bassStep += 1) {
+                if (form === 'swing' && bassStep % 2 === 1) {
+                  continue;
+                }
+                var bassNote = chord[bassSteps[bassStep] % chord.length] - 24;
                 addNote(
-                  barStart + beatIndex * beat,
-                  note + 12,
-                  0.14,
-                  track.amp * 0.34,
-                  (noteIndex - 1.5) * 0.12,
-                  0.004,
+                  barStart + bassStep * beat / 2,
+                  bassNote,
                   0.18,
-                  true
+                  track.bass,
+                  0,
+                  0.006,
+                  0.22,
+                  false,
+                  'bass'
                 );
-              });
-            });
+              }
+            }
 
-            /* Happy piano melody, eighth-note pulse. */
-            for (var step = 0; step < 8; step += 1) {
-              var patternValue = track.pattern[step];
-              if (patternValue === null) {
-                continue;
-              }
-              var note = chord[patternValue % chord.length];
-              if (patternValue >= chord.length) {
-                note += 12;
-              }
-              note += track.octave || 0;
-              var leadDur = track.lead === 'violin' ? 0.62
-                : track.lead === 'flute' ? 0.46
-                  : track.lead === 'guitar' ? 0.28
-                    : 0.22;
-              var leadAttack = track.lead === 'violin' ? 0.055
-                : track.lead === 'flute' ? 0.028
-                  : track.lead === 'guitar' ? 0.004
+            /* Chord stabs only where the arrangement calls for them. */
+            if (form === 'pop' || form === 'swing' || form === 'waltz') {
+              var stabBeats = form === 'waltz' ? [1, 2] : [1, 3];
+              stabBeats.forEach(function (beatIndex) {
+                if (beatIndex >= meter) {
+                  return;
+                }
+                chord.forEach(function (note, noteIndex) {
+                  addNote(
+                    barStart + beatIndex * beat,
+                    note + 12,
+                    0.14,
+                    track.amp * 0.34,
+                    (noteIndex - 1.5) * 0.12,
+                    0.004,
+                    0.18,
+                    true,
+                    'piano'
+                  );
+                });
+              });
+            }
+
+            /* Form-specific melody: long lines, waltz quarters,
+               staccato marimba, synth arpeggios, or pop eighths. */
+            var leadDur = form === 'ambient' ? barDur * 0.85
+              : form === 'ballad' ? beat * 1.4
+                : form === 'fado' ? beat * 1.1
+                  : form === 'waltz' ? beat * 0.8
+                    : form === 'marimba' ? 0.12
+                      : form === 'synthwave' ? 0.18
+                        : 0.22;
+            var leadAttack = lead === 'violin' ? 0.055
+              : lead === 'flute' ? 0.028
+                : lead === 'guitar' ? 0.004
+                  : lead === 'marimba' ? 0.002
                     : 0.006;
-              addNote(
-                barStart + step * beat / 2,
-                note,
-                leadDur,
-                track.amp,
-                step % 2 === 0 ? -0.24 : 0.24,
-                leadAttack,
-                track.decay,
-                track.bright,
-                track.lead
-              );
-              if (track.lead === 'guitar') {
+
+            function pickNote(patternIndex) {
+              var pv = pattern[patternIndex % pattern.length];
+              var n = chord[pv % chord.length];
+              if (pv >= chord.length) {
+                n += 12;
+              }
+              return n + (track.octave || 0);
+            }
+
+            if (form === 'ambient' || form === 'ballad') {
+              var longIndexes = form === 'ballad' ? [0, 3] : [0, 4];
+              for (var li = 0; li < longIndexes.length; li += 1) {
                 addNote(
-                  barStart + step * beat / 2 + beat * 0.12,
-                  chord[(step + 1) % chord.length] + 12,
-                  0.3,
-                  track.amp * 0.28,
-                  step % 2 === 0 ? 0.18 : -0.18,
+                  barStart + li * beat * 2,
+                  pickNote(longIndexes[li]),
+                  leadDur,
+                  track.amp * 0.75,
+                  li ? 0.2 : -0.2,
+                  leadAttack,
+                  track.decay,
+                  true,
+                  lead
+                );
+              }
+            } else if (form === 'fado') {
+              for (var fsi = 0; fsi < 4; fsi += 1) {
+                addNote(
+                  barStart + fsi * beat,
+                  pickNote(fsi),
+                  leadDur,
+                  track.amp * 0.75,
+                  fsi % 2 ? 0.2 : -0.2,
+                  0.004,
+                  0.5,
+                  false,
+                  lead
+                );
+              }
+              for (var fai = 0; fai < 8; fai += 1) {
+                addNote(
+                  barStart + fai * beat / 2,
+                  chord[fai % chord.length] + 12,
+                  0.32,
+                  track.amp * 0.22,
+                  fai % 2 ? 0.2 : -0.2,
                   0.003,
                   0.4,
                   false,
                   'guitar'
                 );
               }
-              if (step % 4 === 2) {
+            } else if (form === 'waltz') {
+              var waltzSteps = [0, 2, 4];
+              for (var wi = 0; wi < 3; wi += 1) {
                 addNote(
-                  barStart + step * beat / 2,
-                  note + 12,
-                  0.12,
-                  track.amp * 0.22,
-                  step % 2 === 0 ? 0.2 : -0.2,
-                  0.004,
-                  0.2,
-                  true,
-                  track.lead
+                  barStart + wi * beat,
+                  pickNote(waltzSteps[wi]),
+                  leadDur,
+                  track.amp * 0.8,
+                  wi % 2 ? 0.2 : -0.2,
+                  leadAttack,
+                  track.decay,
+                  false,
+                  lead
                 );
+              }
+            } else if (form === 'marimba') {
+              for (var mi = 0; mi < 8; mi += 1) {
+                addNote(
+                  barStart + mi * beat / 2,
+                  pickNote(mi),
+                  0.1,
+                  track.amp * 0.6,
+                  mi % 2 ? 0.22 : -0.22,
+                  0.002,
+                  0.12,
+                  false,
+                  'marimba'
+                );
+              }
+            } else if (form === 'synthwave') {
+              for (var si = 0; si < 8; si += 1) {
+                addNote(
+                  barStart + si * beat / 2,
+                  pickNote(si),
+                  0.18,
+                  track.amp * 0.8,
+                  si % 2 ? 0.22 : -0.22,
+                  0.004,
+                  0.16,
+                  true,
+                  'synth'
+                );
+              }
+              for (var ai = 0; ai < 16; ai += 1) {
+                addNote(
+                  barStart + ai * beat / 4,
+                  chord[ai % chord.length] + 12,
+                  0.13,
+                  track.amp * 0.2,
+                  ai % 2 ? 0.28 : -0.28,
+                  0.003,
+                  0.12,
+                  false,
+                  'synth'
+                );
+              }
+            } else {
+              for (var step = 0; step < 8; step += 1) {
+                var patternValue = pattern[step];
+                if (patternValue === null) {
+                  continue;
+                }
+                var note = chord[patternValue % chord.length];
+                if (patternValue >= chord.length) {
+                  note += 12;
+                }
+                note += track.octave || 0;
+                var swingOffset = form === 'swing' && step % 2 === 1 ? beat * 0.08 : 0;
+                addNote(
+                  barStart + step * beat / 2 + swingOffset,
+                  note,
+                  leadDur,
+                  track.amp,
+                  step % 2 === 0 ? -0.24 : 0.24,
+                  leadAttack,
+                  track.decay,
+                  track.bright,
+                  lead
+                );
+                if (form === 'pop' && step % 4 === 2) {
+                  addNote(
+                    barStart + step * beat / 2,
+                    note + 12,
+                    0.12,
+                    track.amp * 0.22,
+                    step % 2 === 0 ? 0.2 : -0.2,
+                    0.004,
+                    0.2,
+                    true,
+                    lead
+                  );
+                }
               }
             }
 
-            /* Rhythm section: four different patterns. */
-            var drumStyle = track.drums;
-            if (drumStyle === 'bounce') {
+            /* Rhythm section follows the form, not just the lead instrument. */
+            var drumStyle = form;
+            if (drumStyle === 'synthwave') {
+              for (var nk = 0; nk < 4; nk += 1) {
+                addKick(barStart + nk * beat, track.kick * (nk % 2 ? 0.9 : 1));
+              }
+              addSnare(barStart + beat, track.snare);
+              addSnare(barStart + beat * 3, track.snare);
+              for (var nh = 0; nh < 8; nh += 1) {
+                addHat(barStart + nh * beat / 2, track.hat);
+              }
+            } else if (drumStyle === 'waltz') {
+              addKick(barStart, track.kick);
+              addHat(barStart + beat, track.hat * 0.75);
+              addHat(barStart + beat * 2, track.hat * 0.75);
+            } else if (drumStyle === 'ambient') {
+              if (bar % 2 === 0) {
+                addHat(barStart + beat * 2, track.hat * 0.45);
+              }
+            } else if (drumStyle === 'ballad') {
+              addKick(barStart, track.kick * 0.65);
+            } else if (drumStyle === 'marimba') {
+              addKick(barStart, track.kick * 0.8);
+              addKick(barStart + beat * 2, track.kick * 0.7);
+              for (var mh = 0; mh < 8; mh += 1) {
+                addHat(barStart + mh * beat / 2, track.hat * 0.7);
+              }
+            } else if (drumStyle === 'bounce') {
               addKick(barStart, track.kick);
               addKick(barStart + beat * 2, track.kick);
               addSnare(barStart + beat, track.snare);
@@ -5966,8 +6161,8 @@
               }
             }
 
-            if (bar === track.chords.length - 1) {
-              addSnare(barStart + beat * 3.5, track.snare * 0.65);
+            if (bar === bars - 1) {
+              addSnare(barStart + (meter - 0.5) * beat, track.snare * 0.65);
             }
           }
 
@@ -10818,20 +11013,15 @@
 
       function encodeProgress(data) {
         var json = JSON.stringify(data || {});
-        var xored = '';
-        for (var i = 0; i < json.length; i += 1) {
-          xored += String.fromCharCode(json.charCodeAt(i) ^ (0x5a + (i % 7)));
-        }
-        var b64 = b64EncodeUnicode(xored)
+        var b64 = b64EncodeUnicode(json)
           .replace(/\+/g, '-')
           .replace(/\//g, '_')
           .replace(/=+$/g, '');
-        return 'PUG1-' + b64;
+        return 'PUG2-' + b64;
       }
 
       function decodeProgress(code) {
-        /* Only trim the edges; spaces inside raw JSON must survive.
-           Copying from a phone often adds line breaks, smart quotes or BOM. */
+        /* Trim only the edges; spaces inside raw JSON must survive. */
         var source = String(code || '')
           .replace(/^\uFEFF+/, '')
           .trim()
@@ -10841,20 +11031,48 @@
           throw new Error('empty code');
         }
 
+        /* Raw JSON first: real saves contain "pugoryad"/"pugozhor",
+           so a loose PUG search inside JSON would corrupt them. */
+        if (/^[\[{]/.test(source)) {
+          return JSON.parse(source);
+        }
+
         var upper = source.toUpperCase();
-        var prefixAt = upper.indexOf('PUG1-');
+        var at2 = upper.lastIndexOf('PUG2-');
+        var at1 = upper.lastIndexOf('PUG1-');
+        var version = 0;
+        var prefixAt = -1;
+        if (at2 >= 0 && at2 >= at1) {
+          version = 2;
+          prefixAt = at2;
+        } else if (at1 >= 0) {
+          version = 1;
+          prefixAt = at1;
+        }
+
         var payload;
         if (prefixAt >= 0) {
           payload = source.slice(prefixAt + 5);
         } else {
-          var looseAt = upper.indexOf('PUG1');
-          payload = looseAt >= 0 ? source.slice(looseAt + 4) : source;
+          var loose2 = upper.lastIndexOf('PUG2');
+          var loose1 = upper.lastIndexOf('PUG1');
+          var looseAny = upper.lastIndexOf('PUG');
+          if (loose2 >= 0 && loose2 >= loose1) {
+            version = 2;
+            payload = source.slice(loose2 + 4);
+          } else if (loose1 >= 0) {
+            version = 1;
+            payload = source.slice(loose1 + 4);
+          } else if (looseAny >= 0) {
+            payload = source.slice(looseAny + 3);
+          } else {
+            payload = source;
+          }
           if (payload.charAt(0) === '-') {
             payload = payload.slice(1);
           }
         }
 
-        /* A raw JSON code is also accepted (with its internal spaces). */
         if (/^[\[{]/.test(payload)) {
           return JSON.parse(payload);
         }
@@ -10882,6 +11100,9 @@
           decoded = atob(b64);
         }
 
+        if (version === 2) {
+          return JSON.parse(decoded);
+        }
         if (/^[\[{]/.test(decoded)) {
           return JSON.parse(decoded);
         }
