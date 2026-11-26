@@ -4191,6 +4191,18 @@
       max-width: 460px;
     }
 
+    .click-shield {
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      background: transparent;
+      touch-action: none;
+    }
+
+    .click-shield[hidden] {
+      display: none;
+    }
+
     .progress-code {
       width: 100%;
       min-height: 112px;
@@ -4909,6 +4921,8 @@
     </svg>
   </button>
 
+  <div class="click-shield" id="click-shield" aria-hidden="true" hidden></div>
+
   <div class="modal" id="modal" hidden>
     <div class="modal__card" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-text">
       <button class="modal__close" id="modal-close" type="button" aria-label="Закрыть окно">×</button>
@@ -5022,6 +5036,9 @@
       var gridEl = document.getElementById('grid');
       var columnsEl = document.getElementById('columns');
       var modal = document.getElementById('modal');
+      var clickShield = document.getElementById('click-shield');
+      var clickShieldTimer = null;
+      var rulesSuppressUntil = 0;
       var modalKicker = document.getElementById('modal-kicker');
       var modalArt = document.getElementById('modal-art');
       var modalTitle = document.getElementById('modal-title');
@@ -7375,7 +7392,29 @@
         });
       }
 
+      function raiseClickShield(ms) {
+        if (!clickShield) {
+          return;
+        }
+        if (clickShieldTimer !== null) {
+          window.clearTimeout(clickShieldTimer);
+        }
+        clickShield.hidden = false;
+        clickShieldTimer = window.setTimeout(function () {
+          clickShieldTimer = null;
+          clickShield.hidden = true;
+        }, ms || 450);
+      }
+
+      function suppressRulesBriefly() {
+        rulesSuppressUntil = Date.now() + 600;
+        raiseClickShield(500);
+      }
+
       function hideModal() {
+        if (!modal.hidden) {
+          suppressRulesBriefly();
+        }
         modal.classList.remove('is-open');
         modal.hidden = true;
         syncModalInert();
@@ -8054,6 +8093,9 @@
       var rulesSource = 'pugoryad';
 
       function showRules(game) {
+        if (Date.now() < rulesSuppressUntil) {
+          return;
+        }
         var content = RULES_CONTENT[game] || RULES_CONTENT.pugoryad;
         if (rulesOpen || !modal.hidden || !pugozhorModal.hidden || !backgammonModal.hidden || !sudokuModal.hidden || !progressModal.hidden) {
           return;
@@ -9059,6 +9101,9 @@
       }
 
       function hidePugozhorModal() {
+        if (!pugozhorModal.hidden) {
+          suppressRulesBriefly();
+        }
         pugozhorModal.classList.remove('is-open');
         pugozhorModal.hidden = true;
         syncModalInert();
@@ -10279,6 +10324,9 @@
       }
 
       function hideBackgammonModal() {
+        if (!backgammonModal.hidden) {
+          suppressRulesBriefly();
+        }
         backgammonModal.classList.remove('is-open');
         backgammonModal.hidden = true;
         syncModalInert();
@@ -10871,6 +10919,9 @@
         if (!sudokuModal) {
           return;
         }
+        if (!sudokuModal.hidden) {
+          suppressRulesBriefly();
+        }
         sudokuModal.classList.remove('is-open');
         sudokuModal.hidden = true;
         syncModalInert();
@@ -11239,7 +11290,11 @@
         startRound();
       });
 
-      bindTap(modalPrimary, function () {
+      bindTap(modalPrimary, function (event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         Sound.click();
         hideModal();
         if (modalAction === 'next') {
@@ -11248,13 +11303,21 @@
         startRound();
       });
 
-      bindTap(modalSecondary, function () {
+      bindTap(modalSecondary, function (event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         Sound.click();
         hideModal();
         showMenu();
       });
 
-      bindTap(modalReplay, function () {
+      bindTap(modalReplay, function (event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         Sound.click();
         hideModal();
         pendingAdvance = false;
@@ -11289,6 +11352,9 @@
         }
         var openedAt = 0;
         function activate(event) {
+          if (Date.now() < rulesSuppressUntil) {
+            return;
+          }
           if (event) {
             event.preventDefault();
             event.stopPropagation();
